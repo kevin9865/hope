@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Main</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet"
+		href="./hope-resources/css/fonts.css" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="50">
+		</p:layoutUnit>
+		<p:layoutUnit position="south" size="100" rendered="false">
+		</p:layoutUnit>
+		<p:layoutUnit position="west" size="200" header="MENU"
+			resizable="true" collapsible="true" styleClass="ct-fontsize" style="font-weight:bold">
+			<h:form>
+				<p:panelMenu model="#{MainAction.panelMenu}" />
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="east" size="200" rendered="false">
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<h:form>
+				<p:tabView>
+					<!-- <p:ajax event="tabChange" listener="#{tabbedView.onTabChange}" update=":form:msgs"/>
+				        <p:ajax event="tabClose" listener="#{tabbedView.onTabClose}" update=":form:msgs"/>
+				  -->
+					<p:tab title="Godfather Part I" titleStyleClass="ct-fontsize">
+						<h:panelGrid columns="2" cellpadding="10">
+							<h:outputText value="The story begins as Don Vito Corleone..."
+								styleClass="ui-font-size" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Godfather Part II" closable="true"
+						titleStyleClass="ct-fontsize">
+						<h:panelGrid columns="2" cellpadding="10">
+							<h:outputText value="Francis Ford Coppola's legendary..."
+								styleClass="ui-font-size" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Godfather Part III" closable="true"
+						titleStyleClass="ct-fontsize">
+						<h:panelGrid columns="2" cellpadding="10">
+							<h:outputText value="After a break of more than 15 years..."
+								styleClass="ui-font-size" />
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

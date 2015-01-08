@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>Archetype Created Web Application</display-name>
+	<!-- Spring -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- <param-value>/WEB-INF/applicationContext-*.xml,classpath*:applicationContext-*.xml</param-value> -->
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<!-- default: /WEB-INF/applicationContext.xml -->
+	</listener>
+<!-- 	<listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener> -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<!-- JSF -->
+	<!-- facelets.DEVELOPMENT通知JSF环境打印出错误调试信息。这在开发阶段有效，但是它在部署后就会没用，除非你要在实时环境中解决一个错误或问题。开发阶段保持些设置为真，但要确保在部署里关闭它。 -->
+	<context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value> 
+    </context-param>
+    <!-- facelets.REFRESH_PERIOD是用来配置框架调查页面的频率，从而检查更改情况。这一数字在开发阶段要保持最低，但在生产阶段它的值要设置的更高些。有些人可能需要一次机会更新实时文件，因此彻底关闭这一功能并不是总是个好主意，但如果你对你的部署时间的管理很有信心的话，你可以彻底关闭文章检查功能，把这一参数设置为小于1，-1. -->
+    <context-param>
+        <param-name>facelets.REFRESH_PERIOD</param-name>
+        <param-value>1</param-value>
+    </context-param>
+	<context-param>
+		<param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<description>
+                           指示是在客户端（client）还是在服务器端（server）保存UI组件的状态和
+         session信息, server表示保存到服务器端,client表示保存到客户端,默认为server。
+        </description>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<!-- 程序状态保存在客户端 -->
+		<param-value>server</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>/WEB-INF/faces-config.xml</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- RichFaces -->
+	<!-- <context-param> <param-name>org.richfaces.skin</param-name> <param-value>#{skinBean.skin}</param-value> 
+		</context-param> <context-param> <param-name>org.richfaces.resourceOptimization.enabled</param-name> 
+		<param-value>true</param-value> </context-param> -->
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
