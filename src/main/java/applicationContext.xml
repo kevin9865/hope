@@ -34,6 +34,9 @@
 		<property name="packagesToScan">
 			<list>
 				<value>com.hope.userManager.model</value>
+				<value>com.hope.functionManager.model</value>
+				<value>com.hope.orgManager.model</value>
+				<value>com.hope.roleManager.model</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

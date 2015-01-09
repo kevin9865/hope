@@ -6,11 +6,11 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.hope.frameManager.action.LoginAction;
-import com.hope.userManager.dao.UserDaoImpl;
-import com.hope.userManager.model.User;
-import com.hope.userManager.service.UserService;
-import com.hope.userManager.service.UserServiceImpl;
+import com.hope.systemManager.frameManager.action.LoginAction;
+import com.hope.systemManager.userManager.dao.UserDaoImpl;
+import com.hope.systemManager.userManager.model.User;
+import com.hope.systemManager.userManager.service.UserService;
+import com.hope.systemManager.userManager.service.UserServiceImpl;
 
 public class Test1 {
 
