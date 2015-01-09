@@ -30,21 +30,6 @@
 			<value>#{userServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
-<!-- 	<managed-bean>
-		<managed-bean-name>UserServiceImpl</managed-bean-name>
-		<managed-bean-class>com.hope.userManager.service.UserServiceImpl</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-		<managed-property>
-			<property-name>userDao</property-name>
-			<value>#{UserDaoImpl}</value>
-		</managed-property>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>UserDaoImpl</managed-bean-name>
-		<managed-bean-class>com.hope.userManager.dao.UserDaoImpl</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean> -->
 	
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>

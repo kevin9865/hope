@@ -3,11 +3,9 @@ package com.hope.userManager.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 //用户表
 @Entity
-//@Table(name="USER")
 public class User {
 	// 用户ID
 	private String userId;
