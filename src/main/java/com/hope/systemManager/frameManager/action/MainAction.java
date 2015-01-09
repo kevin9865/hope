@@ -3,10 +3,17 @@ package com.hope.systemManager.frameManager.action;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.mapping.Table;
+import org.primefaces.component.tabview.Tab;
+import org.primefaces.component.tabview.TabView;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
+import org.primefaces.model.tagcloud.DefaultTagCloudItem;
+import org.primefaces.model.tagcloud.DefaultTagCloudModel;
+import org.primefaces.model.tagcloud.TagCloudItem;
+import org.primefaces.model.tagcloud.TagCloudModel;
 
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.service.SysFunctionService;
@@ -57,21 +64,24 @@ public class MainAction implements Serializable{
 				addMenuBefore++;
 			}
 		}
+		tabView=new TabView();
+		Tab tab=new Tab();
+		tab.setTitle("ceshi");
+		tabView.getChildren().add(tab);
 		
-		
-//		for (int i = 0; i < 7; i++) {
-//			DefaultSubMenu subMenu=new DefaultSubMenu();
-//			subMenu.setLabel("测试1");
-//			subMenu.setStyle("font-size:15px;");
-//			DefaultMenuItem menuItem=new DefaultMenuItem();
-//			menuItem.setValue("name");
-//			subMenu.addElement(menuItem);
-//		}
 	}
-	
-	private MenuModel panelMenu;
 	private SysFunctionService sysFunctionService;
-	
+	private MenuModel panelMenu;
+	private TabView tabView;
+
+	public TabView getTabView() {
+		return tabView;
+	}
+
+	public void setTabView(TabView tabView) {
+		this.tabView = tabView;
+	}
+
 	public MenuModel getPanelMenu() {
 		return panelMenu;
 	}

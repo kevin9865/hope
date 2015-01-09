@@ -26,7 +26,7 @@
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
 			<h:form>
-				<p:tabView>
+				<p:tabView dynamic="true" binding="#{MainAction.tabView}">
 					<!-- <p:ajax event="tabChange" listener="#{tabbedView.onTabChange}" update=":form:msgs"/>
 				        <p:ajax event="tabClose" listener="#{tabbedView.onTabClose}" update=":form:msgs"/>
 				  -->
@@ -45,10 +45,7 @@
 					</p:tab>
 					<p:tab title="Godfather Part III" closable="true"
 						titleStyleClass="ct-fontsize">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="After a break of more than 15 years..."
-								styleClass="ui-font-size" />
-						</h:panelGrid>
+						<!-- <ui:composition template="./systemManager/userManager/user_query.xhtml"></ui:composition> -->
 					</p:tab>
 				</p:tabView>
 			</h:form>

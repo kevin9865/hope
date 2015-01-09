@@ -33,10 +33,10 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>com.hope.userManager.model</value>
-				<value>com.hope.functionManager.model</value>
-				<value>com.hope.orgManager.model</value>
-				<value>com.hope.roleManager.model</value>
+				<value>com.hope.systemManager.userManager.model</value>
+				<value>com.hope.systemManager.functionManager.model</value>
+				<value>com.hope.systemManager.orgManager.model</value>
+				<value>com.hope.systemManager.roleManager.model</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -74,12 +74,12 @@
 	</tx:advice>
 	-->
 	
-	<bean id="userDaoImpl" class="com.hope.userManager.dao.UserDaoImpl"/>
-	<bean id="userServiceImpl" class="com.hope.userManager.service.UserServiceImpl">
+	<bean id="userDaoImpl" class="com.hope.systemManager.userManager.dao.UserDaoImpl"/>
+	<bean id="userServiceImpl" class="com.hope.systemManager.userManager.service.UserServiceImpl">
 		<property name="userDao" ref="userDaoImpl"></property>
 	</bean>
-	<bean id="sysFunctionDaoImpl" class="com.hope.functionManager.dao.SysFunctionDaoImpl"/>
-	<bean id="sysFunctionServiceImpl" class="com.hope.functionManager.service.SysFunctionServiceImpl">
+	<bean id="sysFunctionDaoImpl" class="com.hope.systemManager.functionManager.dao.SysFunctionDaoImpl"/>
+	<bean id="sysFunctionServiceImpl" class="com.hope.systemManager.functionManager.service.SysFunctionServiceImpl">
 		<property name="sysFunctionDao" ref="sysFunctionDaoImpl"></property>
 	</bean>
 <!-- 	<bean id="userAction" class="com.hope.userManager.action.UserAction">

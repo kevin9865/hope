@@ -9,12 +9,12 @@
 	
 	<managed-bean>
 		<managed-bean-name>UserAction</managed-bean-name>
-		<managed-bean-class>com.hope.userManager.action.UserAction</managed-bean-class>
+		<managed-bean-class>com.hope.systemManager.userManager.action.UserAction</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>MainAction</managed-bean-name>
-		<managed-bean-class>com.hope.frameManager.action.MainAction</managed-bean-class>
+		<managed-bean-class>com.hope.systemManager.frameManager.action.MainAction</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>sysFunctionService</property-name>
@@ -23,7 +23,7 @@
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>LoginAction</managed-bean-name>
-		<managed-bean-class>com.hope.frameManager.action.LoginAction</managed-bean-class>
+		<managed-bean-class>com.hope.systemManager.frameManager.action.LoginAction</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>userService</property-name>
