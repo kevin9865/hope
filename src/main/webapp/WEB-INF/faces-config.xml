@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+	
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	</application>
+	
+	<managed-bean>
+		<managed-bean-name>UserAction</managed-bean-name>
+		<managed-bean-class>com.hope.userManager.action.UserAction</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>MainAction</managed-bean-name>
+		<managed-bean-class>com.hope.frameManager.action.MainAction</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sysFunctionService</property-name>
+			<value>#{sysFunctionServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>LoginAction</managed-bean-name>
+		<managed-bean-class>com.hope.frameManager.action.LoginAction</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>userService</property-name>
+			<value>#{userServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+<!-- 	<managed-bean>
+		<managed-bean-name>UserServiceImpl</managed-bean-name>
+		<managed-bean-class>com.hope.userManager.service.UserServiceImpl</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>userDao</property-name>
+			<value>#{UserDaoImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>UserDaoImpl</managed-bean-name>
+		<managed-bean-class>com.hope.userManager.dao.UserDaoImpl</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean> -->
+	
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/main.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+ 	<navigation-rule>
+		<from-view-id>/main.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/login-prime.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/main-prime.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+ 	<navigation-rule>
+		<from-view-id>/main-prime.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/login-prime.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

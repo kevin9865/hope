@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.hope" />
+	
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:jdbc.properties" />
+	</bean>
+
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<!-- annotatedClasses/packagesToScan -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.hope.userManager.model</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager"/>
+	<!-- 
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	 -->
+	<!--
+	<aop:config>
+		<aop:pointcut id="bussinessService"
+			expression="execution(public * com.myblog.service.*.*(..))" />
+		<aop:advisor pointcut-ref="bussinessService"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="exists" read-only="true" />
+			<tx:method name="add*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	-->
+	
+	<bean id="userDaoImpl" class="com.hope.userManager.dao.UserDaoImpl"/>
+	<bean id="userServiceImpl" class="com.hope.userManager.service.UserServiceImpl">
+		<property name="userDao" ref="userDaoImpl"></property>
+	</bean>
+	<bean id="sysFunctionDaoImpl" class="com.hope.functionManager.dao.SysFunctionDaoImpl"/>
+	<bean id="sysFunctionServiceImpl" class="com.hope.functionManager.service.SysFunctionServiceImpl">
+		<property name="sysFunctionDao" ref="sysFunctionDaoImpl"></property>
+	</bean>
+<!-- 	<bean id="userAction" class="com.hope.userManager.action.UserAction">
+		<property name="userService" ref="userServiceImpl"></property>
+	</bean>
+	<bean id="loginAction" class="com.hope.frameManager.action.LoginAction">
+		<property name="userService" ref="userServiceImpl"></property>
+	</bean> --> 
+</beans>

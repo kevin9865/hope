@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet"
+		href="./hope-resources/css/fonts.css" />
+</h:head>
+<h:body>
+	<div
+		style="position: absolute; margin: 0 auto; top: 50%; left: 50%; width: 500px; height: 300px; margin-left: -250px; margin-top: -150px; border: 0px solid;">
+		<p:panel style="height:260px;">
+			<div
+				style="position: absolute; margin: 0 auto; top: 50%; left: 50%; width: 450px; height: 200px; margin-left: -235px; margin-top: -80px; border: 0px solid;">
+				<h:form>
+					<h:panelGrid columns="3">
+						<h:outputLabel for="username" value="用户名:"
+							style="font-weight:bold" styleClass="ct-fontsize" />
+						<p:inputText id="username" value="#{LoginAction.username}"
+							required="true" requiredMessage="用户名不能为空" size="19"
+							style="font-size:15px;" />
+						<p:message for="username" />
+						<h:outputLabel for="password" value="密  码:"
+							style="font-weight:bold" styleClass="ct-fontsize" />
+						<p:password id="password" value="#{LoginAction.password}"
+							required="true" requiredMessage="密码不能为空" size="19"
+							style="font-size:15px;" />
+						<p:message for="password" />
+
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<h:outputLabel value="#{LoginAction.msg}" styleClass="ct-fontsize" />
+						<p:spacer />
+						<p:commandButton value="登 陆" validateClient="true"
+							style="margin-right:10px;width:60px;height:25px;font-size:10px;"
+							ajax="false" action="#{LoginAction.login}" />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</p:panel>
+	</div>
+</h:body>
+</html>
