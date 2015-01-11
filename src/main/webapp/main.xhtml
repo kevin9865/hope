@@ -13,41 +13,29 @@
 <h:body>
 	<p:layout fullPage="true">
 		<p:layoutUnit position="north" size="50">
+			<p:commandButton action="#{MainAction.logout()}" value="退出" />  
 		</p:layoutUnit>
 		<p:layoutUnit position="south" size="100" rendered="false">
 		</p:layoutUnit>
 		<p:layoutUnit position="west" size="200" header="MENU"
 			resizable="true" collapsible="true" styleClass="ct-fontsize" style="font-weight:bold">
-			<h:form>
-				<p:panelMenu model="#{MainAction.panelMenu}" />
+			<h:form id="menuForm">
+				<p:panelMenu model="#{MainAction.panelMenu}" id="panelMenu"/>
 			</h:form>
 		</p:layoutUnit>
 		<p:layoutUnit position="east" size="200" rendered="false">
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
-			<h:form>
-				<p:tabView dynamic="true" binding="#{MainAction.tabView}">
+			<h:form id="tabForm">
+				<p:tabView value="#{MainAction.tabs}" var="tab" id="tab">
 					<!-- <p:ajax event="tabChange" listener="#{tabbedView.onTabChange}" update=":form:msgs"/>
-				        <p:ajax event="tabClose" listener="#{tabbedView.onTabClose}" update=":form:msgs"/>
-				  -->
-					<p:tab title="Godfather Part I" titleStyleClass="ct-fontsize">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="The story begins as Don Vito Corleone..."
-								styleClass="ui-font-size" />
-						</h:panelGrid>
-					</p:tab>
-					<p:tab title="Godfather Part II" closable="true"
-						titleStyleClass="ct-fontsize">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="Francis Ford Coppola's legendary..."
-								styleClass="ui-font-size" />
-						</h:panelGrid>
-					</p:tab>
-					<p:tab title="Godfather Part III" closable="true"
-						titleStyleClass="ct-fontsize">
-						<!-- <ui:composition template="./systemManager/userManager/user_query.xhtml"></ui:composition> -->
-					</p:tab>
+				        <p:ajax event="tabClose" listener="#{tabbedView.onTabClose}" update=":form:msgs"/>-->
+				    <p:tab title="#{tab.title}" closable="true">
+				    	
+				    	<ui:include src="#{tab.url}"></ui:include>
+				    </p:tab>
 				</p:tabView>
+				<p:commandButton action="#{MainAction.addTab()}" value="Add Tab" update="@form"/>  
 			</h:form>
 		</p:layoutUnit>
 	</p:layout>

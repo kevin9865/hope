@@ -4,8 +4,8 @@
   <nodes xsi:type="pageflow:PFPage" name="main.xhtml" id="pf14203518298287" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14203518298286" inlinks="pf14203518298285" path="/main.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="login-prime.xhtml" id="pf14203519871348" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf14203519871349" inlinks="pf142035198713410" path="/login-prime.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="main-prime.xhtml" id="pf142035198713411" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf142035198713410" inlinks="pf14203519871349" path="/main-prime.xhtml"/>
-  <links id="pf14203518298285" target="pf14203518298287" source="pf14203518298284" outcome="login"/>
-  <links id="pf14203518298286" target="pf14203518298284" source="pf14203518298287" outcome="logout"/>
+  <links id="pf14203518298285" target="pf14203518298287" source="pf14203518298284" outcome="login" redirect="true"/>
+  <links id="pf14203518298286" target="pf14203518298284" source="pf14203518298287" outcome="logout" redirect="true"/>
   <links id="pf14203519871349" target="pf142035198713411" source="pf14203519871348" outcome="login"/>
   <links id="pf142035198713410" target="pf14203519871348" source="pf142035198713411" outcome="logout"/>
 </pageflow:Pageflow>

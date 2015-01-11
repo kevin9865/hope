@@ -15,7 +15,7 @@
 	<managed-bean>
 		<managed-bean-name>MainAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.frameManager.action.MainAction</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>sysFunctionService</property-name>
 			<value>#{sysFunctionServiceImpl}</value>
@@ -36,6 +36,7 @@
 		<navigation-case>
 			<from-outcome>login</from-outcome>
 			<to-view-id>/main.xhtml</to-view-id>
+			<redirect/>
 		</navigation-case>
 	</navigation-rule>
  	<navigation-rule>
@@ -43,6 +44,7 @@
 		<navigation-case>
 			<from-outcome>logout</from-outcome>
 			<to-view-id>/login.xhtml</to-view-id>
+			<redirect/>
 		</navigation-case>
 	</navigation-rule>
 	

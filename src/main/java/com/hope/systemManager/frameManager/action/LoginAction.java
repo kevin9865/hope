@@ -3,7 +3,11 @@ package com.hope.systemManager.frameManager.action;
 import java.io.Serializable;
 
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.expression.impl.ThisExpressionResolver;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +17,11 @@ import com.hope.systemManager.userManager.model.User;
 import com.hope.systemManager.userManager.service.UserService;
 import com.hope.systemManager.userManager.service.UserServiceImpl;
 
-public class LoginAction implements Serializable{	
+public class LoginAction implements Serializable{
+	HttpServletRequest request = (HttpServletRequest) FacesContext
+			.getCurrentInstance().getExternalContext().getRequest();
+	HttpSession httpSession = request.getSession();
+	
 	private UserService userService;
 	
 	private String username;
@@ -21,6 +29,10 @@ public class LoginAction implements Serializable{
 	private String msg;
 	
 	public LoginAction(){
+	}
+	@PostConstruct
+	public void init(){
+		httpSession.invalidate();
 	}
 	
 	public String getMsg() {
@@ -63,7 +75,6 @@ public class LoginAction implements Serializable{
 			this.msg=msg;
 		}
 		//skip="login";
-		System.out.println(this.msg);
 		return skip;
 	}
 	
