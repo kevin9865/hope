@@ -3,7 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<title>Main</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -28,7 +29,6 @@
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
 			<p:growl id="msgs" showDetail="true" />
-
 			<p:tabView value="#{MainAction.tabs}" var="tab" id="tabView">
 				<p:ajax event="tabClose" listener="#{MainAction.onTabClose}"
 					update=":msgs" />
@@ -36,9 +36,9 @@
 					update=":msgs" />
 				<p:tab title="#{tab.title}" closable="true"
 					titleStyleClass="ct-fontsize">
-					#{tab.url}
-					<h:panelGroup id="include">
-					<ui:include src="#{tab.url}"></ui:include></h:panelGroup>
+					<iframe scrolling="auto" height="100%" frameborder="0" width="100%" 
+                     src="#{tab.url}" pane="center">    
+                     </iframe>
 				</p:tab>
 			</p:tabView>
 		</p:layoutUnit>

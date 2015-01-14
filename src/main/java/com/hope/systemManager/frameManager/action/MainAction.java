@@ -97,28 +97,7 @@ public class MainAction implements Serializable{
 				addMenuBefore++;
 			}
 		}
-		
-//		FacesContext fc = FacesContext.getCurrentInstance();
-////        tabView = (TabView) fc.getApplication().createComponent(
-////                "org.primefaces.component.TabView");
-//		tabView=new TabView();
-//		Tab tab=new Tab();
-//		tab.setTitle("测试");
-//		tab.setTitleStyleClass("ct-fontsize");
-//		tab.setClosable(true);
-//		FaceletContext faceletContext = (FaceletContext) FacesContext.getCurrentInstance().getAttributes().get(FaceletContext.FACELET_CONTEXT_KEY);
-//		try {
-//			faceletContext.includeFacelet(tab, "/systemManager/userManager/user_query.xhtml");
-//		} catch (FaceletException e) {
-//			e.printStackTrace();
-//		} catch (FacesException e) {
-//			e.printStackTrace();
-//		} catch (ELException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		tabView.getChildren().add(tab);
+
 		tabs = new ArrayList<TabViewForm>();
 //		TabViewForm tabViewForm=new TabViewForm();
 //		tabViewForm.setTitle("ceshi");
@@ -131,7 +110,6 @@ public class MainAction implements Serializable{
 	public List<TabViewForm> getTabs() {
 		return tabs;
 	}
-
 
 	private SysFunctionService sysFunctionService;
 	
@@ -163,27 +141,6 @@ public class MainAction implements Serializable{
 	}
 	
 	public void addTab(String value,String url){
-//		UIComponent component=selectEvent.getComponent();
-//		
-//		System.out.println(component.getAttributes().get("value"));
-		
-//		Tab tab=new Tab();
-//		tab.setTitle("测试");
-//		tab.setTitleStyleClass("ct-fontsize");
-//		tab.setClosable(true);
-//		FaceletContext faceletContext = (FaceletContext) FacesContext.getCurrentInstance().getAttributes().get(FaceletContext.FACELET_CONTEXT_KEY);
-//		try {
-//			faceletContext.includeFacelet(tab, "/systemManager/userManager/user_query.xhtml");
-//		} catch (FaceletException e) {
-//			e.printStackTrace();
-//		} catch (FacesException e) {
-//			e.printStackTrace();
-//		} catch (ELException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		tabView.getChildren().add(tab);
 		for(TabViewForm tv:tabs){
         	if(tv.getTitle().equals(value)){
         		return;
@@ -193,8 +150,6 @@ public class MainAction implements Serializable{
 		tabViewForm.setTitle(value);
 		tabViewForm.setUrl(url);
 		tabs.add(tabViewForm);
-//		RequestContext context = RequestContext.getCurrentInstance();  
-//		  context.update("tabview");
 	}
 
 	public void onTabChange(TabChangeEvent event) {
