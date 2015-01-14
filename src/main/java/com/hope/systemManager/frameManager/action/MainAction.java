@@ -8,7 +8,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.el.ELException;
 import javax.faces.FacesException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.faces.view.facelets.FaceletContext;
@@ -16,10 +18,13 @@ import javax.faces.view.facelets.FaceletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.TabCloseEvent;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -30,14 +35,12 @@ import com.hope.systemManager.frameManager.form.TabViewForm;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.service.SysFunctionService;
 
-@ViewScoped
 public class MainAction implements Serializable{
 	HttpServletRequest request = (HttpServletRequest) FacesContext
 			.getCurrentInstance().getExternalContext().getRequest();
 	HttpSession httpSession = request.getSession();
 	
 	public MainAction(){
-		
 	}
 	
 	@PostConstruct
@@ -46,8 +49,6 @@ public class MainAction implements Serializable{
 	}
 	
 	public void initPanelMenu(){
-		System.out.println("panelMenu="+panelMenu);
-		
 		panelMenu =new DefaultMenuModel();
 		
 		List<SysFunction> list=sysFunctionService.sysFunctionQueryAll();
@@ -74,9 +75,10 @@ public class MainAction implements Serializable{
 				}else {
 					menuItem1=new DefaultMenuItem();
 					menuItem1.setValue(sf.getSysFunName());
-					menuItem1.setCommand("#{MainAction.addTab}");
+					menuItem1.setCommand("#{MainAction.addTab('"+menuItem1.getValue()+"','"+sf.getUrl()+"')}");
 					//menuItem1.setUrl(sf.getUrl());
-					menuItem1.setUpdate("@form");
+					menuItem1.setUpdate(":form:tabView");
+					menuItem1.setStyle("font-size:15px;");
 					menuItem2.setAjax(true);
 					subMenu.addElement(menuItem1);
 				}
@@ -85,8 +87,9 @@ public class MainAction implements Serializable{
 				menuItem2.setValue(sf.getSysFunName());
 				//menuItem2.setUrl(sf.getUrl());
 				menuItem2.setAjax(true);
-				menuItem2.setCommand("#{MainAction.addTab}");
-				menuItem2.setUpdate("@form");
+				menuItem2.setCommand("#{MainAction.addTab('"+menuItem2.getValue()+"','"+sf.getUrl()+"')}");
+				menuItem2.setUpdate(":tabView");
+				menuItem2.setStyle("font-size:15px;");
 				subMenu1.addElement(menuItem2);
 			}
 			if(addMenuBefore!=addmenuAfter){
@@ -117,24 +120,15 @@ public class MainAction implements Serializable{
 //		}
 //		tabView.getChildren().add(tab);
 		tabs = new ArrayList<TabViewForm>();
-		TabViewForm tabViewForm=new TabViewForm();
-		tabViewForm.setTitle("ceshi");
-		tabViewForm.setUrl("/systemManager/userManager/user_query.xhtml");
-		tabs.add(tabViewForm);
+//		TabViewForm tabViewForm=new TabViewForm();
+//		tabViewForm.setTitle("ceshi");
+//		tabViewForm.setUrl("/systemManager/userManager/user_query.xhtml");
+//		tabs.add(tabViewForm);
 	}
 	
 	private List<TabViewForm> tabs;
 	
 	public List<TabViewForm> getTabs() {
-//		System.out.println("tabs="+tabs);
-//		if(tabs==null){
-//			tabs = new ArrayList<TabViewForm>();
-//			TabViewForm tabViewForm=new TabViewForm();
-//			tabViewForm.setTitle("ceshi");
-//			tabViewForm.setUrl("/systemManager/userManager/user_query.xhtml");
-//			tabs.add(tabViewForm);
-//		}
-		
 		return tabs;
 	}
 
@@ -166,17 +160,13 @@ public class MainAction implements Serializable{
 
 	public void setSysFunctionService(SysFunctionService sysFunctionService) {
 		this.sysFunctionService = sysFunctionService;
-//		System.out.println("panelmenu="+panelMenu);
-//		if(panelMenu==null){
-//			initPanelMenu();
-//		}
-		
-		
 	}
 	
-	public void addTab(){
-		System.out.println("panelmenu="+panelMenu);
-		System.out.println("tab增加"+tabView);
+	public void addTab(String value,String url){
+//		UIComponent component=selectEvent.getComponent();
+//		
+//		System.out.println(component.getAttributes().get("value"));
+		
 //		Tab tab=new Tab();
 //		tab.setTitle("测试");
 //		tab.setTitleStyleClass("ct-fontsize");
@@ -194,20 +184,32 @@ public class MainAction implements Serializable{
 //			e.printStackTrace();
 //		}
 //		tabView.getChildren().add(tab);
+		for(TabViewForm tv:tabs){
+        	if(tv.getTitle().equals(value)){
+        		return;
+        	}
+        }
 		TabViewForm tabViewForm=new TabViewForm();
-		tabViewForm.setTitle("ceshi");
-		tabViewForm.setUrl("/systemManager/userManager/user_query.xhtml");
+		tabViewForm.setTitle(value);
+		tabViewForm.setUrl(url);
 		tabs.add(tabViewForm);
-		
 //		RequestContext context = RequestContext.getCurrentInstance();  
 //		  context.update("tabview");
 	}
 
 	public void onTabChange(TabChangeEvent event) {
-		
+//		FacesMessage msg = new FacesMessage("Tab Change", "Change tab: " + event.getTab().getTitle());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-	public void test(){
-		
+	
+	public void onTabClose(TabCloseEvent event){
+//		FacesMessage msg = new FacesMessage("Tab Closed", "Closed tab: " + event.getTab().getTitle());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+        for(TabViewForm tv:tabs){
+        	if(tv.getTitle().equals(event.getTab().getTitle())){
+        		tabs.remove(tv);
+        	}
+        }
 	}
 	
 	public String logout(){

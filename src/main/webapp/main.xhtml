@@ -13,30 +13,34 @@
 <h:body>
 	<p:layout fullPage="true">
 		<p:layoutUnit position="north" size="50">
-			<p:commandButton action="#{MainAction.logout()}" value="退出" />  
+			<p:commandButton action="#{MainAction.logout()}" value="退出" />
 		</p:layoutUnit>
 		<p:layoutUnit position="south" size="100" rendered="false">
 		</p:layoutUnit>
 		<p:layoutUnit position="west" size="200" header="MENU"
-			resizable="true" collapsible="true" styleClass="ct-fontsize" style="font-weight:bold">
+			resizable="true" collapsible="true" styleClass="ct-fontsize"
+			style="font-weight:bold">
 			<h:form id="menuForm">
-				<p:panelMenu model="#{MainAction.panelMenu}" id="panelMenu"/>
+				<p:panelMenu model="#{MainAction.panelMenu}" id="panelMenu" />
 			</h:form>
 		</p:layoutUnit>
 		<p:layoutUnit position="east" size="200" rendered="false">
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
-			<h:form id="tabForm">
-				<p:tabView value="#{MainAction.tabs}" var="tab" id="tab">
-					<!-- <p:ajax event="tabChange" listener="#{tabbedView.onTabChange}" update=":form:msgs"/>
-				        <p:ajax event="tabClose" listener="#{tabbedView.onTabClose}" update=":form:msgs"/>-->
-				    <p:tab title="#{tab.title}" closable="true">
-				    	
-				    	<ui:include src="#{tab.url}"></ui:include>
-				    </p:tab>
-				</p:tabView>
-				<p:commandButton action="#{MainAction.addTab()}" value="Add Tab" update="@form"/>  
-			</h:form>
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:tabView value="#{MainAction.tabs}" var="tab" id="tabView">
+				<p:ajax event="tabClose" listener="#{MainAction.onTabClose}"
+					update=":msgs" />
+				<p:ajax event="tabChange" listener="#{MainAction.onTabChange}"
+					update=":msgs" />
+				<p:tab title="#{tab.title}" closable="true"
+					titleStyleClass="ct-fontsize">
+					#{tab.url}
+					<h:panelGroup id="include">
+					<ui:include src="#{tab.url}"></ui:include></h:panelGroup>
+				</p:tab>
+			</p:tabView>
 		</p:layoutUnit>
 	</p:layout>
 </h:body>
