@@ -3,17 +3,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<title>Main</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link type="text/css" rel="stylesheet"
-		href="./hope-resources/css/fonts.css" />
+<!-- 	<link type="text/css" rel="stylesheet"
+		href="./hope-resources/css/fonts.css" /> -->
+	<h:outputStylesheet library="css" name="fonts.css" /> 
 </h:head>
 <h:body>
 	<p:layout fullPage="true">
-		<p:layoutUnit position="north" size="50">
-			<p:commandButton action="#{MainAction.logout()}" value="退出" />
+		<p:layoutUnit position="north" size="50" style="">
+			<div style=" text-align:right;"><p:commandLink action="#{MainAction.logout()}" value="注销" style="margin-right:10px;width:60px;height:25px;font-size:10px;"/></div>
 		</p:layoutUnit>
 		<p:layoutUnit position="south" size="100" rendered="false">
 		</p:layoutUnit>
@@ -28,15 +30,16 @@
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
 			<p:growl id="msgs" showDetail="true" />
-
-			<p:tabView value="#{MainAction.tabs}" var="tab" id="tabView">
+			<p:tabView value="#{MainAction.tabs}" var="tab" id="tabView" style="height:auto;border:0px;" >
 				<p:ajax event="tabClose" listener="#{MainAction.onTabClose}"
 					update=":msgs" />
 				<p:ajax event="tabChange" listener="#{MainAction.onTabChange}"
 					update=":msgs" />
 				<p:tab title="#{tab.title}" closable="true"
 					titleStyleClass="ct-fontsize">
-					<ui:include src="#{tab.url}"></ui:include>
+					<iframe scrolling="yes" frameborder="0" width="100%" height="460" 
+                     src="#{tab.url}" >    
+                     </iframe>
 				</p:tab>
 			</p:tabView>
 		</p:layoutUnit>

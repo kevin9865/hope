@@ -36,6 +36,7 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	public void add(User user) {
+		System.out.println(user.getUsercode()+"用户信息更新");
 		Session session=sessionFactory.getCurrentSession();
 		session.save(user);
 	}
@@ -45,7 +46,8 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	public void update(User user) {
-		
+		Session session=sessionFactory.getCurrentSession();
+		session.update(user);
 	}
 	
 	public User userQuery(User user) {
@@ -74,6 +76,12 @@ public class UserDaoImpl implements UserDao{
 //		}else {
 //			return null;
 //		}
+	}
+	@Override
+	public List<User> userQueryAll() {
+		Session session=sessionFactory.getCurrentSession();
+		List<User> list=session.createQuery("from User u").list();
+		return list;
 	}
 
 }

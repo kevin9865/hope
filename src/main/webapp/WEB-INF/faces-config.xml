@@ -11,6 +11,10 @@
 		<managed-bean-name>UserAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.userManager.action.UserAction</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>userService</property-name>
+			<value>#{userServiceImpl}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>MainAction</managed-bean-name>

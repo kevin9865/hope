@@ -1,12 +1,10 @@
 package com.hope.systemManager.userManager.service;
 
-import javax.annotation.Resource;
+import java.util.List;
 
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hope.systemManager.userManager.dao.UserDao;
-import com.hope.systemManager.userManager.dao.UserDaoImpl;
 import com.hope.systemManager.userManager.model.User;
 
 
@@ -24,13 +22,13 @@ public class UserServiceImpl implements UserService {
 	public void add(User user) {
 		userDao.add(user);
 	}
-
+	@Transactional
 	public void delete(User user) {
 
 	}
-
+	@Transactional
 	public void update(User user) {
-
+		this.userDao.update(user);
 	}
 	@Transactional
 	public String loginQuery(User user) {
@@ -45,6 +43,11 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return msg;
+	}
+	@Transactional
+	public List<User> userQueryAll() {
+		List<User> list=userDao.userQueryAll();
+		return list;
 	}
 	
 	
