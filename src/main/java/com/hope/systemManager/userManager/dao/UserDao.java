@@ -10,4 +10,5 @@ public interface UserDao {
 	public void update(User user);
 	public User userQuery(User user);
 	public List<User> userQueryAll();
+	public List<User> userFuzzyQuery(User user);
 }

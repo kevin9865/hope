@@ -4,23 +4,33 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>UserQuery</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- 	<link type="text/css" rel="stylesheet"
-		href="./hope-resources/css/fonts.css" /> -->
-	<h:outputStylesheet library="css" name="fonts.css" /> 
-</h:head>
-<h:body>
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="title">UserQuery</ui:define>
+	<ui:define name="body">
 	<h:form>
-		<p:dataTable var="user" value="#{UserAction.users}" rows="10"
+		<p:panel>
+			<h:panelGrid columns="5">
+				<h:outputLabel value="用户编码:" styleClass="ct-fontsize"></h:outputLabel>
+				<p:inputText style="font-size:15px;" value="#{UserAction.userCode}">
+					<p:ajax event="keyup" delay="600" update="usersTable" listener="#{UserAction.userFuzzyQuery}" />
+				</p:inputText>
+			</h:panelGrid>
+		</p:panel>
+	
+		<p:dataTable id="usersTable" var="user" value="#{UserAction.users}" rows="10"
 			paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" editable="true"
-			styleClass="ct-fontsize">
+			styleClass="ct-fontsize" widgetVar="userTable" filteredValue="#{UserAction.filteredUsers}">
 			<p:ajax event="rowEdit" listener="#{UserAction.onRowEdit}" />
 			<p:ajax event="rowEditCancel" listener="#{UserAction.onRowCancel}" />
-			<p:column headerText="用户编码">
+			<f:facet name="header">
+	            <p:outputPanel>
+	                <h:outputText value="Search all fields:" />
+	                <p:inputText id="userFilter" onkeyup="PF('userTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+	            </p:outputPanel>
+	        </f:facet>
+			<p:column headerText="用户编码" filterMatchMode="contains">
 				<h:outputText value="#{user.usercode}" />
 			</p:column>
 			<p:column headerText="用户ID">
@@ -58,5 +68,6 @@
 			</p:column>
 		</p:dataTable>
 	</h:form>
-</h:body>
+</ui:define>
+</ui:composition>
 </html>

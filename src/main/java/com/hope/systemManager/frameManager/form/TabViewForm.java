@@ -3,6 +3,7 @@ package com.hope.systemManager.frameManager.form;
 public class TabViewForm {
 	private String title;
 	private String url;
+
 	public String getTitle() {
 		return title;
 	}

@@ -1,23 +1,52 @@
 package com.hope.systemManager.userManager.action;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.RowEditEvent;
 
 import com.hope.systemManager.userManager.model.User;
 import com.hope.systemManager.userManager.service.UserService;
+import com.hope.util.Tools;
 
+@ViewScoped
 public class UserAction {
 	
 	@PostConstruct
 	public void init(){
+		System.out.println("用户查询初始化");
 		initUserList();
 	}
 	
+	public void initUserList(){
+		users=userService.userQueryAll();
+	}
+	
 	private UserService userService;
+	private List<User> users;
+	private List<User> filteredUsers;
+	private String userCode;
+	
+	
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+	
+	public List<User> getFilteredUsers() {
+		return filteredUsers;
+	}
+
+	public void setFilteredUsers(List<User> filteredUsers) {
+		this.filteredUsers = filteredUsers;
+	}
 
 	public UserService getUserService() {
 		return userService;
@@ -27,8 +56,6 @@ public class UserAction {
 		this.userService = userService;
 	}
 	
-	private List<User> users;
-
 	public List<User> getUsers() {
 		return users;
 	}
@@ -37,8 +64,13 @@ public class UserAction {
 		this.users = users;
 	}
 	
-	public void initUserList(){
-		users=userService.userQueryAll();
+	public void userFuzzyQuery(){
+		
+		User user=new User();
+		user.setUsercode(Tools.SpaceDisappear(this.userCode));
+		System.out.println("usercode="+user.getUsercode());
+		users=userService.userFuzzyQuery(user);
+		System.out.println("模糊查询用户"+users.size());
 	}
 	
 	public void onRowEdit(RowEditEvent event) {

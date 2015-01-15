@@ -118,6 +118,15 @@ public class MainAction implements Serializable{
 	
 	private MenuModel panelMenu;
 	private TabView tabView;
+	private int tabIdTemp;
+
+	public int getTabIdTemp() {
+		return tabIdTemp;
+	}
+
+	public void setTabIdTemp(int tabIdTemp) {
+		this.tabIdTemp = tabIdTemp;
+	}
 
 	public TabView getTabView() {
 		return tabView;
@@ -144,6 +153,7 @@ public class MainAction implements Serializable{
 	}
 	
 	public void addTab(String value,String url){
+		tabIdTemp=tabs.size();
 		for(TabViewForm tv:tabs){
         	if(tv.getTitle().equals(value)){
         		return;
