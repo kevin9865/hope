@@ -8,9 +8,9 @@
 	</application>
 	
 	<managed-bean>
-		<managed-bean-name>UserAction</managed-bean-name>
+		<managed-bean-name>userAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.userManager.action.UserAction</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>userService</property-name>
 			<value>#{userServiceImpl}</value>

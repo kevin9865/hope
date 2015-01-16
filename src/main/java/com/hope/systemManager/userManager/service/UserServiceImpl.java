@@ -2,11 +2,14 @@ package com.hope.systemManager.userManager.service;
 
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hope.systemManager.userManager.dao.UserDao;
 import com.hope.systemManager.userManager.model.User;
 
+@ApplicationScoped
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 

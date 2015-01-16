@@ -1,29 +1,41 @@
 package com.hope.systemManager.userManager.action;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.RowEditEvent;
 
+import com.hope.systemManager.frameManager.action.Car;
 import com.hope.systemManager.userManager.model.User;
 import com.hope.systemManager.userManager.service.UserService;
 import com.hope.util.Tools;
 
-@ViewScoped
-public class UserAction {
+
+public class UserAction implements Serializable{
 	
 	@PostConstruct
 	public void init(){
 		System.out.println("用户查询初始化");
 		initUserList();
+		
 	}
 	
 	public void initUserList(){
-		users=userService.userQueryAll();
+		//users=userService.userQueryAll();
+		
+		 List<User> list = new ArrayList<User>();
+	        for(int i = 0 ; i < 10 ; i++) {
+	        	User user=new User();
+	        	user.setUsercode("a"+i);
+	            list.add(user);
+	        }
+	        users=list;
 	}
 	
 	private UserService userService;
@@ -59,10 +71,6 @@ public class UserAction {
 	public List<User> getUsers() {
 		return users;
 	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 	
 	public void userFuzzyQuery(){
 		
@@ -73,24 +81,24 @@ public class UserAction {
 		System.out.println("模糊查询用户"+users.size());
 	}
 	
-	public void onRowEdit(RowEditEvent event) {
-		User user=(User)event.getObject();
-		System.out.println("userCode="+user.getUsercode());
-        //FacesMessage msg = new FacesMessage("Car Edited", ((Car) event.getObject()).getId());
-        //FacesContext.getCurrentInstance().addMessage(null, msg);
-		System.out.println("email="+user.getEmail());
-		try {
-			userService.update(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		initUserList();
-    }
-     
-    public void onRowCancel(RowEditEvent event) {
-        //FacesMessage msg = new FacesMessage("Edit Cancelled", ((Car) event.getObject()).getId());
-        //FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
+//	public void onRowEdit(RowEditEvent event) {
+//		User user=(User)event.getObject();
+//		System.out.println("userCode="+user.getUsercode());
+//        //FacesMessage msg = new FacesMessage("Car Edited", ((Car) event.getObject()).getId());
+//        //FacesContext.getCurrentInstance().addMessage(null, msg);
+//		System.out.println("email="+user.getEmail());
+//		try {
+//			userService.update(user);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		initUserList();
+//    }
+//     
+//    public void onRowCancel(RowEditEvent event) {
+//        //FacesMessage msg = new FacesMessage("Edit Cancelled", ((Car) event.getObject()).getId());
+//        //FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
 
 }

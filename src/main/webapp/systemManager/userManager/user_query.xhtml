@@ -11,26 +11,43 @@
 		<p:panel>
 			<h:panelGrid columns="5">
 				<h:outputLabel value="用户编码:" styleClass="ct-fontsize"></h:outputLabel>
-				<p:inputText style="font-size:15px;" value="#{UserAction.userCode}">
-					<p:ajax event="keyup" delay="600" update="usersTable" listener="#{UserAction.userFuzzyQuery}" />
+				<p:inputText style="font-size:15px;" value="#{userAction.userCode}">
+					<p:ajax event="keyup" delay="600" update="usersTable" listener="#{userAction.userFuzzyQuery}" />
 				</p:inputText>
 			</h:panelGrid>
 		</p:panel>
 	
-		<p:dataTable id="usersTable" var="user" value="#{UserAction.users}" rows="10"
+		<p:dataTable id="usersTable" var="user" value="#{userAction.users}" rows="10"
 			paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" editable="true"
-			styleClass="ct-fontsize" widgetVar="userTable" filteredValue="#{UserAction.filteredUsers}">
-			<p:ajax event="rowEdit" listener="#{UserAction.onRowEdit}" />
-			<p:ajax event="rowEditCancel" listener="#{UserAction.onRowCancel}" />
+			styleClass="ct-fontsize" widgetVar="userTable" filteredValue="#{userAction.filteredUsers}">
+			<!-- <p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
+			<p:ajax event="rowEditCancel" listener="#{userAction.onRowCancel}" /> -->
 			<f:facet name="header">
-	            <p:outputPanel>
+	            <p:outputPanel style="text-align: right;">
 	                <h:outputText value="Search all fields:" />
-	                <p:inputText id="userFilter" onkeyup="PF('userTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+	                <p:inputText id="globalFilter" onkeyup="PF('userTable').filter()" style="width:150px" placeholder="Enter keyword"/>
 	            </p:outputPanel>
 	        </f:facet>
-			<p:column headerText="用户编码" filterMatchMode="contains">
+	        
+<!-- 	     <p:dataTable id="usersTable" var="car" value="#{dtFilterView.cars}"
+				widgetVar="carsTable"
+				emptyMessage="No cars found with given criteria"
+				filteredValue="#{dtFilterView.filteredCars}">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()"
+						style="width:150px" placeholder="Enter keyword" />
+				</p:outputPanel>
+			</f:facet>
+			<p:column filterBy="#{car.id}" headerText="Id" >
+					<h:outputText value="#{car.id}" />
+				</p:column> -->
+	        
+			<p:column headerText="用户编码">
 				<h:outputText value="#{user.usercode}" />
 			</p:column>
 			<p:column headerText="用户ID">
