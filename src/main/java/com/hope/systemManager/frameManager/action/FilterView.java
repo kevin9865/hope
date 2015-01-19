@@ -1,6 +1,7 @@
 package com.hope.systemManager.frameManager.action;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -8,6 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
+import com.hope.systemManager.userManager.model.User;
 
 @ManagedBean(name="filterView")
 @ViewScoped
@@ -23,6 +26,13 @@ public class FilterView implements Serializable {
     @PostConstruct
     public void init() {
         cars = service.createCars(10);
+//        List<Car> list = new ArrayList<Car>();
+//        for(int i = 0 ; i < 10 ; i++) {
+//        	Car car=new Car();
+//        	car.setId("a"+i);
+//            list.add(car);
+//        }
+//        cars=list;
         System.out.println("初始化Filter="+cars.size());
     }
      

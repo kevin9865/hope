@@ -4,53 +4,38 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<ui:composition template="/templates/template.xhtml">
-	<ui:define name="title">UserQuery</ui:define>
-	<ui:define name="body">
+<h:head>
+	<title>userQuery</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="resources/css/hope.css"/>
+</h:head>
+<h:body>
 	<h:form>
-		<p:panel>
+<!-- 		<p:panel>
 			<h:panelGrid columns="5">
 				<h:outputLabel value="用户编码:" styleClass="ct-fontsize"></h:outputLabel>
 				<p:inputText style="font-size:15px;" value="#{userAction.userCode}">
 					<p:ajax event="keyup" delay="600" update="usersTable" listener="#{userAction.userFuzzyQuery}" />
 				</p:inputText>
 			</h:panelGrid>
-		</p:panel>
-	
+		</p:panel> -->
 		<p:dataTable id="usersTable" var="user" value="#{userAction.users}" rows="10"
 			paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" editable="true"
-			styleClass="ct-fontsize" widgetVar="userTable" filteredValue="#{userAction.filteredUsers}">
-			<!-- <p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
-			<p:ajax event="rowEditCancel" listener="#{userAction.onRowCancel}" /> -->
+			widgetVar="userTable" filteredValue="#{userAction.filteredUsers}" style="width:auto;height:auto;font-size:10px;"  >
+			<p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
+			<p:ajax event="rowEditCancel" listener="#{userAction.onRowCancel}" />
 			<f:facet name="header">
 	            <p:outputPanel style="text-align: right;">
 	                <h:outputText value="Search all fields:" />
 	                <p:inputText id="globalFilter" onkeyup="PF('userTable').filter()" style="width:150px" placeholder="Enter keyword"/>
 	            </p:outputPanel>
 	        </f:facet>
-	        
-<!-- 	     <p:dataTable id="usersTable" var="car" value="#{dtFilterView.cars}"
-				widgetVar="carsTable"
-				emptyMessage="No cars found with given criteria"
-				filteredValue="#{dtFilterView.filteredCars}">
-
-			<f:facet name="header">
-				<p:outputPanel>
-					<h:outputText value="Search all fields:" />
-					<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()"
-						style="width:150px" placeholder="Enter keyword" />
-				</p:outputPanel>
-			</f:facet>
-			<p:column filterBy="#{car.id}" headerText="Id" >
-					<h:outputText value="#{car.id}" />
-				</p:column> -->
-	        
-			<p:column headerText="用户编码">
+			<p:column headerText="用户编码" filterBy="#{user.usercode}">
 				<h:outputText value="#{user.usercode}" />
 			</p:column>
-			<p:column headerText="用户ID">
+			<p:column headerText="用户ID" filterBy="#{user.userId}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.userId}" />
@@ -60,7 +45,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="用户名">
+			<p:column headerText="用户名" filterBy="#{user.username}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.username}" styleClass="ct-fontsize" />
@@ -85,6 +70,5 @@
 			</p:column>
 		</p:dataTable>
 	</h:form>
-</ui:define>
-</ui:composition>
+</h:body>
 </html>
