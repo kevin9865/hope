@@ -19,7 +19,7 @@
 	<managed-bean>
 		<managed-bean-name>mainAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.frameManager.action.MainAction</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>sysFunctionService</property-name>
 			<value>#{sysFunctionServiceImpl}</value>
@@ -28,7 +28,7 @@
 	<managed-bean>
 		<managed-bean-name>loginAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.frameManager.action.LoginAction</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>userService</property-name>
 			<value>#{userServiceImpl}</value>

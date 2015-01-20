@@ -11,7 +11,7 @@
 </h:head>
 <h:body>
 	<h:form>
-<!-- 		<p:panel>
+		<!-- 		<p:panel>
 			<h:panelGrid columns="5">
 				<h:outputLabel value="用户编码:" styleClass="ct-fontsize"></h:outputLabel>
 				<p:inputText style="font-size:15px;" value="#{userAction.userCode}">
@@ -19,19 +19,23 @@
 				</p:inputText>
 			</h:panelGrid>
 		</p:panel> -->
-		<p:dataTable id="usersTable" var="user" value="#{userAction.users}" rows="10"
-			paginator="true"
+		<p:dataTable id="usersTable" var="user" value="#{userAction.users}"
+			rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			rowsPerPageTemplate="5,10,15" editable="true"
-			widgetVar="userTable" filteredValue="#{userAction.filteredUsers}" style="width:auto;height:auto;" styleClass="ct-fontsize">
+			rowsPerPageTemplate="5,10,15" editable="true" widgetVar="userTable"
+			filteredValue="#{userAction.filteredUsers}"
+			style="width:auto;height:auto;" styleClass="ct-fontsize">
 			<p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
 			<p:ajax event="rowEditCancel" listener="#{userAction.onRowCancel}" />
 			<f:facet name="header">
-	            <p:outputPanel style="text-align: right;">
-	                <h:outputText value="Search all fields:" />
-	                <p:inputText id="globalFilter" onkeyup="PF('userTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-	            </p:outputPanel>
-	        </f:facet>
+				<p:outputPanel style="text-align: right;">
+					<p:commandButton value="添加" type="button"
+						onclick="PF('dlg1').show();" />
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter" onkeyup="PF('userTable').filter()"
+						style="width:150px" placeholder="Enter keyword" />
+				</p:outputPanel>
+			</f:facet>
 			<p:column headerText="用户编码" filterBy="#{user.usercode}">
 				<h:outputText value="#{user.usercode}" />
 			</p:column>
@@ -69,6 +73,64 @@
 				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
+		<p:dialog id="addUserDialog" header="用户添加" widgetVar="dlg1"
+			minHeight="80" styleClass="ct-fontsize">
+			<h:panelGrid columns="3" id="addUserPanelGrid">
+				<h:outputLabel for="userId" value="用户ID：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="userId" value="#{userAction.userId}" required="true"
+					requiredMessage="用户ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="userId" />
+				<h:outputLabel for="usercode" value="用户编码：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="usercode" value="#{userAction.usercode}" required="true"
+					requiredMessage="用户编码不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="usercode" />
+				<h:outputLabel for="username" value="用户名：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="username" value="#{userAction.username}" required="true"
+					requiredMessage="用户名不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="username" />
+				<h:outputLabel for="password" value="密  码：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:password id="password" value="#{userAction.password}" required="true"
+					requiredMessage="密码不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="password" />
+				<h:outputLabel for="email" value="邮箱：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="email" value="#{userAction.email}" required="true"
+					requiredMessage="邮箱不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="email" />
+				<h:outputLabel for="phone" value="电话：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="phone" value="#{userAction.phone}" required="true"
+					requiredMessage="电话不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="phone" />
+				<h:outputLabel for="roleId" value="角色：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:selectOneMenu id="roleId" value="#{userAction.roleId}" styleClass="ct-fontsize">
+					<f:selectItem itemLabel="管理员" itemValue="管理员" />
+				</p:selectOneMenu>
+				<p:message for="roleId" />
+				<h:outputLabel for="orgId" value="组织结构：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:selectOneMenu id="orgId" value="#{userAction.orgId}" styleClass="ct-fontsize">
+					<f:selectItem itemLabel="研发" itemValue="研发" />
+				</p:selectOneMenu>
+				<p:message for="orgId" />
+				<h:outputLabel for="active" value="是否启用：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:selectOneMenu id="active" value="#{userAction.active}" styleClass="ct-fontsize">
+					<f:selectItem itemLabel="是" itemValue="Y" />
+					<f:selectItem itemLabel="否" itemValue="N" />
+				</p:selectOneMenu>
+				<p:message for="active" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{userAction.addUser}" update="addUserPanelGrid"></p:commandButton>
+			</h:panelGrid>
+		</p:dialog>
 	</h:form>
 </h:body>
 </html>
