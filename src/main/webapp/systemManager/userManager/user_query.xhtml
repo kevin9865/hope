@@ -7,7 +7,7 @@
 <h:head>
 	<title>userQuery</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="resources/css/hope.css"/>
+	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
 	<h:form>
@@ -23,7 +23,7 @@
 			paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" editable="true"
-			widgetVar="userTable" filteredValue="#{userAction.filteredUsers}" style="width:auto;height:auto;font-size:10px;"  >
+			widgetVar="userTable" filteredValue="#{userAction.filteredUsers}" style="width:auto;height:auto;" styleClass="ct-fontsize">
 			<p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
 			<p:ajax event="rowEditCancel" listener="#{userAction.onRowCancel}" />
 			<f:facet name="header">

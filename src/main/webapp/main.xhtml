@@ -6,12 +6,12 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition template="/templates/template.xhtml">
-	<ui:define name="title">Login</ui:define>
+	<ui:define name="title">main</ui:define>
 	<ui:define name="body">
 	<p:layout fullPage="true">
 		<p:layoutUnit position="north" size="50" style="">
 			<div style="text-align: right;">
-				<p:commandLink action="#{MainAction.logout()}" value="注销"
+				<p:commandLink action="#{mainAction.logout()}" value="注销"
 					style="margin-right:10px;width:60px;height:25px;font-size:10px;" />
 			</div>
 		</p:layoutUnit>
@@ -21,19 +21,19 @@
 			resizable="true" collapsible="true" styleClass="ct-fontsize"
 			style="font-weight:bold">
 			<h:form id="menuForm">
-				<p:panelMenu model="#{MainAction.panelMenu}" id="panelMenu" />
+				<p:panelMenu model="#{mainAction.panelMenu}" id="panelMenu" />
 			</h:form>
 		</p:layoutUnit>
 		<p:layoutUnit position="east" size="200" rendered="false">
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
 			<p:growl id="msgs" showDetail="true" />
-			<p:tabView value="#{MainAction.tabs}" var="tab" id="tabView"
+			<p:tabView value="#{mainAction.tabs}" var="tab" id="tabView"
 				style="height:auto;border:1px;"
-				activeIndex="#{MainAction.tabIdTemp}">
-				<p:ajax event="tabClose" listener="#{MainAction.onTabClose}"
+				activeIndex="#{mainAction.tabIdTemp}">
+				<p:ajax event="tabClose" listener="#{mainAction.onTabClose}"
 					update=":msgs" />
-				<p:ajax event="tabChange" listener="#{MainAction.onTabChange}"
+				<p:ajax event="tabChange" listener="#{mainAction.onTabChange}"
 					update=":msgs" />
 				<p:tab title="#{tab.title}" closable="true"
 					titleStyleClass="ct-fontsize">

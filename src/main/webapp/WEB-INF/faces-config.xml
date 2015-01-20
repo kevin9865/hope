@@ -17,7 +17,7 @@
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>MainAction</managed-bean-name>
+		<managed-bean-name>mainAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.frameManager.action.MainAction</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
@@ -26,7 +26,7 @@
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>LoginAction</managed-bean-name>
+		<managed-bean-name>loginAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.frameManager.action.LoginAction</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>

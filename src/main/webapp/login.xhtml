@@ -5,7 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/templates/template.xhtml">
-	<ui:define name="title">Login</ui:define>
+	<ui:define name="title">login</ui:define>
 	<ui:define name="body">
 	<div
 		style="position: absolute; margin: 0 auto; top: 50%; left: 50%; width: 500px; height: 300px; margin-left: -250px; margin-top: -150px; border: 0px solid;">
@@ -16,24 +16,24 @@
 					<h:panelGrid columns="3">
 						<h:outputLabel for="username" value="用户名:"
 							style="font-weight:bold" styleClass="ct-fontsize" />
-						<p:inputText id="username" value="#{LoginAction.username}"
+						<p:inputText id="username" value="#{loginAction.username}"
 							required="true" requiredMessage="用户名不能为空" size="19"
 							style="font-size:15px;" />
 						<p:message for="username" />
 						<h:outputLabel for="password" value="密  码:"
 							style="font-weight:bold" styleClass="ct-fontsize" />
-						<p:password id="password" value="#{LoginAction.password}"
+						<p:password id="password" value="#{loginAction.password}"
 							required="true" requiredMessage="密码不能为空" size="19"
 							style="font-size:15px;" />
 						<p:message for="password" />
 
 					</h:panelGrid>
 					<h:panelGrid columns="2">
-						<h:outputLabel value="#{LoginAction.msg}" styleClass="ct-fontsize" for="msg"/>
+						<h:outputLabel value="#{loginAction.msg}" styleClass="ct-fontsize" for="msg"/>
 						<p:spacer />
 						<p:commandButton value="登 陆" validateClient="true"
 							style="margin-right:10px;width:60px;height:25px;font-size:10px;"
-							ajax="false" action="#{LoginAction.login}" />
+							ajax="false" action="#{loginAction.login}" />
 					</h:panelGrid>
 				</h:form>
 			</div>
