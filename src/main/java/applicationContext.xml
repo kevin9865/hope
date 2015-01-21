@@ -82,10 +82,4 @@
 	<bean id="sysFunctionServiceImpl" class="com.hope.systemManager.functionManager.service.SysFunctionServiceImpl">
 		<property name="sysFunctionDao" ref="sysFunctionDaoImpl"></property>
 	</bean>
-<!-- 	<bean id="userAction" class="com.hope.userManager.action.UserAction">
-		<property name="userService" ref="userServiceImpl"></property>
-	</bean>
-	<bean id="loginAction" class="com.hope.frameManager.action.LoginAction">
-		<property name="userService" ref="userServiceImpl"></property>
-	</bean> --> 
 </beans>

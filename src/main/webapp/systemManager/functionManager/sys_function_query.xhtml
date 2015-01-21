@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>sysFunctionQuery</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form>
+		<p:dataTable id="sysFunctionsTable" var="sysFunction" value="#{sysFunctionAction.sysFunctions}"
+			rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" editable="true" widgetVar="sysFunctionTable"
+			filteredValue="#{sysFunctionAction.filteredSysFunctions}"
+			style="width:auto;height:auto;" styleClass="ct-fontsize"
+			selection="#{sysFunctionAction.selectedSysFunctions}" rowKey="#{sysFunction.sysFunId}">
+			<p:ajax event="rowEdit" listener="#{sysFunctionAction.onRowEdit}" />
+			<p:ajax event="rowEditCancel" listener="#{sysFunctionAction.onRowCancel}" />
+			<f:facet name="header">
+				<p:outputPanel style="text-align: right;">
+					<p:commandButton value="添加" type="button"
+						onclick="PF('dlg1').show();" />
+					<p:commandButton value="删除" 
+						action="#{sysFunctionAction.deleteSysFunction}" process="sysFunctionsTable"/>
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter" onkeyup="PF('sysFunctionTable').filter()"
+						style="width:150px" placeholder="Enter keyword" />
+				</p:outputPanel>
+			</f:facet>
+			<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+			<p:column headerText="功能ID" style="text-align:center;">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sysFunction.sysFunId}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{sysFunction.sysFunId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="功能名称" filterBy="#{sysFunction.sysFunName}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sysFunction.sysFunName}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{sysFunction.sysFunName}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="功能层ID">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sysFunction.levelId}" styleClass="ct-fontsize" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{sysFunction.levelId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="功能层级" width="60" style="text-align:center;">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sysFunction.levelGrade}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{sysFunction.levelGrade}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="链接地址" width="450">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sysFunction.url}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{sysFunction.url}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="是否启用" width="60" style="text-align:center;">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sysFunction.active}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{sysFunction.active}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+		<p:dialog id="sysFunctionDialog" header="功能添加" widgetVar="dlg1"
+			minHeight="80" styleClass="ct-fontsize">
+			<h:panelGrid columns="3" id="sysFunctionPanelGrid">
+				<h:outputLabel for="sysFunIdForm" value="功能ID：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="sysFunIdForm" value="#{sysFunctionAction.sysFunIdForm}" required="true"
+					requiredMessage="功能ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="sysFunIdForm" />
+				<h:outputLabel for="sysFunNameForm" value="功能名称：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="sysFunNameForm" value="#{sysFunctionAction.sysFunNameForm}" required="true"
+					requiredMessage="功能名称不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="sysFunNameForm" />
+				<h:outputLabel for="levelIdForm" value="功能层ID：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="levelIdForm" value="#{sysFunctionAction.levelIdForm}" required="true"
+					requiredMessage="功能层ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="levelIdForm" />
+				<h:outputLabel for="levelGradeForm" value="功能层级：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="levelGradeForm" value="#{sysFunctionAction.levelGradeForm}" required="true"
+					requiredMessage="功能层级不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="levelGradeForm" />
+				<h:outputLabel for="urlForm" value="链接地址：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="urlForm" value="#{sysFunctionAction.urlForm}" required="true"
+					requiredMessage="链接地址不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="urlForm" />
+				<h:outputLabel for="activeForm" value="是否启用：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:selectOneMenu id="activeForm" value="#{sysFunctionAction.activeForm}" styleClass="ct-fontsize">
+					<f:selectItem itemLabel="是" itemValue="Y" />
+					<f:selectItem itemLabel="否" itemValue="N" />
+				</p:selectOneMenu>
+				<p:message for="activeForm" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{sysFunctionAction.addSysFunction}" update="sysFunctionPanelGrid sysFunctionsTable"></p:commandButton>
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

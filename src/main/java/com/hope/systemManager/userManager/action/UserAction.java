@@ -47,11 +47,11 @@ public class UserAction implements Serializable {
 		return users;
 	}
 
-//	public void userFuzzyQuery() {
-//		User user = new User();
-//		user.setUsercode(Tools.SpaceDisappear(this.usercode));
-//		users = userService.userFuzzyQuery(user);
-//	}
+	// public void userFuzzyQuery() {
+	// User user = new User();
+	// user.setUsercode(Tools.SpaceDisappear(this.usercode));
+	// users = userService.userFuzzyQuery(user);
+	// }
 
 	public void onRowEdit(RowEditEvent event) {
 		User user = (User) event.getObject();
@@ -69,111 +69,112 @@ public class UserAction implements Serializable {
 		// event.getObject()).getId());
 		// FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-	
-	public void addUser(){
-		System.out.println("添加用户");
-		
-		User user=new User();
-		user.setUserId(userId);
-		user.setUsercode(usercode);
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setEmail(email);
-		user.setPhone(phone);
-		user.setRoleId(roleId);
-		user.setOrgId(orgId);
-		user.setActive(active);
-		userService.add(user);
-		
-		
-		RequestContext rc = RequestContext.getCurrentInstance();
-	    rc.execute("PF('dlg1').hide()");
-	    initUserList();
+
+	public void addUser() {
+		try {
+			User user = new User();
+			user.setUserId(userIdForm);
+			user.setUsercode(usercodeForm);
+			user.setUsername(usernameForm);
+			user.setPassword(passwordForm);
+			user.setEmail(emailForm);
+			user.setPhone(phoneForm);
+			user.setRoleId(roleIdForm);
+			user.setOrgId(orgIdForm);
+			user.setActive(activeForm);
+			userService.add(user);
+			
+			RequestContext rc = RequestContext.getCurrentInstance();
+			rc.execute("PF('dlg1').hide()");
+			initUserList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 * addUserDialog表单
 	 */
-	private String userId;
-	private String usercode;
-	private String username;
-	private String password;
-	private String email;
-	private String phone;
-	private String roleId;
-	private String orgId;
-	private String active;
+	private String userIdForm;
+	private String usercodeForm;
+	private String usernameForm;
+	private String passwordForm;
+	private String emailForm;
+	private String phoneForm;
+	private String roleIdForm;
+	private String orgIdForm;
+	private String activeForm;
 
-	public String getUserId() {
-		return userId;
+	public String getUserIdForm() {
+		return userIdForm;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserIdForm(String userIdForm) {
+		this.userIdForm = userIdForm;
 	}
 
-	public String getUsercode() {
-		return usercode;
+	public String getUsercodeForm() {
+		return usercodeForm;
 	}
 
-	public void setUsercode(String usercode) {
-		this.usercode = usercode;
+	public void setUsercodeForm(String usercodeForm) {
+		this.usercodeForm = usercodeForm;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUsernameForm() {
+		return usernameForm;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsernameForm(String usernameForm) {
+		this.usernameForm = usernameForm;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPasswordForm() {
+		return passwordForm;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPasswordForm(String passwordForm) {
+		this.passwordForm = passwordForm;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getEmailForm() {
+		return emailForm;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailForm(String emailForm) {
+		this.emailForm = emailForm;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getPhoneForm() {
+		return phoneForm;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneForm(String phoneForm) {
+		this.phoneForm = phoneForm;
 	}
 
-	public String getRoleId() {
-		return roleId;
+	public String getRoleIdForm() {
+		return roleIdForm;
 	}
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
+	public void setRoleIdForm(String roleIdForm) {
+		this.roleIdForm = roleIdForm;
 	}
 
-	public String getOrgId() {
-		return orgId;
+	public String getOrgIdForm() {
+		return orgIdForm;
 	}
 
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
+	public void setOrgIdForm(String orgIdForm) {
+		this.orgIdForm = orgIdForm;
 	}
 
-	public String getActive() {
-		return active;
+	public String getActiveForm() {
+		return activeForm;
 	}
 
-	public void setActive(String active) {
-		this.active = active;
+	public void setActiveForm(String activeForm) {
+		this.activeForm = activeForm;
 	}
-	
+
 }

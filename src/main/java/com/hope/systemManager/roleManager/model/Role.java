@@ -15,6 +15,8 @@ public class Role {
 	private String roleName;
 	// 角色描述
 	private String roleDesc;
+	// 权限操作
+	private String ope_auth;
 
 	@Id
 	@Column(name = "ROLE_ID")
@@ -42,5 +44,14 @@ public class Role {
 
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
+	}
+	
+	@Column(name = "OPE_AUTH")
+	public String getOpe_auth() {
+		return ope_auth;
+	}
+
+	public void setOpe_auth(String ope_auth) {
+		this.ope_auth = ope_auth;
 	}
 }

@@ -25,6 +25,8 @@ public class User {
 	private String orgId;
 	// 状态（是否启用）
 	private String active;
+	// 权限操作
+	private String ope_auth;
 
 	@Column(name = "USER_ID")
 	public String getUserId() {
@@ -106,5 +108,14 @@ public class User {
 
 	public void setActive(String active) {
 		this.active = active;
+	}
+	
+	@Column(name = "OPE_AUTH")
+	public String getOpe_auth() {
+		return ope_auth;
+	}
+
+	public void setOpe_auth(String ope_auth) {
+		this.ope_auth = ope_auth;
 	}
 }

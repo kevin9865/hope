@@ -25,4 +25,19 @@ public class SysFunctionServiceImpl implements SysFunctionService{
 		return list;
 	}
 
+	@Transactional
+	public void add(SysFunction sysFunction) {
+		sysFunctionDao.add(sysFunction);
+	}
+
+	@Transactional
+	public void delete(SysFunction sysFunction) {
+		sysFunctionDao.delete(sysFunction);
+	}
+
+	@Transactional
+	public void update(SysFunction sysFunction) {
+		sysFunctionDao.update(sysFunction);
+	}
+
 }

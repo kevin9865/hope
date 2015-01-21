@@ -20,8 +20,6 @@ public class SysFunction {
 	private String url;
 	// 状态（是否启用）
 	private String active;
-	// 备注
-	private String remark;
 
 	@Id
 	@Column(name = "SYS_FUN_ID")
@@ -77,13 +75,5 @@ public class SysFunction {
 	public void setActive(String active) {
 		this.active = active;
 	}
-
-	@Column(name = "REMARK")
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+	
 }

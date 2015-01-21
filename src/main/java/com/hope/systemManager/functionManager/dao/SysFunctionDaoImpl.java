@@ -23,20 +23,21 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	
 	@Override
 	public void add(SysFunction sysFunction) {
-		// TODO Auto-generated method stub
+		Session session=sessionFactory.getCurrentSession();
+		session.save(sysFunction);
 		
 	}
 
 	@Override
 	public void delete(SysFunction sysFunction) {
-		// TODO Auto-generated method stub
-		
+		Session session=sessionFactory.getCurrentSession();
+		session.delete(sysFunction);
 	}
 
 	@Override
 	public void update(SysFunction sysFunction) {
-		// TODO Auto-generated method stub
-		
+		Session session=sessionFactory.getCurrentSession();
+		session.update(sysFunction);
 	}
 
 	@Override
@@ -49,7 +50,6 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	public List<SysFunction> sysFunctionQueryAll() {
 		Session session=sessionFactory.getCurrentSession();
 		List<SysFunction> list=session.createQuery("from SYS_FUNCTION sf").list();
-		
 		return list;
 	}
 

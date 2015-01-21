@@ -5,5 +5,8 @@ import java.util.List;
 import com.hope.systemManager.functionManager.model.SysFunction;
 
 public interface SysFunctionService {
+	public void add(SysFunction sysFunction);
+	public void delete(SysFunction sysFunction);
+	public void update(SysFunction sysFunction);
 	public List<SysFunction> sysFunctionQueryAll();
 }

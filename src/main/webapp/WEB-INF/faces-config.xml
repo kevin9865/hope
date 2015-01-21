@@ -34,6 +34,15 @@
 			<value>#{userServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>sysFunctionAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.functionManager.action.SysFunctionAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>sysFunctionService</property-name>
+			<value>#{sysFunctionServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
 	
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
