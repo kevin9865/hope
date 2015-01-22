@@ -82,4 +82,8 @@
 	<bean id="sysFunctionServiceImpl" class="com.hope.systemManager.functionManager.service.SysFunctionServiceImpl">
 		<property name="sysFunctionDao" ref="sysFunctionDaoImpl"></property>
 	</bean>
+	<bean id="sysFunctionOperationDaoImpl" class="com.hope.systemManager.functionManager.dao.SysFunctionOperationDaoImpl"/>
+	<bean id="sysFunctionOperationServiceImpl" class="com.hope.systemManager.functionManager.service.SysFunctionOperationServiceImpl">
+		<property name="sysFunctionOperationDao" ref="sysFunctionOperationDaoImpl"></property>
+	</bean>
 </beans>

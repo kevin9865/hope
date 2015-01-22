@@ -10,6 +10,8 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 import com.hope.systemManager.functionManager.model.SysFunction;
+import com.hope.systemManager.functionManager.model.SysFunctionOperation;
+import com.hope.systemManager.functionManager.service.SysFunctionOperationService;
 import com.hope.systemManager.functionManager.service.SysFunctionService;
 
 public class SysFunctionAction {
@@ -26,7 +28,14 @@ public class SysFunctionAction {
 	private List<SysFunction> sysFunctions;
 	private List<SysFunction> filteredSysFunctions;
 	private List<SysFunction> selectedSysFunctions;
+	private String sysFunIdSelect;
 
+	public String getSysFunIdSelect() {
+		return sysFunIdSelect;
+	}
+	public void setSysFunIdSelect(String sysFunIdSelect) {
+		this.sysFunIdSelect = sysFunIdSelect;
+	}
 	public List<SysFunction> getSelectedSysFunctions() {
 		return selectedSysFunctions;
 	}
@@ -53,14 +62,14 @@ public class SysFunctionAction {
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
-		SysFunction sysFunction = (SysFunction) event.getObject();
 		try {
+			SysFunction sysFunction = (SysFunction) event.getObject();
 			sysFunctionService.update(sysFunction);
+
+			initSysFunctionList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		initSysFunctionList();
 	}
 	
 	public void onRowCancel(RowEditEvent event) {
@@ -68,8 +77,12 @@ public class SysFunctionAction {
 	}
 	
 	public void onRowSelect(SelectEvent event) {
-		
-		System.out.println(((SysFunction)event.getObject()).getSysFunId());
+		try {
+			sysFunIdSelect=((SysFunction)event.getObject()).getSysFunId();
+			initSysFunctionOperationList(sysFunIdSelect);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 	
 	public void addSysFunction(){
@@ -92,9 +105,11 @@ public class SysFunctionAction {
 	}
 	
 	public void deleteSysFunction(){
-		System.out.println("调用功能删除"+selectedSysFunctions.size());
-		for(SysFunction sys:selectedSysFunctions){
-			System.out.println(sys.getSysFunId());
+		try {
+			sysFunctionService.deleteBatch(selectedSysFunctions);
+			initSysFunctionList();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -143,6 +158,79 @@ public class SysFunctionAction {
 	}
 	public void setActiveForm(String activeForm) {
 		this.activeForm = activeForm;
+	}
+	
+	
+	/************************************************系统功能操作****************************************************************/
+	public void initSysFunctionOperationList(String sysFunIdSelect){
+		SysFunctionOperation sysFunctionOperation=new SysFunctionOperation();
+		sysFunctionOperation.setSysFunId(sysFunIdSelect);
+		sysFunctionOperations=sysFunctionOperationService.sysFunctionOperationQueryAll(sysFunctionOperation);
+	}
+	
+	private SysFunctionOperationService sysFunctionOperationService;
+	private List<SysFunctionOperation> sysFunctionOperations;
+	private List<SysFunctionOperation> filteredSysFunctionOperations;
+	private List<SysFunctionOperation> selectedSysFunctionOperations;
+
+	public List<SysFunctionOperation> getFilteredSysFunctionOperations() {
+		return filteredSysFunctionOperations;
+	}
+	public void setFilteredSysFunctionOperations(
+			List<SysFunctionOperation> filteredSysFunctionOperations) {
+		this.filteredSysFunctionOperations = filteredSysFunctionOperations;
+	}
+	public List<SysFunctionOperation> getSelectedSysFunctionOperations() {
+		return selectedSysFunctionOperations;
+	}
+	public void setSelectedSysFunctionOperations(
+			List<SysFunctionOperation> selectedSysFunctionOperations) {
+		this.selectedSysFunctionOperations = selectedSysFunctionOperations;
+	}
+	public List<SysFunctionOperation> getSysFunctionOperations() {
+		return sysFunctionOperations;
+	}
+	public void setSysFunctionOperations(
+			List<SysFunctionOperation> sysFunctionOperations) {
+		this.sysFunctionOperations = sysFunctionOperations;
+	}
+	public SysFunctionOperationService getSysFunctionOperationService() {
+		return sysFunctionOperationService;
+	}
+	public void setSysFunctionOperationService(
+			SysFunctionOperationService sysFunctionOperationService) {
+		this.sysFunctionOperationService = sysFunctionOperationService;
+	}
+	
+	public void onRowEditOpe(RowEditEvent event) {
+		try {
+			SysFunctionOperation sysFunctionOperation = (SysFunctionOperation) event.getObject();
+			sysFunctionOperationService.update(sysFunctionOperation);
+
+			initSysFunctionOperationList(sysFunIdSelect);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void onRowCancelOpe(RowEditEvent event) {
+		
+	}
+	
+	public void onRowSelectOpe(SelectEvent event) {
+		
+    }
+	
+	public void addSysFunctionOperation(){
+	}
+	
+	public void deleteSysFunctionOperation(){
+		try {
+			sysFunctionOperationService.deleteBatch(selectedSysFunctionOperations);
+			initSysFunctionOperationList(sysFunIdSelect);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

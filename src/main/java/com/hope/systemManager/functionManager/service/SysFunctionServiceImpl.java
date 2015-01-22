@@ -34,6 +34,14 @@ public class SysFunctionServiceImpl implements SysFunctionService{
 	public void delete(SysFunction sysFunction) {
 		sysFunctionDao.delete(sysFunction);
 	}
+	
+	@Transactional
+	public void deleteBatch(List<SysFunction> list){
+		for(SysFunction sys:list){
+			System.out.println("删除功能ID"+sys.getSysFunId());
+			sysFunctionDao.delete(sys);
+		}
+	}
 
 	@Transactional
 	public void update(SysFunction sysFunction) {

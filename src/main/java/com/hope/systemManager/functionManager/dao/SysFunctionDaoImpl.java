@@ -31,7 +31,8 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	@Override
 	public void delete(SysFunction sysFunction) {
 		Session session=sessionFactory.getCurrentSession();
-		session.delete(sysFunction);
+		SysFunction sys=(SysFunction) session.load(SysFunction.class, sysFunction.getSysFunId());
+		session.delete(sys);
 	}
 
 	@Override

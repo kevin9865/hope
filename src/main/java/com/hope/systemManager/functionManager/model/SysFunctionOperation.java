@@ -6,8 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 //系统功能操作表
-@Entity
-//@Table(name = "SYS_FUNCTION_OPERATION")
+@Entity(name = "SYS_FUNCTION_OPERATION")
 public class SysFunctionOperation {
 	// 功能操作ID
 	private String sysFunOpeId;

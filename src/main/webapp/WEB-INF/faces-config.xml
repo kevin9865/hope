@@ -42,6 +42,20 @@
 			<property-name>sysFunctionService</property-name>
 			<value>#{sysFunctionServiceImpl}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>sysFunctionOperationService</property-name>
+			<value>#{sysFunctionOperationServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>sysFunctionOperationAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.functionManager.action.SysFunctionOperationAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>sysFunctionOperationService</property-name>
+			<value>#{sysFunctionOperationServiceImpl}</value>
+		</managed-property>
 	</managed-bean>
 	
 	<navigation-rule>
