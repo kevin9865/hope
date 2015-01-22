@@ -50,7 +50,7 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	@Override
 	public List<SysFunction> sysFunctionQueryAll() {
 		Session session=sessionFactory.getCurrentSession();
-		List<SysFunction> list=session.createQuery("from SYS_FUNCTION sf").list();
+		List<SysFunction> list=session.createQuery("from SYS_FUNCTION sf order by sf.sysFunId").list();
 		return list;
 	}
 
