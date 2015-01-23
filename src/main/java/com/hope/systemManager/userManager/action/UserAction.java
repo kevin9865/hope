@@ -65,9 +65,7 @@ public class UserAction implements Serializable {
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		// FacesMessage msg = new FacesMessage("Edit Cancelled", ((Car)
-		// event.getObject()).getId());
-		// FacesContext.getCurrentInstance().addMessage(null, msg);
+		
 	}
 
 	public void addUser() {

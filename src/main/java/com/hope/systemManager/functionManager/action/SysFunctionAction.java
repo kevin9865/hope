@@ -15,15 +15,20 @@ import com.hope.systemManager.functionManager.service.SysFunctionOperationServic
 import com.hope.systemManager.functionManager.service.SysFunctionService;
 
 public class SysFunctionAction {
-	
+
+	/************************************************ 系统功能 ******************************************************************/
 	@PostConstruct
 	public void init() {
 		initSysFunctionList();
 	}
-	public void initSysFunctionList(){
-		sysFunctions=sysFunctionService.sysFunctionQueryAll();
+
+	/**
+	 * 初始化功能Table
+	 */
+	public void initSysFunctionList() {
+		sysFunctions = sysFunctionService.sysFunctionQueryAll();
 	}
-	
+
 	private SysFunctionService sysFunctionService;
 	private List<SysFunction> sysFunctions;
 	private List<SysFunction> filteredSysFunctions;
@@ -33,34 +38,48 @@ public class SysFunctionAction {
 	public String getSysFunIdSelect() {
 		return sysFunIdSelect;
 	}
+
 	public void setSysFunIdSelect(String sysFunIdSelect) {
 		this.sysFunIdSelect = sysFunIdSelect;
 	}
+
 	public List<SysFunction> getSelectedSysFunctions() {
 		return selectedSysFunctions;
 	}
+
 	public void setSelectedSysFunctions(List<SysFunction> selectedSysFunctions) {
 		this.selectedSysFunctions = selectedSysFunctions;
 	}
+
 	public List<SysFunction> getSysFunctions() {
 		return sysFunctions;
 	}
+
 	public void setSysFunctions(List<SysFunction> sysFunctions) {
 		this.sysFunctions = sysFunctions;
 	}
+
 	public List<SysFunction> getFilteredSysFunctions() {
 		return filteredSysFunctions;
 	}
+
 	public void setFilteredSysFunctions(List<SysFunction> filteredSysFunctions) {
 		this.filteredSysFunctions = filteredSysFunctions;
 	}
+
 	public SysFunctionService getSysFunctionService() {
 		return sysFunctionService;
 	}
+
 	public void setSysFunctionService(SysFunctionService sysFunctionService) {
 		this.sysFunctionService = sysFunctionService;
 	}
-	
+
+	/**
+	 * 编辑功能Table
+	 * 
+	 * @param event
+	 */
 	public void onRowEdit(RowEditEvent event) {
 		try {
 			SysFunction sysFunction = (SysFunction) event.getObject();
@@ -71,23 +90,36 @@ public class SysFunctionAction {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * 关闭编辑功能Table
+	 * 
+	 * @param event
+	 */
 	public void onRowCancel(RowEditEvent event) {
-		
+
 	}
-	
+
+	/**
+	 * 选择功能Table
+	 * 
+	 * @param event
+	 */
 	public void onRowSelect(SelectEvent event) {
 		try {
-			sysFunIdSelect=((SysFunction)event.getObject()).getSysFunId();
+			sysFunIdSelect = ((SysFunction) event.getObject()).getSysFunId();
 			initSysFunctionOperationList(sysFunIdSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    }
-	
-	public void addSysFunction(){
+	}
+
+	/**
+	 * 添加功能
+	 */
+	public void addSysFunction() {
 		try {
-			SysFunction sysFunction=new SysFunction();
+			SysFunction sysFunction = new SysFunction();
 			sysFunction.setSysFunId(sysFunIdForm);
 			sysFunction.setSysFunName(sysFunNameForm);
 			sysFunction.setLevelId(levelIdForm);
@@ -95,7 +127,7 @@ public class SysFunctionAction {
 			sysFunction.setUrl(urlForm);
 			sysFunction.setActive(activeForm);
 			sysFunctionService.add(sysFunction);
-			
+
 			RequestContext rc = RequestContext.getCurrentInstance();
 			rc.execute("PF('dlg1').hide()");
 			initSysFunctionList();
@@ -103,8 +135,11 @@ public class SysFunctionAction {
 			e.printStackTrace();
 		}
 	}
-	
-	public void deleteSysFunction(){
+
+	/**
+	 * 删除功能
+	 */
+	public void deleteSysFunction() {
 		try {
 			sysFunctionService.deleteBatch(selectedSysFunctions);
 			initSysFunctionList();
@@ -112,7 +147,7 @@ public class SysFunctionAction {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 系统功能表单
 	 */
@@ -126,48 +161,65 @@ public class SysFunctionAction {
 	public String getSysFunIdForm() {
 		return sysFunIdForm;
 	}
+
 	public void setSysFunIdForm(String sysFunIdForm) {
 		this.sysFunIdForm = sysFunIdForm;
 	}
+
 	public String getSysFunNameForm() {
 		return sysFunNameForm;
 	}
+
 	public void setSysFunNameForm(String sysFunNameForm) {
 		this.sysFunNameForm = sysFunNameForm;
 	}
+
 	public String getLevelIdForm() {
 		return levelIdForm;
 	}
+
 	public void setLevelIdForm(String levelIdForm) {
 		this.levelIdForm = levelIdForm;
 	}
+
 	public int getLevelGradeForm() {
 		return levelGradeForm;
 	}
+
 	public void setLevelGradeForm(int levelGradeForm) {
 		this.levelGradeForm = levelGradeForm;
 	}
+
 	public String getUrlForm() {
 		return urlForm;
 	}
+
 	public void setUrlForm(String urlForm) {
 		this.urlForm = urlForm;
 	}
+
 	public String getActiveForm() {
 		return activeForm;
 	}
+
 	public void setActiveForm(String activeForm) {
 		this.activeForm = activeForm;
 	}
-	
-	
-	/************************************************系统功能操作****************************************************************/
-	public void initSysFunctionOperationList(String sysFunIdSelect){
-		SysFunctionOperation sysFunctionOperation=new SysFunctionOperation();
+
+	/************************************************ 系统功能操作 ****************************************************************/
+	/**
+	 * 初始化功能操作Table
+	 * 
+	 * @param sysFunIdSelect
+	 */
+	public void initSysFunctionOperationList(String sysFunIdSelect) {
+		SysFunctionOperation sysFunctionOperation = new SysFunctionOperation();
 		sysFunctionOperation.setSysFunId(sysFunIdSelect);
-		sysFunctionOperations=sysFunctionOperationService.sysFunctionOperationQueryAll(sysFunctionOperation);
+		sysFunctionOperations = sysFunctionOperationService
+				.sysFunctionOperationQueryAll(sysFunctionOperation);
+
 	}
-	
+
 	private SysFunctionOperationService sysFunctionOperationService;
 	private List<SysFunctionOperation> sysFunctionOperations;
 	private List<SysFunctionOperation> filteredSysFunctionOperations;
@@ -176,35 +228,48 @@ public class SysFunctionAction {
 	public List<SysFunctionOperation> getFilteredSysFunctionOperations() {
 		return filteredSysFunctionOperations;
 	}
+
 	public void setFilteredSysFunctionOperations(
 			List<SysFunctionOperation> filteredSysFunctionOperations) {
 		this.filteredSysFunctionOperations = filteredSysFunctionOperations;
 	}
+
 	public List<SysFunctionOperation> getSelectedSysFunctionOperations() {
 		return selectedSysFunctionOperations;
 	}
+
 	public void setSelectedSysFunctionOperations(
 			List<SysFunctionOperation> selectedSysFunctionOperations) {
 		this.selectedSysFunctionOperations = selectedSysFunctionOperations;
 	}
+
 	public List<SysFunctionOperation> getSysFunctionOperations() {
 		return sysFunctionOperations;
 	}
+
 	public void setSysFunctionOperations(
 			List<SysFunctionOperation> sysFunctionOperations) {
 		this.sysFunctionOperations = sysFunctionOperations;
 	}
+
 	public SysFunctionOperationService getSysFunctionOperationService() {
 		return sysFunctionOperationService;
 	}
+
 	public void setSysFunctionOperationService(
 			SysFunctionOperationService sysFunctionOperationService) {
 		this.sysFunctionOperationService = sysFunctionOperationService;
 	}
-	
+
+	/**
+	 * 编辑功能操作Table
+	 * 
+	 * @param event
+	 */
 	public void onRowEditOpe(RowEditEvent event) {
 		try {
-			SysFunctionOperation sysFunctionOperation = (SysFunctionOperation) event.getObject();
+			SysFunctionOperation sysFunctionOperation = (SysFunctionOperation) event
+					.getObject();
 			sysFunctionOperationService.update(sysFunctionOperation);
 
 			initSysFunctionOperationList(sysFunIdSelect);
@@ -212,25 +277,96 @@ public class SysFunctionAction {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * 关闭编辑功能操作Table
+	 * 
+	 * @param event
+	 */
 	public void onRowCancelOpe(RowEditEvent event) {
-		
+
 	}
-	
-	public void onRowSelectOpe(SelectEvent event) {
-		
-    }
-	
-	public void addSysFunctionOperation(){
-	}
-	
-	public void deleteSysFunctionOperation(){
+
+	/**
+	 * 增加功能操作
+	 */
+	public void addSysFunctionOperation() {
 		try {
-			sysFunctionOperationService.deleteBatch(selectedSysFunctionOperations);
+			SysFunctionOperation operation = new SysFunctionOperation();
+			operation.setSysFunId(sysFunIdOpeForm);
+			operation.setSysFunOpeId(sysFunOpeIdOpeForm);
+			operation.setOperation(operationForm);
+			sysFunctionOperationService.add(operation);
+			
+			RequestContext rc = RequestContext.getCurrentInstance();
+			rc.execute("PF('dlg3').hide()");
+			initSysFunctionOperationList(sysFunIdSelect);
+			operationFormClear();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 批量删除功能操作
+	 */
+	public void deleteSysFunctionOperation() {
+		try {
+			sysFunctionOperationService
+					.deleteBatch(selectedSysFunctionOperations);
 			initSysFunctionOperationList(sysFunIdSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * 清空operationForm表单数据
+	 */
+	public void operationFormClear() {
+		sysFunIdOpeForm = "";
+		sysFunOpeIdOpeForm = "";
+		operationForm = "";
+	}
+
+	/**
+	 * 初始化operationForm表单数据
+	 */
+	public void initOperationForm() {
+		sysFunIdOpeForm = sysFunIdSelect;
+		sysFunOpeIdOpeForm = "";
+		operationForm = "";
+	}
+
+	/**
+	 * 系统功能操作表单
+	 */
+	private String sysFunIdOpeForm;
+	private String sysFunOpeIdOpeForm;
+	private String operationForm;
+
+	public String getSysFunIdOpeForm() {
+		return sysFunIdOpeForm;
+	}
+
+	public void setSysFunIdOpeForm(String sysFunIdOpeForm) {
+		this.sysFunIdOpeForm = sysFunIdOpeForm;
+	}
+
+	public String getSysFunOpeIdOpeForm() {
+		return sysFunOpeIdOpeForm;
+	}
+
+	public void setSysFunOpeIdOpeForm(String sysFunOpeIdOpeForm) {
+		this.sysFunOpeIdOpeForm = sysFunOpeIdOpeForm;
+	}
+
+	public String getOperationForm() {
+		return operationForm;
+	}
+
+	public void setOperationForm(String operationForm) {
+		this.operationForm = operationForm;
+	}
+
 }

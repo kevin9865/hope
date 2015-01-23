@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>roleQuery</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form id="roleForm">
+		<p:dataTable id="rolesTable" var="role"
+			value="#{roleAction.roles}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" editable="true" widgetVar="roleTable"
+			filteredValue="#{roleAction.filteredRoles}"
+			style="width:auto;height:auto;" styleClass="ct-fontsize"
+			selection="#{roleAction.selectedRoles}" rowKey="#{role.roleId}">
+			<p:ajax event="rowEdit" listener="#{roleAction.onRowEdit}" />
+			<p:ajax event="rowEditCancel" listener="#{roleAction.onRowCancel}" />
+			<p:ajax event="rowDblselect" listener="#{roleAction.onRowSelect}"
+				oncomplete="PF('dlg2').show()" />
+			<f:facet name="header">
+				<p:outputPanel style="text-align: right;">
+					<p:commandButton value="添加" type="button"
+						onclick="PF('dlg1').show();" >
+						<p:ajax listener="#{roleAction.initTreeNode}" oncomplete="PF('dlg1').show();" update=":roleForm:roleDialog"></p:ajax>
+					</p:commandButton>
+					<p:commandButton value="删除"
+						action="#{roleAction.deleteRole}" update="rolesTable"
+						process="rolesTable" />
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter" onkeyup="PF('roleTable').filter()"
+						style="width:150px" placeholder="Enter keyword" value="" />
+				</p:outputPanel>
+			</f:facet>
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+			<p:column headerText="角色ID" style="text-align:center;">
+				<h:outputText value="#{role.roleId}" />
+			</p:column>
+			<p:column headerText="角色名称" filterBy="#{role.roleName}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{role.roleName}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{role.roleName}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="角色描述" filterBy="#{role.roleDesc}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{role.roleDesc}" styleClass="ct-fontsize" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{role.roleDesc}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+		<p:dialog id="roleDialog" header="添加角色" widgetVar="dlg1"
+			minHeight="80" styleClass="ct-fontsize">
+			<p:panel>
+				<h:panelGrid columns="3" id="rolePanelGrid">
+					<h:outputLabel for="roleIdForm" value="角色ID："
+						style="font-weight:bold" styleClass="ct-fontsize" />
+					<p:inputText id="roleIdForm"
+						value="#{roleAction.roleIdForm}" readonly="false" size="19" styleClass="ct-fontsize" />
+					<p:message for="roleIdForm" />
+					<h:outputLabel for="roleNameForm" value="角色名称："
+						style="font-weight:bold" styleClass="ct-fontsize" />
+					<p:inputText id="roleNameForm"
+						value="#{roleAction.roleNameForm}" required="true"
+						requiredMessage="角色名称不能为空" size="19" styleClass="ct-fontsize" />
+					<p:message for="roleNameForm" />
+					<h:outputLabel for="roleDescForm" value="角色描述："
+						style="font-weight:bold" styleClass="ct-fontsize" />
+					<p:inputText id="roleDescForm"
+						value="#{roleAction.roleDescForm}" required="true"
+						requiredMessage="角色描述" size="19" styleClass="ct-fontsize" />
+					<p:message for="roleDescForm" />
+				</h:panelGrid>
+				<p:tree value="#{roleAction.treeNode}" var="node" selectionMode="checkbox" selection="#{roleAction.selectedNodes}">
+			    	<p:treeNode>
+			      		<h:outputText value="#{node.sysFunOpeName}"/>
+			   		</p:treeNode>
+			  	</p:tree>
+			  	<h:panelGrid columns="2">
+					<p:commandButton value="保存" validateClient="true"
+						action="#{roleAction.addRole(roleAction.selectedNodes)}"
+						update="rolesTable" ></p:commandButton>
+				</h:panelGrid>
+			</p:panel>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

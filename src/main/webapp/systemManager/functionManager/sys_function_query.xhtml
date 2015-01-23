@@ -169,8 +169,9 @@
 					listener="#{sysFunctionAction.onRowCancelOpe}" />
 				<f:facet name="header">
 					<p:outputPanel style="text-align: right;">
-						<p:commandButton value="添加" type="button"
-							onclick="PF('dlg3').show();" />
+						<p:commandButton id="addOperation" value="添加" type="button">
+							<p:ajax listener="#{sysFunctionAction.initOperationForm}" oncomplete="PF('dlg3').show();" update=":sysFunctionQueryForm:operationPanelGrid"></p:ajax>
+						</p:commandButton>
 						<p:commandButton value="删除"
 							action="#{sysFunctionAction.deleteSysFunctionOperation}"
 							process="sysFunctionOperationsTable"
@@ -203,7 +204,31 @@
 		</p:dialog>
 		<p:dialog id="operationDialog" header="操作添加" widgetVar="dlg3"
 			styleClass="ct-fontsize">
-    		123
+    		<h:panelGrid columns="3" id="operationPanelGrid">
+				<h:outputLabel for="sysFunIdOpeForm" value="功能ID："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="sysFunIdOpeForm"
+					value="#{sysFunctionAction.sysFunIdOpeForm}" required="true"
+					requiredMessage="功能ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="sysFunIdOpeForm" />
+				<h:outputLabel for="sysFunOpeIdOpeForm" value="功能操作ID："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="sysFunOpeIdOpeForm"
+					value="#{sysFunctionAction.sysFunOpeIdOpeForm}" required="true"
+					requiredMessage="功能操作ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="sysFunOpeIdOpeForm" />
+				<h:outputLabel for="operationForm" value="操作名称："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="operationForm"
+					value="#{sysFunctionAction.operationForm}" required="true"
+					requiredMessage="操作名称不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="operationForm" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{sysFunctionAction.addSysFunctionOperation}"
+					update="operationPanelGrid sysFunctionOperationsTable" process="operationPanelGrid sysFunctionOperationsTable"></p:commandButton>
+			</h:panelGrid>
     	</p:dialog>
 	</h:form>
 </h:body>

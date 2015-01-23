@@ -8,14 +8,15 @@
 	</application>
 	
 	<managed-bean>
-		<managed-bean-name>userAction</managed-bean-name>
-		<managed-bean-class>com.hope.systemManager.userManager.action.UserAction</managed-bean-class>
+		<managed-bean-name>loginAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.frameManager.action.LoginAction</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>userService</property-name>
 			<value>#{userServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
+	
 	<managed-bean>
 		<managed-bean-name>mainAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.frameManager.action.MainAction</managed-bean-class>
@@ -25,15 +26,31 @@
 			<value>#{sysFunctionServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
+	
 	<managed-bean>
-		<managed-bean-name>loginAction</managed-bean-name>
-		<managed-bean-class>com.hope.systemManager.frameManager.action.LoginAction</managed-bean-class>
+		<managed-bean-name>userAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.userManager.action.UserAction</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>userService</property-name>
 			<value>#{userServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>roleAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.roleManager.action.RoleAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>roleService</property-name>
+			<value>#{roleServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sysFunctionService</property-name>
+			<value>#{sysFunctionServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
 	<managed-bean>
 		<managed-bean-name>sysFunctionAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.functionManager.action.SysFunctionAction</managed-bean-class>

@@ -1,8 +1,16 @@
 package com.hope.systemManager.functionManager.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 //系统功能表
@@ -20,6 +28,8 @@ public class SysFunction {
 	private String url;
 	// 状态（是否启用）
 	private String active;
+	
+	private List<SysFunctionOperation> sysFunctionOperations=new ArrayList<SysFunctionOperation>();
 
 	@Id
 	@Column(name = "SYS_FUN_ID")
@@ -75,5 +85,19 @@ public class SysFunction {
 	public void setActive(String active) {
 		this.active = active;
 	}
+
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn(name = "SYS_FUN_ID")
+	@OrderBy(value="sysFunOpeId")
+	public List<SysFunctionOperation> getSysFunctionOperations() {
+		return sysFunctionOperations;
+	}
+
+	public void setSysFunctionOperations(
+			List<SysFunctionOperation> sysFunctionOperations) {
+		this.sysFunctionOperations = sysFunctionOperations;
+	}
+	
+	
 	
 }

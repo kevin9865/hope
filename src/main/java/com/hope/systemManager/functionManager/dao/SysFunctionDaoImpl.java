@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.hope.systemManager.functionManager.model.SysFunction;
+import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 
 public class SysFunctionDaoImpl implements SysFunctionDao {
 
@@ -51,6 +52,14 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	public List<SysFunction> sysFunctionQueryAll() {
 		Session session=sessionFactory.getCurrentSession();
 		List<SysFunction> list=session.createQuery("from SYS_FUNCTION sf order by sf.sysFunId").list();
+		
+//		for(SysFunction sf:list){
+//			if(!sf.getSysFunctionOperations().isEmpty()){
+//				for(SysFunctionOperation sfo:sf.getSysFunctionOperations()){
+//					sfo.getOperation();
+//				}
+//			}
+//		}
 		return list;
 	}
 

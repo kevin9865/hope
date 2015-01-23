@@ -77,9 +77,9 @@ public class MainAction implements Serializable {
 					menuItem1.setCommand("#{mainAction.addTab('"
 							+ menuItem1.getValue() + "','" + sf.getUrl()
 							+ "')}");
-					menuItem1.setUpdate(":form:tabView");
+					menuItem1.setUpdate(":tabView");
 					menuItem1.setStyleClass("ct-fontsize");
-					menuItem2.setAjax(true);
+					menuItem1.setAjax(true);
 					subMenu.addElement(menuItem1);
 				}
 			} else if (sf.getLevelGrade() == 3) {

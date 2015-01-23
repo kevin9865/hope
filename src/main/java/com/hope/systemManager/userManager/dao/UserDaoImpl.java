@@ -52,15 +52,8 @@ public class UserDaoImpl implements UserDao {
 
 	public User userQuery(User user) {
 		Session session = sessionFactory.getCurrentSession();
-		List<User> list = session.createQuery(
-				"from User u where u.usercode='" + user.getUsername() + "'")
-				.list();
-		if (list.isEmpty()) {
-			return null;
-		} else {
-			User userTemp = list.get(0);
-			return userTemp;
-		}
+		User userTemp=(User) session.load(User.class, user.getUsercode());
+		return userTemp;
 	}
 
 	@Override
