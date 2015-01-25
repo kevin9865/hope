@@ -47,4 +47,9 @@ public class SysFunctionServiceImpl implements SysFunctionService{
 		sysFunctionDao.update(sysFunction);
 	}
 
+	@Transactional
+	public List<SysFunction> sysFunctionQuery(List<String> list) {
+		return sysFunctionDao.sysFunctionQuery(list);
+	}
+
 }

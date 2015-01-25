@@ -10,4 +10,5 @@ public interface RoleService {
 	public void deleteBatch(List<Role> role);
 	public void update(Role role);
 	public List<Role> roleQueryAll();
+	public String maxRoleId();
 }

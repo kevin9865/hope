@@ -1,12 +1,16 @@
 package com.hope.systemManager.roleManager.action;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -98,17 +102,69 @@ public class RoleAction implements Serializable{
 		
 	}
 	
+	/**
+	 * 选择功能Table
+	 * 
+	 * @param event
+	 */
+	public void onRowSelect(SelectEvent event) {
+		try {
+			Role role=(Role) event.getObject();
+			roleIdForm=role.getRoleId();
+			roleNameForm=role.getRoleName();
+			roleDescForm=role.getRoleDesc();
+			
+			reloadTreeNode();
+			
+			ObjectMapper mapper = new ObjectMapper();
+			if(role.getOpeAuth()!=null){
+				Map<String,String> opeAuthMap=mapper.readValue(role.getOpeAuth(), Map.class);
+				recursionTreeNode(treeNode,opeAuthMap);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void recursionTreeNode(TreeNode node,Map<String,String> opeAuth){
+		if(node.getChildCount()==0){
+			return;
+		}else {
+			for(TreeNode tn : node.getChildren()) {
+				SysFuncionTree sysFuncionTree=(SysFuncionTree) tn.getData();
+				
+				String opeIdTemp=opeAuth.get(sysFuncionTree.getSysFunId()+"-"+sysFuncionTree.getSysFunOpeId());
+				if(null!=opeIdTemp&&!opeIdTemp.equals("null")){
+					tn.setSelected(true);
+				}
+				recursionTreeNode(tn,opeAuth);
+			}
+		}
+	}
+	
 	public void addRole(TreeNode[] nodes) {
 		try {
 			Role role = new Role();
 			role.setRoleId(roleIdForm);
 			role.setRoleName(roleNameForm);
 			role.setRoleDesc(roleDescForm);
-			String opeAuth="";
+
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String,String> opeAuthMap = new HashMap<String,String>();
+			
 			for(TreeNode node : nodes) {
-				SysFunction sysFunction=(SysFunction) node.getData();
-				opeAuth=opeAuth+sysFunction.getSysFunId();
+				SysFuncionTree sTree=(SysFuncionTree) node.getData();
+				String sysFunId=sTree.getSysFunId();
+				String temp3=sysFunId.substring(6);
+				if(Integer.valueOf(temp3)>0){
+					String temp2=sysFunId.substring(0, 6)+"000";
+					opeAuthMap.put(temp2+"-"+"null", "null");
+					String temp1=sysFunId.substring(0, 3)+"000000";
+					opeAuthMap.put(temp1+"-"+"null", "null");
+				}
+				opeAuthMap.put(sTree.getSysFunId()+"-"+sTree.getSysFunOpeId(), sTree.getSysFunName()+"-"+sTree.getSysFunOpeName());
             }
+			String opeAuth=mapper.writeValueAsString(opeAuthMap);
 			role.setOpeAuth(opeAuth);
 			roleService.add(role);
 			
@@ -129,8 +185,62 @@ public class RoleAction implements Serializable{
 		}
 	}
 	
+	public void reloadTreeNode(){
+		try {
+			this.treeNode = new DefaultTreeNode("Root Node", null);
+		    TreeNode firstLevel =null;
+		    TreeNode secondLevel=null;
+		    TreeNode thirdLevel=null;
+		    TreeNode fourthLevel=null;
+		    
+		    List<SysFunction> list = sysFunctionService.sysFunctionQueryAll();
+		    for (SysFunction sf : list) {
+		    	if (sf.getLevelGrade() == 1) {
+		    		SysFuncionTree sTree=new SysFuncionTree();
+		    		sTree.setSysFunId(sf.getSysFunId());
+		    		sTree.setSysFunName(sf.getSysFunName());
+		    		sTree.setSysFunOpeId("null");
+		    		sTree.setSysFunOpeName(sf.getSysFunName());
+		    		
+		    		firstLevel = new DefaultTreeNode(sTree, this.treeNode);
+		    	} else if (sf.getLevelGrade() == 2) {
+		    		SysFuncionTree sTree=new SysFuncionTree();
+		    		sTree.setSysFunId(sf.getSysFunId());
+		    		sTree.setSysFunName(sf.getSysFunName());
+		    		sTree.setSysFunOpeId("null");
+		    		sTree.setSysFunOpeName(sf.getSysFunName());
+		    		
+		    		secondLevel = new DefaultTreeNode(sTree, firstLevel);
+		    	}  else if (sf.getLevelGrade() == 3) {
+		    		SysFuncionTree sTree=new SysFuncionTree();
+		    		sTree.setSysFunId(sf.getSysFunId());
+		    		sTree.setSysFunName(sf.getSysFunName());
+		    		sTree.setSysFunOpeId("null");
+		    		sTree.setSysFunOpeName(sf.getSysFunName());
+		    		
+		    		thirdLevel = new DefaultTreeNode(sTree, secondLevel);
+		    		
+		    		if(!sf.getSysFunctionOperations().isEmpty()){
+		    			for(SysFunctionOperation sfo:sf.getSysFunctionOperations()){
+		    				SysFuncionTree sTreeChild=new SysFuncionTree();
+		    				sTreeChild.setSysFunId(sf.getSysFunId());
+		    				sTreeChild.setSysFunName(sf.getSysFunName());
+		    				sTreeChild.setSysFunOpeId(sfo.getSysFunOpeId());
+		    				sTreeChild.setSysFunOpeName(sfo.getOperation());
+				    		
+				    		fourthLevel = new DefaultTreeNode(sTreeChild, thirdLevel);
+		    			}
+		    		}
+		    	}
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void initTreeNode(){
 	    try {
+	    	roleIdForm=roleService.maxRoleId();
+	    	
 	    	this.treeNode = new DefaultTreeNode("Root Node", null);
 		    TreeNode firstLevel =null;
 		    TreeNode secondLevel=null;
@@ -143,7 +253,7 @@ public class RoleAction implements Serializable{
 		    		SysFuncionTree sTree=new SysFuncionTree();
 		    		sTree.setSysFunId(sf.getSysFunId());
 		    		sTree.setSysFunName(sf.getSysFunName());
-		    		sTree.setSysFunOpeId(null);
+		    		sTree.setSysFunOpeId("null");
 		    		sTree.setSysFunOpeName(sf.getSysFunName());
 		    		
 		    		firstLevel = new DefaultTreeNode(sTree, this.treeNode);
@@ -151,7 +261,7 @@ public class RoleAction implements Serializable{
 		    		SysFuncionTree sTree=new SysFuncionTree();
 		    		sTree.setSysFunId(sf.getSysFunId());
 		    		sTree.setSysFunName(sf.getSysFunName());
-		    		sTree.setSysFunOpeId(null);
+		    		sTree.setSysFunOpeId("null");
 		    		sTree.setSysFunOpeName(sf.getSysFunName());
 		    		
 		    		secondLevel = new DefaultTreeNode(sTree, firstLevel);
@@ -159,15 +269,13 @@ public class RoleAction implements Serializable{
 		    		SysFuncionTree sTree=new SysFuncionTree();
 		    		sTree.setSysFunId(sf.getSysFunId());
 		    		sTree.setSysFunName(sf.getSysFunName());
-		    		sTree.setSysFunOpeId(null);
+		    		sTree.setSysFunOpeId("null");
 		    		sTree.setSysFunOpeName(sf.getSysFunName());
 		    		
 		    		thirdLevel = new DefaultTreeNode(sTree, secondLevel);
 		    		
 		    		if(!sf.getSysFunctionOperations().isEmpty()){
 		    			for(SysFunctionOperation sfo:sf.getSysFunctionOperations()){
-		    				//fourthLevel = new DefaultTreeNode(sf, secondLevel);
-		    				
 		    				SysFuncionTree sTreeChild=new SysFuncionTree();
 		    				sTreeChild.setSysFunId(sf.getSysFunId());
 		    				sTreeChild.setSysFunName(sf.getSysFunName());
@@ -175,8 +283,6 @@ public class RoleAction implements Serializable{
 		    				sTreeChild.setSysFunOpeName(sfo.getOperation());
 				    		
 				    		fourthLevel = new DefaultTreeNode(sTreeChild, thirdLevel);
-		    				
-		    				//System.out.println("输出功能操作："+sfo.getSysFunOpeId()+sfo.getOperation());
 		    			}
 		    		}
 		    	}

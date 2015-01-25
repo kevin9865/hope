@@ -20,9 +20,9 @@
 			</h:panelGrid>
 		</p:panel> -->
 		<p:dataTable id="usersTable" var="user" value="#{userAction.users}"
-			rows="10" paginator="true"
+			rows="15" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			rowsPerPageTemplate="5,10,15" editable="true" widgetVar="userTable"
+			editable="true" widgetVar="userTable"
 			filteredValue="#{userAction.filteredUsers}"
 			style="width:auto;height:auto;" styleClass="ct-fontsize">
 			<p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
@@ -66,6 +66,46 @@
 					</f:facet>
 					<f:facet name="input">
 						<p:inputText value="#{user.email}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="电话">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.phone}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.phone}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="角色">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.roleId}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.roleId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="组织结构">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.orgId}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.orgId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="是否启用">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.active}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.active}" style="width:100%" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>

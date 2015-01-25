@@ -10,4 +10,5 @@ public interface RoleDao {
 	public void update(Role role);
 	public Role roleQuery(Role role);
 	public List<Role> roleQueryAll();
+	public String maxRoleId();
 }

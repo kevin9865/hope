@@ -18,9 +18,9 @@ import com.hope.systemManager.userManager.service.UserService;
 import com.hope.systemManager.userManager.service.UserServiceImpl;
 
 public class LoginAction implements Serializable{
-	HttpServletRequest request = (HttpServletRequest) FacesContext
-			.getCurrentInstance().getExternalContext().getRequest();
-	HttpSession httpSession = request.getSession();
+	FacesContext context = FacesContext.getCurrentInstance();
+	HttpServletRequest httpRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+	HttpSession httpSession = httpRequest.getSession();
 	
 	private UserService userService;
 	
@@ -32,7 +32,7 @@ public class LoginAction implements Serializable{
 	}
 	@PostConstruct
 	public void init(){
-		httpSession.invalidate();
+		//httpSession.invalidate();
 	}
 	
 	public String getMsg() {
@@ -61,24 +61,36 @@ public class LoginAction implements Serializable{
 	}
 	
 	public String login(){
-		System.out.println("系统登录");
 		msg=null;
 		String skip=null;
-		User user=new User();
-		user.setUsername(username);
-		user.setPassword(password);
-
-		String msg=userService.loginQuery(user);
-		if(msg==null){
-			skip="login";
+		User userTemp=new User();
+		userTemp.setUsercode(username);
+		userTemp.setPassword(password);
+		
+		User user=userService.loginQuery(userTemp);
+		if(user==null){
+			this.msg="用户名或密码错误";
 		}else {
-			this.msg=msg;
+			skip="login";
+			this.httpSession.setAttribute("UserSession", user);
 		}
-		//skip="login";
+		
 		return skip;
 	}
 	
-	public void test(){
-		System.out.println("用户名："+username);
+	public static User getCurrentUser(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context == null){
+			return null;
+		}
+		
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("UserSession");
+		} catch (Exception e) {			
+			user = null;
+		}
+		return user;
 	}
 }

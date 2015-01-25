@@ -134,7 +134,7 @@
 				<h:outputLabel for="urlForm" value="链接地址：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
 				<p:inputText id="urlForm" value="#{sysFunctionAction.urlForm}"
-					required="true" requiredMessage="链接地址不能为空" size="19"
+					required="false" requiredMessage="链接地址不能为空" size="19"
 					styleClass="ct-fontsize" />
 				<p:message for="urlForm" />
 				<h:outputLabel for="activeForm" value="是否启用："
@@ -149,7 +149,7 @@
 			<h:panelGrid columns="2">
 				<p:commandButton value="保存" ajax="true" validateClient="true"
 					action="#{sysFunctionAction.addSysFunction}"
-					update="sysFunctionPanelGrid sysFunctionsTable"></p:commandButton>
+					update="sysFunctionPanelGrid sysFunctionsTable" process="sysFunctionPanelGrid sysFunctionsTable"></p:commandButton>
 			</h:panelGrid>
 		</p:dialog>
 		<p:dialog id="sysFunctionOperationDialog" header="功能操作"

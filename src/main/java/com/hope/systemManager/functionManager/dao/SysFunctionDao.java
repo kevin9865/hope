@@ -10,4 +10,5 @@ public interface SysFunctionDao {
 	public void update(SysFunction sysFunction);
 	public SysFunction sysFunctionQuery(SysFunction sysFunction);
 	public List<SysFunction> sysFunctionQueryAll();
+	public List<SysFunction> sysFunctionQuery(List<String> list);
 }

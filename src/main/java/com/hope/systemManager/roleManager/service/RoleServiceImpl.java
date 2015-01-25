@@ -22,7 +22,15 @@ public class RoleServiceImpl implements RoleService{
 
 	@Transactional
 	public void add(Role role) {
-		roleDao.add(role);
+		Role roleTemp=roleDao.roleQuery(role);
+		if(roleTemp==null){
+			roleDao.add(role);
+		}else {
+			roleTemp.setOpeAuth(role.getOpeAuth());
+			roleTemp.setRoleName(role.getRoleName());
+			roleTemp.setRoleDesc(role.getRoleDesc());
+			roleDao.update(roleTemp);
+		}
 	}
 
 	@Transactional
@@ -45,6 +53,15 @@ public class RoleServiceImpl implements RoleService{
 	public void deleteBatch(List<Role> role) {
 		for(Role r:role){
 			roleDao.delete(r);
+		}
+	}
+
+	@Transactional
+	public String maxRoleId() {
+		if(null==roleDao.maxRoleId()){
+			return "1";
+		}else {
+			return String.valueOf(Integer.valueOf(roleDao.maxRoleId())+1);
 		}
 	}
 

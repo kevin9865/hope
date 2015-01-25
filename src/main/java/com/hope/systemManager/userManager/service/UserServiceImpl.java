@@ -41,18 +41,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public String loginQuery(User user) {
-		String msg = null;
+	public User loginQuery(User user) {
 		User userTemp = userDao.userQuery(user);
 		if (userTemp == null) {
-			msg = "用户名或密码错误";
+			return null;
 		} else {
 			if (user.getPassword().equals(userTemp.getPassword())) {
+				return userTemp;
 			} else {
-				msg = "用户名或密码错误";
+				return null;
 			}
 		}
-		return msg;
 	}
 
 	@Transactional

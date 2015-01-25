@@ -54,4 +54,11 @@ public class RoleDaoImpl implements RoleDao{
 		return list;
 	}
 
+	@Override
+	public String maxRoleId() {
+		Session session = sessionFactory.getCurrentSession();
+		String id=(String) session.createQuery("select max(r.roleId) from Role r").uniqueResult();
+		return id;
+	}
+
 }

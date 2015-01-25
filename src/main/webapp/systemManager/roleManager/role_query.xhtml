@@ -21,7 +21,7 @@
 			<p:ajax event="rowEdit" listener="#{roleAction.onRowEdit}" />
 			<p:ajax event="rowEditCancel" listener="#{roleAction.onRowCancel}" />
 			<p:ajax event="rowDblselect" listener="#{roleAction.onRowSelect}"
-				oncomplete="PF('dlg2').show()" />
+				oncomplete="PF('dlg1').show()" update=":roleForm:roleDialog"/>
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
@@ -66,13 +66,13 @@
 			</p:column>
 		</p:dataTable>
 		<p:dialog id="roleDialog" header="添加角色" widgetVar="dlg1"
-			minHeight="80" styleClass="ct-fontsize">
+			height="400" width="450" styleClass="ct-fontsize">
 			<p:panel>
 				<h:panelGrid columns="3" id="rolePanelGrid">
 					<h:outputLabel for="roleIdForm" value="角色ID："
 						style="font-weight:bold" styleClass="ct-fontsize" />
 					<p:inputText id="roleIdForm"
-						value="#{roleAction.roleIdForm}" readonly="false" size="19" styleClass="ct-fontsize" />
+						value="#{roleAction.roleIdForm}" readonly="true" size="19" styleClass="ct-fontsize" />
 					<p:message for="roleIdForm" />
 					<h:outputLabel for="roleNameForm" value="角色名称："
 						style="font-weight:bold" styleClass="ct-fontsize" />
@@ -84,7 +84,7 @@
 						style="font-weight:bold" styleClass="ct-fontsize" />
 					<p:inputText id="roleDescForm"
 						value="#{roleAction.roleDescForm}" required="true"
-						requiredMessage="角色描述" size="19" styleClass="ct-fontsize" />
+						requiredMessage="角色描述不能为空" size="19" styleClass="ct-fontsize" />
 					<p:message for="roleDescForm" />
 				</h:panelGrid>
 				<p:tree value="#{roleAction.treeNode}" var="node" selectionMode="checkbox" selection="#{roleAction.selectedNodes}">
@@ -95,7 +95,7 @@
 			  	<h:panelGrid columns="2">
 					<p:commandButton value="保存" validateClient="true"
 						action="#{roleAction.addRole(roleAction.selectedNodes)}"
-						update="rolesTable" ></p:commandButton>
+						update="rolesTable rolePanelGrid" ></p:commandButton>
 				</h:panelGrid>
 			</p:panel>
 		</p:dialog>
