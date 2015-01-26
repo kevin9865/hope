@@ -17,78 +17,95 @@ import com.hope.systemManager.userManager.model.User;
 import com.hope.systemManager.userManager.service.UserService;
 import com.hope.systemManager.userManager.service.UserServiceImpl;
 
-public class LoginAction implements Serializable{
+public class LoginAction implements Serializable {
+	public LoginAction() {
+	}
+
+	@PostConstruct
+	public void init() {
+	}
+
 	FacesContext context = FacesContext.getCurrentInstance();
-	HttpServletRequest httpRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+	HttpServletRequest httpRequest = (HttpServletRequest) context
+			.getExternalContext().getRequest();
 	HttpSession httpSession = httpRequest.getSession();
-	
 	private UserService userService;
-	
 	private String username;
 	private String password;
 	private String msg;
-	
-	public LoginAction(){
-	}
-	@PostConstruct
-	public void init(){
-		//httpSession.invalidate();
-	}
-	
+
 	public String getMsg() {
 		return msg;
 	}
+
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
 	public UserService getUserService() {
 		return userService;
 	}
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+
 	public String getUsername() {
 		return username;
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String login(){
-		msg=null;
-		String skip=null;
-		User userTemp=new User();
+
+	/**
+	 * 系统登录
+	 * 
+	 * @return
+	 */
+	public String login() {
+		msg = null;
+		String skip = null;
+		User userTemp = new User();
 		userTemp.setUsercode(username);
 		userTemp.setPassword(password);
-		
-		User user=userService.loginQuery(userTemp);
-		if(user==null){
-			this.msg="用户名或密码错误";
-		}else {
-			skip="login";
-			this.httpSession.setAttribute("UserSession", user);
+
+		User user = userService.loginQuery(userTemp);
+		if (user == null) {
+			this.msg = "用户名或密码错误";
+		} else {
+			skip = "login";
+			this.httpSession.setAttribute("UserContext", user);
 		}
-		
+
 		return skip;
 	}
-	
-	public static User getCurrentUser(){
+
+	/**
+	 * 获取当前用户
+	 * 
+	 * @return
+	 */
+	public static User getCurrentUser() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		if (context == null){
+		if (context == null) {
 			return null;
 		}
-		
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+
+		HttpSession session = (HttpSession) context.getExternalContext()
+				.getSession(true);
 		User user = null;
 		try {
-			user = (User) session.getAttribute("UserSession");
-		} catch (Exception e) {			
+			user = (User) session.getAttribute("UserContext");
+		} catch (Exception e) {
 			user = null;
 		}
 		return user;

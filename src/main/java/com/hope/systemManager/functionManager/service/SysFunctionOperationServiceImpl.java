@@ -8,10 +8,11 @@ import com.hope.systemManager.functionManager.dao.SysFunctionOperationDao;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 
-public class SysFunctionOperationServiceImpl implements SysFunctionOperationService{
-	
+public class SysFunctionOperationServiceImpl implements
+		SysFunctionOperationService {
+
 	private SysFunctionOperationDao sysFunctionOperationDao;
-	
+
 	public SysFunctionOperationDao getSysFunctionOperationDao() {
 		return sysFunctionOperationDao;
 	}
@@ -33,7 +34,7 @@ public class SysFunctionOperationServiceImpl implements SysFunctionOperationServ
 
 	@Transactional
 	public void deleteBatch(List<SysFunctionOperation> list) {
-		for(SysFunctionOperation sys:list){
+		for (SysFunctionOperation sys : list) {
 			sysFunctionOperationDao.delete(sys);
 		}
 	}
@@ -45,14 +46,16 @@ public class SysFunctionOperationServiceImpl implements SysFunctionOperationServ
 
 	@Transactional
 	public List<SysFunctionOperation> sysFunctionOperationQueryAll() {
-		List<SysFunctionOperation> list=sysFunctionOperationDao.sysFunctionOperationQueryAll();
+		List<SysFunctionOperation> list = sysFunctionOperationDao
+				.sysFunctionOperationQueryAll();
 		return list;
 	}
 
 	@Transactional
 	public List<SysFunctionOperation> sysFunctionOperationQueryAll(
 			SysFunctionOperation sysFunctionOperation) {
-		List<SysFunctionOperation> list=sysFunctionOperationDao.sysFunctionOperationQueryAll(sysFunctionOperation);
+		List<SysFunctionOperation> list = sysFunctionOperationDao
+				.sysFunctionOperationQueryAll(sysFunctionOperation);
 		return list;
 	}
 

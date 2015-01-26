@@ -10,33 +10,34 @@ import org.hibernate.SessionFactory;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 
-public class SysFunctionOperationDaoImpl implements SysFunctionOperationDao{
-	
+public class SysFunctionOperationDaoImpl implements SysFunctionOperationDao {
+
 	private SessionFactory sessionFactory;
-	
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+
 	@Resource
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
+
 	@Override
 	public void add(SysFunctionOperation sysFunctionOperation) {
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.save(sysFunctionOperation);
 	}
 
 	@Override
 	public void delete(SysFunctionOperation sysFunctionOperation) {
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.delete(sysFunctionOperation);
 	}
 
 	@Override
 	public void update(SysFunctionOperation sysFunctionOperation) {
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.update(sysFunctionOperation);
 	}
 
@@ -49,15 +50,19 @@ public class SysFunctionOperationDaoImpl implements SysFunctionOperationDao{
 
 	@Override
 	public List<SysFunctionOperation> sysFunctionOperationQueryAll() {
-		Session session=sessionFactory.getCurrentSession();
-		List<SysFunctionOperation> list=session.createQuery("from SYS_FUNCTION_OPERATION sfo").list();
+		Session session = sessionFactory.getCurrentSession();
+		List<SysFunctionOperation> list = session.createQuery(
+				"from SYS_FUNCTION_OPERATION sfo").list();
 		return list;
 	}
+
 	@Override
 	public List<SysFunctionOperation> sysFunctionOperationQueryAll(
 			SysFunctionOperation sysFunctionOperation) {
-		Session session=sessionFactory.getCurrentSession();
-		List<SysFunctionOperation> list=session.createQuery("from SYS_FUNCTION_OPERATION sfo where sfo.sysFunId='"+sysFunctionOperation.getSysFunId()+"'").list();
+		Session session = sessionFactory.getCurrentSession();
+		List<SysFunctionOperation> list = session.createQuery(
+				"from SYS_FUNCTION_OPERATION sfo where sfo.sysFunId='"
+						+ sysFunctionOperation.getSysFunId() + "'").list();
 		return list;
 	}
 

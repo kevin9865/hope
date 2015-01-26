@@ -11,8 +11,8 @@
 </h:head>
 <h:body>
 	<h:form id="roleForm">
-		<p:dataTable id="rolesTable" var="role"
-			value="#{roleAction.roles}" rows="10" paginator="true"
+		<p:dataTable id="rolesTable" var="role" value="#{roleAction.roles}"
+			rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" editable="true" widgetVar="roleTable"
 			filteredValue="#{roleAction.filteredRoles}"
@@ -21,16 +21,16 @@
 			<p:ajax event="rowEdit" listener="#{roleAction.onRowEdit}" />
 			<p:ajax event="rowEditCancel" listener="#{roleAction.onRowCancel}" />
 			<p:ajax event="rowDblselect" listener="#{roleAction.onRowSelect}"
-				oncomplete="PF('dlg1').show()" update=":roleForm:roleDialog"/>
+				oncomplete="PF('dlg1').show()" update=":roleForm:roleDialog" />
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
-						onclick="PF('dlg1').show();" >
-						<p:ajax listener="#{roleAction.initTreeNode}" oncomplete="PF('dlg1').show();" update=":roleForm:roleDialog"></p:ajax>
+						onclick="PF('dlg1').show();">
+						<p:ajax listener="#{roleAction.initTreeNode}"
+							oncomplete="PF('dlg1').show();" update=":roleForm:roleDialog"></p:ajax>
 					</p:commandButton>
-					<p:commandButton value="删除"
-						action="#{roleAction.deleteRole}" update="rolesTable"
-						process="rolesTable" />
+					<p:commandButton value="删除" action="#{roleAction.deleteRole}"
+						update="rolesTable" process="rolesTable" />
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter" onkeyup="PF('roleTable').filter()"
 						style="width:150px" placeholder="Enter keyword" value="" />
@@ -65,37 +65,38 @@
 				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
-		<p:dialog id="roleDialog" header="添加角色" widgetVar="dlg1"
-			height="400" width="450" styleClass="ct-fontsize">
+		<p:dialog id="roleDialog" header="角色信息" widgetVar="dlg1" height="400"
+			width="450" styleClass="ct-fontsize">
 			<p:panel>
 				<h:panelGrid columns="3" id="rolePanelGrid">
 					<h:outputLabel for="roleIdForm" value="角色ID："
 						style="font-weight:bold" styleClass="ct-fontsize" />
-					<p:inputText id="roleIdForm"
-						value="#{roleAction.roleIdForm}" readonly="true" size="19" styleClass="ct-fontsize" />
+					<p:inputText id="roleIdForm" value="#{roleAction.roleIdForm}"
+						readonly="true" size="19" styleClass="ct-fontsize" />
 					<p:message for="roleIdForm" />
 					<h:outputLabel for="roleNameForm" value="角色名称："
 						style="font-weight:bold" styleClass="ct-fontsize" />
-					<p:inputText id="roleNameForm"
-						value="#{roleAction.roleNameForm}" required="true"
-						requiredMessage="角色名称不能为空" size="19" styleClass="ct-fontsize" />
+					<p:inputText id="roleNameForm" value="#{roleAction.roleNameForm}"
+						required="true" requiredMessage="角色名称不能为空" size="19"
+						styleClass="ct-fontsize" />
 					<p:message for="roleNameForm" />
 					<h:outputLabel for="roleDescForm" value="角色描述："
 						style="font-weight:bold" styleClass="ct-fontsize" />
-					<p:inputText id="roleDescForm"
-						value="#{roleAction.roleDescForm}" required="true"
-						requiredMessage="角色描述不能为空" size="19" styleClass="ct-fontsize" />
+					<p:inputText id="roleDescForm" value="#{roleAction.roleDescForm}"
+						required="true" requiredMessage="角色描述不能为空" size="19"
+						styleClass="ct-fontsize" />
 					<p:message for="roleDescForm" />
 				</h:panelGrid>
-				<p:tree value="#{roleAction.treeNode}" var="node" selectionMode="checkbox" selection="#{roleAction.selectedNodes}">
-			    	<p:treeNode>
-			      		<h:outputText value="#{node.sysFunOpeName}"/>
-			   		</p:treeNode>
-			  	</p:tree>
-			  	<h:panelGrid columns="2">
+				<p:tree value="#{roleAction.treeNode}" var="node"
+					selectionMode="checkbox" selection="#{roleAction.selectedNodes}">
+					<p:treeNode>
+						<h:outputText value="#{node.sysFunOpeName}" />
+					</p:treeNode>
+				</p:tree>
+				<h:panelGrid columns="2">
 					<p:commandButton value="保存" validateClient="true"
 						action="#{roleAction.addRole(roleAction.selectedNodes)}"
-						update="rolesTable rolePanelGrid" ></p:commandButton>
+						update="rolesTable rolePanelGrid"></p:commandButton>
 				</h:panelGrid>
 			</p:panel>
 		</p:dialog>

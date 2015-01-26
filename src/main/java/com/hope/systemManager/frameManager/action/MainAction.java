@@ -1,6 +1,5 @@
 package com.hope.systemManager.frameManager.action;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,31 +8,18 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.el.ELException;
-import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.faces.view.facelets.FaceletContext;
-import javax.faces.view.facelets.FaceletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.primefaces.behavior.ajax.AjaxBehavior;
-import org.primefaces.component.tabview.Tab;
 import org.primefaces.component.tabview.TabView;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
-import org.springframework.context.annotation.Scope;
 
 import com.hope.systemManager.frameManager.form.TabViewForm;
 import com.hope.systemManager.functionManager.model.SysFunction;
@@ -49,31 +35,38 @@ public class MainAction implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		
-		System.out.println("当前登录用户"+LoginAction.getCurrentUser().getUsercode());
+		System.out.println("当前登录用户"
+				+ LoginAction.getCurrentUser().getUsercode());
 		initPanelMenu();
 	}
 
+	/**
+	 * 初始化菜单栏
+	 */
 	public void initPanelMenu() {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Map<String,String> opeAuthMap=mapper.readValue(LoginAction.getCurrentUser().getOpeAuth(), Map.class);
-			if(opeAuthMap.isEmpty()) return;
-			
-			List<String> keyList=new ArrayList<String>();
-			Set keys=opeAuthMap.keySet();
-			Iterator it=keys.iterator();
+			if (null == LoginAction.getCurrentUser().getOpeAuth())
+				return;
+			Map<String, String> opeAuthMap = mapper.readValue(LoginAction
+					.getCurrentUser().getOpeAuth(), Map.class);
+
+			List<String> keyList = new ArrayList<String>();
+			Set keys = opeAuthMap.keySet();
+			Iterator it = keys.iterator();
 			while (it.hasNext()) {
-				String key=(String) it.next();
-				String[] k=key.split("-");
-				if(!keyList.contains(k[0])){
+				String key = (String) it.next();
+				String[] k = key.split("-");
+				if (!keyList.contains(k[0])) {
 					keyList.add(k[0]);
 				}
 			}
-			
+
 			panelMenu = new DefaultMenuModel();
-			List<SysFunction> list = sysFunctionService.sysFunctionQuery(keyList);
-			//List<SysFunction> list = sysFunctionService.sysFunctionQueryAll();
+			List<SysFunction> list = sysFunctionService
+					.sysFunctionQuery(keyList);
+			// List<SysFunction> list =
+			// sysFunctionService.sysFunctionQueryAll();
 			DefaultSubMenu subMenu = null;
 			DefaultSubMenu subMenu1 = null;
 			DefaultMenuItem menuItem1 = null;
@@ -109,7 +102,8 @@ public class MainAction implements Serializable {
 					menuItem2.setValue(sf.getSysFunName());
 					menuItem2.setAjax(true);
 					menuItem2.setCommand("#{mainAction.addTab('"
-							+ menuItem2.getValue() + "','" + sf.getUrl() + "')}");
+							+ menuItem2.getValue() + "','" + sf.getUrl()
+							+ "')}");
 					menuItem2.setUpdate(":tabView");
 					menuItem2.setStyleClass("ct-fontsize");
 					subMenu1.addElement(menuItem2);
@@ -131,16 +125,14 @@ public class MainAction implements Serializable {
 	}
 
 	private List<TabViewForm> tabs;
+	private SysFunctionService sysFunctionService;
+	private MenuModel panelMenu;
+	private TabView tabView;
+	private int tabIdTemp;
 
 	public List<TabViewForm> getTabs() {
 		return tabs;
 	}
-
-	private SysFunctionService sysFunctionService;
-
-	private MenuModel panelMenu;
-	private TabView tabView;
-	private int tabIdTemp;
 
 	public int getTabIdTemp() {
 		return tabIdTemp;
@@ -174,23 +166,41 @@ public class MainAction implements Serializable {
 		this.sysFunctionService = sysFunctionService;
 	}
 
+	/**
+	 * tab增加
+	 * 
+	 * @param value
+	 * @param url
+	 */
 	public void addTab(String value, String url) {
 		tabIdTemp = tabs.size();
 		for (TabViewForm tv : tabs) {
 			if (tv.getTitle().equals(value)) {
+				tabIdTemp = tv.getIndex();
 				return;
 			}
 		}
 		TabViewForm tabViewForm = new TabViewForm();
 		tabViewForm.setTitle(value);
 		tabViewForm.setUrl(url);
+		tabViewForm.setIndex(tabIdTemp);
 		tabs.add(tabViewForm);
 	}
 
+	/**
+	 * tab变更事件
+	 * 
+	 * @param event
+	 */
 	public void onTabChange(TabChangeEvent event) {
 
 	}
 
+	/**
+	 * tab关闭事件
+	 * 
+	 * @param event
+	 */
 	public void onTabClose(TabCloseEvent event) {
 		for (TabViewForm tv : tabs) {
 			if (tv.getTitle().equals(event.getTab().getTitle())) {
@@ -199,6 +209,11 @@ public class MainAction implements Serializable {
 		}
 	}
 
+	/**
+	 * 退出登录
+	 * 
+	 * @return
+	 */
 	public String logout() {
 		System.out.println("系统退出");
 		httpSession.invalidate();

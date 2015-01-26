@@ -1,5 +1,10 @@
 package com.hope.systemManager.roleManager.modeltemp;
 
+/**
+ * 功能树临时类
+ * @author 
+ *
+ */
 public class SysFuncionTree {
 	private String sysFunId;
 	private String sysFunName;

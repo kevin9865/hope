@@ -14,32 +14,34 @@ import com.hope.util.Tools;
 public class SysFunctionDaoImpl implements SysFunctionDao {
 
 	private SessionFactory sessionFactory;
-	
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+
 	@Resource
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
+
 	@Override
 	public void add(SysFunction sysFunction) {
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.save(sysFunction);
-		
+
 	}
 
 	@Override
 	public void delete(SysFunction sysFunction) {
-		Session session=sessionFactory.getCurrentSession();
-		SysFunction sys=(SysFunction) session.load(SysFunction.class, sysFunction.getSysFunId());
+		Session session = sessionFactory.getCurrentSession();
+		SysFunction sys = (SysFunction) session.load(SysFunction.class,
+				sysFunction.getSysFunId());
 		session.delete(sys);
 	}
 
 	@Override
 	public void update(SysFunction sysFunction) {
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.update(sysFunction);
 	}
 
@@ -51,16 +53,20 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 
 	@Override
 	public List<SysFunction> sysFunctionQueryAll() {
-		Session session=sessionFactory.getCurrentSession();
-		List<SysFunction> list=session.createQuery("from SYS_FUNCTION sf order by sf.sysFunId").list();
+		Session session = sessionFactory.getCurrentSession();
+		List<SysFunction> list = session.createQuery(
+				"from SYS_FUNCTION sf order by sf.sysFunId").list();
 
 		return list;
 	}
-	
+
 	@Override
 	public List<SysFunction> sysFunctionQuery(List<String> list) {
-		Session session=sessionFactory.getCurrentSession();
-		List<SysFunction> listTemp=session.createQuery("from SYS_FUNCTION sf where"+Tools.listConvertSqlIn("sf.sysFunId", "in", list)+"order by sf.sysFunId").list();
+		Session session = sessionFactory.getCurrentSession();
+		List<SysFunction> listTemp = session.createQuery(
+				"from SYS_FUNCTION sf where"
+						+ Tools.listConvertSqlIn("sf.sysFunId", "in", list)
+						+ "order by sf.sysFunId").list();
 		return listTemp;
 	}
 

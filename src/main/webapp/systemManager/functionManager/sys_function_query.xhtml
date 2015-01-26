@@ -149,7 +149,8 @@
 			<h:panelGrid columns="2">
 				<p:commandButton value="保存" ajax="true" validateClient="true"
 					action="#{sysFunctionAction.addSysFunction}"
-					update="sysFunctionPanelGrid sysFunctionsTable" process="sysFunctionPanelGrid sysFunctionsTable"></p:commandButton>
+					update="sysFunctionPanelGrid sysFunctionsTable"
+					process="sysFunctionPanelGrid sysFunctionsTable"></p:commandButton>
 			</h:panelGrid>
 		</p:dialog>
 		<p:dialog id="sysFunctionOperationDialog" header="功能操作"
@@ -170,7 +171,9 @@
 				<f:facet name="header">
 					<p:outputPanel style="text-align: right;">
 						<p:commandButton id="addOperation" value="添加" type="button">
-							<p:ajax listener="#{sysFunctionAction.initOperationForm}" oncomplete="PF('dlg3').show();" update=":sysFunctionQueryForm:operationPanelGrid"></p:ajax>
+							<p:ajax listener="#{sysFunctionAction.initOperationForm}"
+								oncomplete="PF('dlg3').show();"
+								update=":sysFunctionQueryForm:operationPanelGrid"></p:ajax>
 						</p:commandButton>
 						<p:commandButton value="删除"
 							action="#{sysFunctionAction.deleteSysFunctionOperation}"
@@ -204,7 +207,7 @@
 		</p:dialog>
 		<p:dialog id="operationDialog" header="操作添加" widgetVar="dlg3"
 			styleClass="ct-fontsize">
-    		<h:panelGrid columns="3" id="operationPanelGrid">
+			<h:panelGrid columns="3" id="operationPanelGrid">
 				<h:outputLabel for="sysFunIdOpeForm" value="功能ID："
 					style="font-weight:bold" styleClass="ct-fontsize" />
 				<p:inputText id="sysFunIdOpeForm"
@@ -227,9 +230,10 @@
 			<h:panelGrid columns="2">
 				<p:commandButton value="保存" ajax="true" validateClient="true"
 					action="#{sysFunctionAction.addSysFunctionOperation}"
-					update="operationPanelGrid sysFunctionOperationsTable" process="operationPanelGrid sysFunctionOperationsTable"></p:commandButton>
+					update="operationPanelGrid sysFunctionOperationsTable"
+					process="operationPanelGrid sysFunctionOperationsTable"></p:commandButton>
 			</h:panelGrid>
-    	</p:dialog>
+		</p:dialog>
 	</h:form>
 </h:body>
 </html>

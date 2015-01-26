@@ -10,7 +10,7 @@
 	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
-	<h:form>
+	<h:form id="userForm">
 		<!-- 		<p:panel>
 			<h:panelGrid columns="5">
 				<h:outputLabel value="用户编码:" styleClass="ct-fontsize"></h:outputLabel>
@@ -20,13 +20,16 @@
 			</h:panelGrid>
 		</p:panel> -->
 		<p:dataTable id="usersTable" var="user" value="#{userAction.users}"
-			rows="15" paginator="true"
+			rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			editable="true" widgetVar="userTable"
 			filteredValue="#{userAction.filteredUsers}"
+			selection="#{userAction.selectedUsers}" rowKey="#{user.usercode}"
 			style="width:auto;height:auto;" styleClass="ct-fontsize">
 			<p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
 			<p:ajax event="rowEditCancel" listener="#{userAction.onRowCancel}" />
+			<p:ajax event="rowDblselect" listener="#{userAction.onRowSelect}"
+				oncomplete="PF('dlg2').show()" update=":userForm:userOpeAuthDialog" />
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
@@ -36,6 +39,8 @@
 						style="width:150px" placeholder="Enter keyword" />
 				</p:outputPanel>
 			</f:facet>
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
 			<p:column headerText="用户编码" filterBy="#{user.usercode}">
 				<h:outputText value="#{user.usercode}" />
 			</p:column>
@@ -82,10 +87,19 @@
 			<p:column headerText="角色">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{user.roleId}" />
+						<p:selectOneMenu value="#{user.roleId}"
+							style="width:100%;height:100%" disabled="true">
+							<f:selectItems value="#{userAction.roles}" var="role"
+								itemLabel="#{role.roleDesc}" itemValue="#{role.roleId}" />
+						</p:selectOneMenu>
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{user.roleId}" style="width:100%" />
+						<p:selectOneMenu value="#{user.roleId}" effect="fade" var="t"
+							style="width:120px;" filter="true" filterMatchMode="startsWith"
+							panelStyle="width:150px">
+							<f:selectItems value="#{userAction.roles}" var="role"
+								itemLabel="#{role.roleDesc}" itemValue="#{role.roleId}" />
+						</p:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -99,7 +113,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="是否启用">
+			<p:column headerText="是否启用" style="text-align:center;">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.active}" />
@@ -116,60 +130,94 @@
 		<p:dialog id="addUserDialog" header="用户添加" widgetVar="dlg1"
 			minHeight="80" styleClass="ct-fontsize">
 			<h:panelGrid columns="3" id="addUserPanelGrid">
-				<h:outputLabel for="userIdForm" value="用户ID：" style="font-weight:bold"
+				<h:outputLabel for="userIdForm" value="用户ID："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="userIdForm" value="#{userAction.userIdForm}"
+					required="true" requiredMessage="用户ID不能为空" size="19"
 					styleClass="ct-fontsize" />
-				<p:inputText id="userIdForm" value="#{userAction.userIdForm}" required="true"
-					requiredMessage="用户ID不能为空" size="19" styleClass="ct-fontsize" />
 				<p:message for="userIdForm" />
-				<h:outputLabel for="usercodeForm" value="用户编码：" style="font-weight:bold"
+				<h:outputLabel for="usercodeForm" value="用户编码："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="usercodeForm" value="#{userAction.usercodeForm}"
+					required="true" requiredMessage="用户编码不能为空" size="19"
 					styleClass="ct-fontsize" />
-				<p:inputText id="usercodeForm" value="#{userAction.usercodeForm}" required="true"
-					requiredMessage="用户编码不能为空" size="19" styleClass="ct-fontsize" />
 				<p:message for="usercodeForm" />
-				<h:outputLabel for="usernameForm" value="用户名：" style="font-weight:bold"
+				<h:outputLabel for="usernameForm" value="用户名："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="usernameForm" value="#{userAction.usernameForm}"
+					required="true" requiredMessage="用户名不能为空" size="19"
 					styleClass="ct-fontsize" />
-				<p:inputText id="usernameForm" value="#{userAction.usernameForm}" required="true"
-					requiredMessage="用户名不能为空" size="19" styleClass="ct-fontsize" />
 				<p:message for="usernameForm" />
-				<h:outputLabel for="passwordForm" value="密  码：" style="font-weight:bold"
+				<h:outputLabel for="passwordForm" value="密  码："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:password id="passwordForm" value="#{userAction.passwordForm}"
+					required="true" requiredMessage="密码不能为空" size="19"
 					styleClass="ct-fontsize" />
-				<p:password id="passwordForm" value="#{userAction.passwordForm}" required="true"
-					requiredMessage="密码不能为空" size="19" styleClass="ct-fontsize" />
 				<p:message for="passwordForm" />
 				<h:outputLabel for="emailForm" value="邮箱：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
-				<p:inputText id="emailForm" value="#{userAction.emailForm}" required="true"
-					requiredMessage="邮箱不能为空" size="19" styleClass="ct-fontsize" />
+				<p:inputText id="emailForm" value="#{userAction.emailForm}"
+					required="true" requiredMessage="邮箱不能为空" size="19"
+					styleClass="ct-fontsize" />
 				<p:message for="emailForm" />
 				<h:outputLabel for="phoneForm" value="电话：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
-				<p:inputText id="phoneForm" value="#{userAction.phoneForm}" required="true"
-					requiredMessage="电话不能为空" size="19" styleClass="ct-fontsize" />
+				<p:inputText id="phoneForm" value="#{userAction.phoneForm}"
+					required="true" requiredMessage="电话不能为空" size="19"
+					styleClass="ct-fontsize" />
 				<p:message for="phoneForm" />
 				<h:outputLabel for="roleIdForm" value="角色：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
-				<p:selectOneMenu id="roleIdForm" value="#{userAction.roleIdForm}" styleClass="ct-fontsize">
+				<p:selectOneMenu id="roleIdForm" value="#{userAction.roleIdForm}"
+					styleClass="ct-fontsize">
 					<f:selectItem itemLabel="管理员" itemValue="管理员" />
 				</p:selectOneMenu>
 				<p:message for="roleIdForm" />
-				<h:outputLabel for="orgIdForm" value="组织结构：" style="font-weight:bold"
-					styleClass="ct-fontsize" />
-				<p:selectOneMenu id="orgIdForm" value="#{userAction.orgIdForm}" styleClass="ct-fontsize">
+				<h:outputLabel for="orgIdForm" value="组织结构："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:selectOneMenu id="orgIdForm" value="#{userAction.orgIdForm}"
+					styleClass="ct-fontsize">
 					<f:selectItem itemLabel="研发" itemValue="研发" />
 				</p:selectOneMenu>
 				<p:message for="orgIdForm" />
-				<h:outputLabel for="activeForm" value="是否启用：" style="font-weight:bold"
-					styleClass="ct-fontsize" />
-				<p:selectOneMenu id="activeForm" value="#{userAction.activeForm}" styleClass="ct-fontsize">
+				<h:outputLabel for="activeForm" value="是否启用："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:selectOneMenu id="activeForm" value="#{userAction.activeForm}"
+					styleClass="ct-fontsize">
 					<f:selectItem itemLabel="是" itemValue="Y" />
 					<f:selectItem itemLabel="否" itemValue="N" />
 				</p:selectOneMenu>
 				<p:message for="activeForm" />
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-				<p:commandButton value="保存" ajax="true" validateClient="true"
+				<p:commandButton value="保存" validateClient="true"
 					action="#{userAction.addUser}" update="addUserPanelGrid"></p:commandButton>
 			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="userOpeAuthDialog" header="用户权限" widgetVar="dlg2"
+			height="400" width="450" styleClass="ct-fontsize">
+			<p:panel>
+				<h:panelGrid columns="3" id="userOpeAuthPanelGrid">
+					<h:outputLabel for="usercodeAuthForm" value="用户编码："
+						style="font-weight:bold" styleClass="ct-fontsize" />
+					<p:inputText id="usercodeAuthForm"
+						value="#{userAction.usercodeAuthForm}" readonly="true" size="19"
+						styleClass="ct-fontsize" />
+					<p:message for="usercodeAuthForm" />
+				</h:panelGrid>
+				<p:tree value="#{userAction.treeNode}" var="node"
+					selectionMode="checkbox" selection="#{userAction.selectedNodes}">
+					<p:treeNode>
+						<h:outputText value="#{node.sysFunOpeName}" />
+					</p:treeNode>
+				</p:tree>
+				<h:panelGrid columns="2">
+					<p:commandButton value="保存" validateClient="true"
+						action="#{userAction.updateUserAuth(userAction.selectedNodes)}"
+						update=":userForm:usersTable :userForm:userOpeAuthDialog"
+						process=":userForm:usersTable :userForm:userOpeAuthDialog"></p:commandButton>
+				</h:panelGrid>
+			</p:panel>
 		</p:dialog>
 	</h:form>
 </h:body>

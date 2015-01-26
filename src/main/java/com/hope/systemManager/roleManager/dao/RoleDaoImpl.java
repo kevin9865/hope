@@ -43,8 +43,13 @@ public class RoleDaoImpl implements RoleDao{
 	@Override
 	public Role roleQuery(Role role) {
 		Session session = sessionFactory.getCurrentSession();
-		Role roleTemp=(Role) session.load(Role.class, role.getRoleId());
-		return roleTemp;
+		//Role roleTemp=(Role) session.load(Role.class, role.getRoleId());
+		List<Role> list=session.createQuery("from Role r where r.roleId='"+role.getRoleId()+"'").list();
+		if(list.isEmpty()){
+			return null;
+		}else {
+			return list.get(0);
+		}
 	}
 
 	@Override

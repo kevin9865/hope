@@ -7,21 +7,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hope.systemManager.functionManager.dao.SysFunctionDao;
 import com.hope.systemManager.functionManager.model.SysFunction;
 
-public class SysFunctionServiceImpl implements SysFunctionService{
-	
+public class SysFunctionServiceImpl implements SysFunctionService {
+
 	private SysFunctionDao sysFunctionDao;
-	
+
 	public SysFunctionDao getSysFunctionDao() {
 		return sysFunctionDao;
 	}
-	
+
 	public void setSysFunctionDao(SysFunctionDao sysFunctionDao) {
 		this.sysFunctionDao = sysFunctionDao;
 	}
 
 	@Transactional
 	public List<SysFunction> sysFunctionQueryAll() {
-		List<SysFunction> list=sysFunctionDao.sysFunctionQueryAll();
+		List<SysFunction> list = sysFunctionDao.sysFunctionQueryAll();
 		return list;
 	}
 
@@ -34,10 +34,10 @@ public class SysFunctionServiceImpl implements SysFunctionService{
 	public void delete(SysFunction sysFunction) {
 		sysFunctionDao.delete(sysFunction);
 	}
-	
+
 	@Transactional
-	public void deleteBatch(List<SysFunction> list){
-		for(SysFunction sys:list){
+	public void deleteBatch(List<SysFunction> list) {
+		for (SysFunction sys : list) {
 			sysFunctionDao.delete(sys);
 		}
 	}
