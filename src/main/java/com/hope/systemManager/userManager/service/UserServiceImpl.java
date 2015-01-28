@@ -147,4 +147,14 @@ public class UserServiceImpl implements UserService {
 		userDao.update(userTemp);
 	}
 
+	@Transactional
+	public User userQuery(User user) {
+		User userQuery=userDao.userQuery(user);
+		if(userQuery==null){
+			return null;
+		}else {
+			return userQuery;
+		}
+	}
+
 }

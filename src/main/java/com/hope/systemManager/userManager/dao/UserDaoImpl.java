@@ -54,9 +54,7 @@ public class UserDaoImpl implements UserDao {
 
 	public User userQuery(User user) {
 		Session session = sessionFactory.getCurrentSession();
-		//User userTemp=(User) session.load(User.class, user.getUsercode().toString());
-		
-		List<User> list = session.createQuery("from User u where u.usercode='"+user.getUsercode()+"'").list();
+		List<User> list = session.createQuery("from User u where u.username='"+user.getUsername()+"'").list();
 		if(list.isEmpty()){
 			return null;
 		}else{
@@ -77,7 +75,7 @@ public class UserDaoImpl implements UserDao {
 	public List<User> userFuzzyQuery(User user) {
 		Session session = sessionFactory.getCurrentSession();
 		List<User> list = session.createQuery(
-				"from User u where u.usercode like '%" + user.getUsercode()
+				"from User u where u.username like '%" + user.getUsername()
 						+ "%'").list();
 		return list;
 	}

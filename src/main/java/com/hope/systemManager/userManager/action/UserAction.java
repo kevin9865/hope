@@ -1,11 +1,16 @@
 package com.hope.systemManager.userManager.action;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.primefaces.context.RequestContext;
@@ -39,25 +44,25 @@ public class UserAction implements Serializable {
 	public void initUserList() {
 		users = userService.userQueryAll();
 		roles = roleService.roleQueryAll();
-		orgs=orgService.orgQueryAll();
-//		for(User u:users){
-//			for(Role r:roles){
-//				if(null==u.getRoleId()||u.getOrgId().equals("")){
-//					continue;
-//				}
-//				if(u.getRoleId().equals(r.getRoleId())){
-//					u.setRoleId(r.getRoleDesc());
-//				}
-//			}
-//			for(Org o:orgs){
-//				if(null==u.getOrgId()||u.getOrgId().equals("")){
-//					continue;
-//				}
-//				if(u.getOrgId().equals(o.getOrgId())){
-//					u.setOrgId(o.getOrgName());
-//				}
-//			}
-//		}
+		orgs = orgService.orgQueryAll();
+		// for(User u:users){
+		// for(Role r:roles){
+		// if(null==u.getRoleId()||u.getOrgId().equals("")){
+		// continue;
+		// }
+		// if(u.getRoleId().equals(r.getRoleId())){
+		// u.setRoleId(r.getRoleDesc());
+		// }
+		// }
+		// for(Org o:orgs){
+		// if(null==u.getOrgId()||u.getOrgId().equals("")){
+		// continue;
+		// }
+		// if(u.getOrgId().equals(o.getOrgId())){
+		// u.setOrgId(o.getOrgName());
+		// }
+		// }
+		// }
 	}
 
 	private UserService userService;
@@ -69,7 +74,7 @@ public class UserAction implements Serializable {
 	private List<User> selectedUsers;
 	private List<Role> roles;
 	private List<Org> orgs;
-	
+
 	public OrgService getOrgService() {
 		return orgService;
 	}
@@ -176,7 +181,7 @@ public class UserAction implements Serializable {
 	public void onRowSelect(SelectEvent event) {
 		try {
 			User user = (User) event.getObject();
-			usercodeAuthForm = user.getUsercode();
+			usernameAuthForm = user.getUsername();
 			reloadTreeNode();
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -191,13 +196,39 @@ public class UserAction implements Serializable {
 	}
 
 	/**
+	 * ajax验证用户名是否存在
+	 * 
+	 * @param facesContext
+	 * @param uiComponent
+	 * @param value
+	 */
+	public void validateUserIsExist(FacesContext facesContext,
+			UIComponent uiComponent, Object value) {
+		boolean flag = true;
+		try {
+			User user = new User();
+			user.setUsername(value.toString());
+			User userQuery = userService.userQuery(user);
+			if (userQuery != null) {
+				flag = false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flag == false) {
+			throw new ValidatorException(new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "用户名存在", "用户名存在"));
+		}
+	}
+
+	/**
 	 * 增加用户
 	 */
 	public void addUser() {
 		try {
 			User user = new User();
 			user.setUserId(userIdForm);
-			user.setUsercode(usercodeForm);
+			user.setName(nameForm);
 			user.setUsername(usernameForm);
 			user.setPassword(passwordForm);
 			user.setEmail(emailForm);
@@ -223,7 +254,7 @@ public class UserAction implements Serializable {
 	public void updateUserAuth(TreeNode[] nodes) {
 		try {
 			User user = new User();
-			user.setUsercode(usercodeAuthForm);
+			user.setUsername(usernameAuthForm);
 
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, String> opeAuthMap = new HashMap<String, String>();
@@ -358,7 +389,7 @@ public class UserAction implements Serializable {
 	 * addUserDialog表单
 	 */
 	private String userIdForm;
-	private String usercodeForm;
+	private String nameForm;
 	private String usernameForm;
 	private String passwordForm;
 	private String emailForm;
@@ -375,12 +406,12 @@ public class UserAction implements Serializable {
 		this.userIdForm = userIdForm;
 	}
 
-	public String getUsercodeForm() {
-		return usercodeForm;
+	public String getNameForm() {
+		return nameForm;
 	}
 
-	public void setUsercodeForm(String usercodeForm) {
-		this.usercodeForm = usercodeForm;
+	public void setNameForm(String nameForm) {
+		this.nameForm = nameForm;
 	}
 
 	public String getUsernameForm() {
@@ -442,14 +473,14 @@ public class UserAction implements Serializable {
 	/**
 	 * userOpeAuthDialog表单
 	 */
-	private String usercodeAuthForm;
+	private String usernameAuthForm;
 
-	public String getUsercodeAuthForm() {
-		return usercodeAuthForm;
+	public String getUsernameAuthForm() {
+		return usernameAuthForm;
 	}
 
-	public void setUsercodeAuthForm(String usercodeAuthForm) {
-		this.usercodeAuthForm = usercodeAuthForm;
+	public void setUsernameAuthForm(String usernameAuthForm) {
+		this.usernameAuthForm = usernameAuthForm;
 	}
 
 }

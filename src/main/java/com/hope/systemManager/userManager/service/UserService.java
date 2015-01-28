@@ -55,4 +55,12 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> userFuzzyQuery(User user);
+
+	/**
+	 * 查询用户
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User userQuery(User user);
 }

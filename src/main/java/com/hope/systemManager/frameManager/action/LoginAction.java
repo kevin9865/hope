@@ -75,7 +75,7 @@ public class LoginAction implements Serializable {
 		msg = null;
 		String skip = null;
 		User userTemp = new User();
-		userTemp.setUsercode(username);
+		userTemp.setUsername(username);
 		userTemp.setPassword(password);
 
 		User user = userService.loginQuery(userTemp);
@@ -85,7 +85,7 @@ public class LoginAction implements Serializable {
 			skip = "login";
 			this.httpSession.setAttribute("UserContext", user);
 			System.out.println("当前登录用户"
-					+ LoginAction.getCurrentUser().getUsercode());
+					+ LoginAction.getCurrentUser().getUsername());
 		}
 
 		return skip;

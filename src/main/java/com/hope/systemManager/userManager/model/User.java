@@ -9,10 +9,10 @@ import javax.persistence.Id;
 public class User {
 	// 用户ID
 	private String userId;
-	// 用户编码
-	private String usercode;
 	// 用户名
 	private String username;
+	// 姓名
+	private String name;
 	// 密码
 	private String password;
 	// 邮箱
@@ -59,13 +59,13 @@ public class User {
 	}
 
 	@Id
-	@Column(name = "USERCODE")
-	public String getUsercode() {
-		return usercode;
+	@Column(name = "NAME")
+	public String getName() {
+		return name;
 	}
 
-	public void setUsercode(String usercode) {
-		this.usercode = usercode;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Column(name = "USERNAME")
