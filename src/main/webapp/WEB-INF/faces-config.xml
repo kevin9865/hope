@@ -43,6 +43,10 @@
 			<property-name>sysFunctionService</property-name>
 			<value>#{sysFunctionServiceImpl}</value>
 		</managed-property>
+			<managed-property>
+			<property-name>orgService</property-name>
+			<value>#{orgServiceImpl}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -56,6 +60,16 @@
 		<managed-property>
 			<property-name>sysFunctionService</property-name>
 			<value>#{sysFunctionServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>orgAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.orgManager.action.OrgAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>orgService</property-name>
+			<value>#{orgServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
 

@@ -35,8 +35,6 @@ public class MainAction implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("当前登录用户"
-				+ LoginAction.getCurrentUser().getUsercode());
 		initPanelMenu();
 	}
 

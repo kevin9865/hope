@@ -87,18 +87,19 @@
 			<p:column headerText="角色">
 				<p:cellEditor>
 					<f:facet name="output">
-						<p:selectOneMenu value="#{user.roleId}"
+						<h:outputText value="#{user.roleName}" />
+						<!-- <p:selectOneMenu value="#{user.roleId}"
 							style="width:100%;height:100%" disabled="true">
 							<f:selectItems value="#{userAction.roles}" var="role"
 								itemLabel="#{role.roleDesc}" itemValue="#{role.roleId}" />
-						</p:selectOneMenu>
+						</p:selectOneMenu> -->
 					</f:facet>
 					<f:facet name="input">
 						<p:selectOneMenu value="#{user.roleId}" effect="fade" var="t"
 							style="width:120px;" filter="true" filterMatchMode="startsWith"
 							panelStyle="width:150px">
 							<f:selectItems value="#{userAction.roles}" var="role"
-								itemLabel="#{role.roleDesc}" itemValue="#{role.roleId}" />
+								itemLabel="#{role.roleName}" itemValue="#{role.roleId}" />
 						</p:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
@@ -106,10 +107,21 @@
 			<p:column headerText="组织结构">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{user.orgId}" />
+						<h:outputText value="#{user.orgName}" />
+						<!-- <p:selectOneMenu value="#{user.orgId}"
+							style="width:100%;height:100%" disabled="true">
+							<f:selectItems itemLabel="" itemValue=""></f:selectItems>
+							<f:selectItems value="#{userAction.orgs}" var="org"
+								itemLabel="#{org.orgName}" itemValue="#{org.orgId}" />
+						</p:selectOneMenu> -->
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{user.orgId}" style="width:100%" />
+						<p:selectOneMenu value="#{user.orgId}" effect="fade" var="t"
+							style="width:120px;" filter="true" filterMatchMode="startsWith"
+							panelStyle="width:150px">
+							<f:selectItems value="#{userAction.orgs}" var="org"
+								itemLabel="#{org.orgName}" itemValue="#{org.orgId}" />
+						</p:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -168,16 +180,20 @@
 				<p:message for="phoneForm" />
 				<h:outputLabel for="roleIdForm" value="角色：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
-				<p:selectOneMenu id="roleIdForm" value="#{userAction.roleIdForm}"
-					styleClass="ct-fontsize">
-					<f:selectItem itemLabel="管理员" itemValue="管理员" />
+				<p:selectOneMenu id="roleIdForm" value="#{userAction.roleIdForm}" effect="fade" var="t"
+					style="width:120px;" filter="true" filterMatchMode="startsWith"
+					panelStyle="width:150px">
+					<f:selectItems value="#{userAction.roles}" var="role"
+						itemLabel="#{role.roleName}" itemValue="#{role.roleId}" />
 				</p:selectOneMenu>
 				<p:message for="roleIdForm" />
 				<h:outputLabel for="orgIdForm" value="组织结构："
 					style="font-weight:bold" styleClass="ct-fontsize" />
-				<p:selectOneMenu id="orgIdForm" value="#{userAction.orgIdForm}"
-					styleClass="ct-fontsize">
-					<f:selectItem itemLabel="研发" itemValue="研发" />
+				<p:selectOneMenu id="orgIdForm" value="#{userAction.orgIdForm}" effect="fade" var="t"
+					style="width:120px;" filter="true" filterMatchMode="startsWith"
+					panelStyle="width:150px">
+					<f:selectItems value="#{userAction.orgs}" var="org"
+						itemLabel="#{org.orgName}" itemValue="#{org.orgId}" />
 				</p:selectOneMenu>
 				<p:message for="orgIdForm" />
 				<h:outputLabel for="activeForm" value="是否启用："
@@ -191,7 +207,7 @@
 			</h:panelGrid>
 			<h:panelGrid columns="2">
 				<p:commandButton value="保存" validateClient="true"
-					action="#{userAction.addUser}" update="addUserPanelGrid"></p:commandButton>
+					action="#{userAction.addUser}" update="addUserPanelGrid usersTable"></p:commandButton>
 			</h:panelGrid>
 		</p:dialog>
 		<p:dialog id="userOpeAuthDialog" header="用户权限" widgetVar="dlg2"

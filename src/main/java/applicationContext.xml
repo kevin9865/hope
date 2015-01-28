@@ -78,11 +78,17 @@
 	<bean id="userServiceImpl" class="com.hope.systemManager.userManager.service.UserServiceImpl">
 		<property name="userDao" ref="userDaoImpl"></property>
 		<property name="roleDao" ref="roleDaoImpl"></property>
+		<property name="orgDao" ref="orgDaoImpl"></property>
 	</bean>
 	
 	<bean id="roleDaoImpl" class="com.hope.systemManager.roleManager.dao.RoleDaoImpl"/>
 	<bean id="roleServiceImpl" class="com.hope.systemManager.roleManager.service.RoleServiceImpl">
 		<property name="roleDao" ref="roleDaoImpl"></property>
+	</bean>
+	
+	<bean id="orgDaoImpl" class="com.hope.systemManager.orgManager.dao.OrgDaoImpl"/>
+	<bean id="orgServiceImpl" class="com.hope.systemManager.orgManager.service.OrgServiceImpl">
+		<property name="orgDao" ref="orgDaoImpl"></property>
 	</bean>
 	
 	<bean id="sysFunctionDaoImpl" class="com.hope.systemManager.functionManager.dao.SysFunctionDaoImpl"/>

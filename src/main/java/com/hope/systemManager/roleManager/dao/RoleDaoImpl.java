@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.hope.systemManager.orgManager.model.Org;
 import com.hope.systemManager.roleManager.model.Role;
 
 public class RoleDaoImpl implements RoleDao{
@@ -48,7 +49,9 @@ public class RoleDaoImpl implements RoleDao{
 		if(list.isEmpty()){
 			return null;
 		}else {
-			return list.get(0);
+			Role roleTemp=list.get(0);
+			//session.evict(roleTemp);
+			return roleTemp;
 		}
 	}
 

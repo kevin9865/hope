@@ -17,6 +17,8 @@ import org.primefaces.model.TreeNode;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 import com.hope.systemManager.functionManager.service.SysFunctionService;
+import com.hope.systemManager.orgManager.model.Org;
+import com.hope.systemManager.orgManager.service.OrgService;
 import com.hope.systemManager.roleManager.model.Role;
 import com.hope.systemManager.roleManager.modeltemp.SysFuncionTree;
 import com.hope.systemManager.roleManager.service.RoleService;
@@ -37,15 +39,52 @@ public class UserAction implements Serializable {
 	public void initUserList() {
 		users = userService.userQueryAll();
 		roles = roleService.roleQueryAll();
+		orgs=orgService.orgQueryAll();
+//		for(User u:users){
+//			for(Role r:roles){
+//				if(null==u.getRoleId()||u.getOrgId().equals("")){
+//					continue;
+//				}
+//				if(u.getRoleId().equals(r.getRoleId())){
+//					u.setRoleId(r.getRoleDesc());
+//				}
+//			}
+//			for(Org o:orgs){
+//				if(null==u.getOrgId()||u.getOrgId().equals("")){
+//					continue;
+//				}
+//				if(u.getOrgId().equals(o.getOrgId())){
+//					u.setOrgId(o.getOrgName());
+//				}
+//			}
+//		}
 	}
 
 	private UserService userService;
+	private RoleService roleService;
+	private SysFunctionService sysFunctionService;
+	private OrgService orgService;
 	private List<User> users;
 	private List<User> filteredUsers;
 	private List<User> selectedUsers;
 	private List<Role> roles;
-	private RoleService roleService;
-	private SysFunctionService sysFunctionService;
+	private List<Org> orgs;
+	
+	public OrgService getOrgService() {
+		return orgService;
+	}
+
+	public void setOrgService(OrgService orgService) {
+		this.orgService = orgService;
+	}
+
+	public List<Org> getOrgs() {
+		return orgs;
+	}
+
+	public void setOrgs(List<Org> orgs) {
+		this.orgs = orgs;
+	}
 
 	public SysFunctionService getSysFunctionService() {
 		return sysFunctionService;

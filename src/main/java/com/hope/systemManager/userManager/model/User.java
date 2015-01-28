@@ -27,6 +27,27 @@ public class User {
 	private String active;
 	// 权限操作
 	private String opeAuth;
+	// 角色名称
+	private String roleName;
+	// 组织结构名称
+	private String orgName;
+	
+	@Column(name = "ROLE_NAME")
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	@Column(name = "ORG_NAME")
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
 
 	@Column(name = "USER_ID")
 	public String getUserId() {

@@ -8,18 +8,29 @@ import javax.faces.bean.ApplicationScoped;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.dialect.Oracle10gDialect;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hope.systemManager.orgManager.dao.OrgDao;
+import com.hope.systemManager.orgManager.model.Org;
 import com.hope.systemManager.roleManager.dao.RoleDao;
 import com.hope.systemManager.roleManager.model.Role;
 import com.hope.systemManager.userManager.dao.UserDao;
 import com.hope.systemManager.userManager.model.User;
 
-@ApplicationScoped
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	private RoleDao roleDao;
-	
+	private OrgDao orgDao;
+
+	public OrgDao getOrgDao() {
+		return orgDao;
+	}
+
+	public void setOrgDao(OrgDao orgDao) {
+		this.orgDao = orgDao;
+	}
+
 	public RoleDao getRoleDao() {
 		return roleDao;
 	}
@@ -36,8 +47,25 @@ public class UserServiceImpl implements UserService {
 		this.userDao = userDao;
 	}
 
-	@Transactional(rollbackFor=Exception.class)
+	@Transactional
 	public void add(User user) {
+		if (null == user.getRoleId() || user.getRoleId().equals("")) {
+		} else {
+			Role role = new Role();
+			role.setRoleId(user.getRoleId());
+			Role roleQuery = roleDao.roleQuery(role);
+			user.setRoleName(roleQuery.getRoleName());
+			user.setOpeAuth(roleQuery.getOpeAuth());
+		}
+
+		if (null == user.getOrgId() || user.getOrgId().equals("")) {
+		} else {
+			Org org = new Org();
+			org.setOrgId(user.getOrgId());
+			Org orgQuery = orgDao.orgQuery(org);
+			user.setOrgName(orgQuery.getOrgName());
+		}
+
 		userDao.add(user);
 	}
 
@@ -48,17 +76,42 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public void update(User user) {
-		Role role=new Role();
-		role.setRoleId(user.getRoleId());
-		Role roleTemp=roleDao.roleQuery(role);
-		if (null==roleTemp) {
+		if (null == user.getRoleId() || user.getRoleId().equals("")) {
 			user.setRoleId(null);
 			user.setOpeAuth(null);
-			userDao.update(user);
-		}else {
-			user.setOpeAuth(roleTemp.getOpeAuth());
-			userDao.update(user);
+			user.setRoleName(null);
+		} else {
+			Role role = new Role();
+			role.setRoleId(user.getRoleId());
+			Role roleQuery = roleDao.roleQuery(role);
+			if (null == roleQuery) {
+				user.setRoleId(null);
+				user.setOpeAuth(null);
+				user.setRoleName(null);
+			} else {
+				User userQuery = userDao.userQuery(user);
+				if (!userQuery.getRoleId().equals(user.getRoleId())) {
+					user.setOpeAuth(roleQuery.getOpeAuth());
+					user.setRoleName(roleQuery.getRoleName());
+				}
+			}
 		}
+
+		if (null == user.getOrgId() || user.getOrgId().equals("")) {
+			user.setOrgName(null);
+		} else {
+			Org org = new Org();
+			org.setOrgId(user.getOrgId());
+			Org orgQuery = orgDao.orgQuery(org);
+			if (null == orgQuery) {
+				user.setOrgId(null);
+				user.setOrgName(null);
+			} else {
+				user.setOrgName(orgQuery.getOrgName());
+			}
+		}
+
+		userDao.update(user);
 	}
 
 	@Transactional
@@ -89,7 +142,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public void updateUserAuth(User user) {
-		User userTemp=userDao.userQuery(user);
+		User userTemp = userDao.userQuery(user);
 		userTemp.setOpeAuth(user.getOpeAuth());
 		userDao.update(userTemp);
 	}

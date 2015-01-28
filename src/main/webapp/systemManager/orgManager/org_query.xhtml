@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>orgQuery</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+<h:form id="orgForm">
+<p:dataTable id="orgsTable" var="org"
+			value="#{orgAction.orgs}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" editable="true"
+			widgetVar="orgTable"
+			filteredValue="#{orgAction.filteredOrgs}"
+			style="width:auto;height:auto;" styleClass="ct-fontsize"
+			selection="#{orgAction.selectedOrgs}"
+			rowKey="#{org.orgLineId}">
+			<p:ajax event="rowEdit" listener="#{orgAction.onRowEdit}" />
+			<p:ajax event="rowEditCancel"
+				listener="#{orgAction.onRowCancel}" />
+			<f:facet name="header">
+				<p:outputPanel style="text-align: right;">
+					<p:commandButton value="添加" type="button"
+						onclick="PF('dlg1').show();" />
+					<p:commandButton value="删除"
+						action="#{orgAction.deleteOrg}"
+						update="orgsTable" process="orgsTable" />
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter"
+						onkeyup="PF('orgTable').filter()" style="width:150px"
+						placeholder="Enter keyword" value="" />
+				</p:outputPanel>
+			</f:facet>
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+			<p:column headerText="组织行ID" style="text-align:center;">
+				<h:outputText value="#{org.orgLineId}" />
+			</p:column>
+			<p:column headerText="公司名称" filterBy="#{org.companyName}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{org.companyName}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{org.companyName}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="组织名称">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{org.orgName}"
+							styleClass="ct-fontsize" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{org.orgName}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="层级ID">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{org.levelId}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{org.levelId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="层级">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{org.levelGrade}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{org.levelGrade}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="组织结构ID">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{org.orgId}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{org.orgId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="是否启用" width="60" style="text-align:center;">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{org.active}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu value="#{org.active}" style="width:100%">
+							<f:selectItem itemLabel="Y" itemValue="Y" />
+							<f:selectItem itemLabel="N" itemValue="N" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+		<p:dialog id="orgDialog" header="功能添加" widgetVar="dlg1"
+			minHeight="80" styleClass="ct-fontsize">
+			<h:panelGrid columns="3" id="orgPanelGrid">
+				<h:outputLabel for="orgLineIdForm" value="行ID："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="orgLineIdForm"
+					value="#{orgAction.orgLineIdForm}" required="false"
+					requiredMessage="行ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="orgLineIdForm" />
+				<h:outputLabel for="companyNameForm" value="公司名称："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="companyNameForm"
+					value="#{orgAction.companyNameForm}" required="true"
+					requiredMessage="公司名称不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="companyNameForm" />
+				<h:outputLabel for="orgNameForm" value="组织名称："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="orgNameForm"
+					value="#{orgAction.orgNameForm}" required="true"
+					requiredMessage="组织名称不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="orgNameForm" />
+				<h:outputLabel for="levelIdForm" value="层级ID："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="levelIdForm"
+					value="#{orgAction.levelIdForm}" required="true"
+					requiredMessage="层级ID不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="levelIdForm" />
+				<h:outputLabel for="levelGradeForm" value="层级：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="levelGradeForm" value="#{orgAction.levelGradeForm}"
+					required="false" requiredMessage="层级不能为空" size="19"
+					styleClass="ct-fontsize" />
+				<p:message for="levelGradeForm" />
+				<h:outputLabel for="orgIdForm" value="组织ID：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="orgIdForm" value="#{orgAction.orgIdForm}"
+					required="false" requiredMessage="组织ID不能为空" size="19"
+					styleClass="ct-fontsize" />
+				<p:message for="orgIdForm" />
+				<h:outputLabel for="activeForm" value="是否启用："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:selectOneMenu id="activeForm"
+					value="#{orgAction.activeForm}" styleClass="ct-fontsize">
+					<f:selectItem itemLabel="是" itemValue="Y" />
+					<f:selectItem itemLabel="否" itemValue="N" />
+				</p:selectOneMenu>
+				<p:message for="activeForm" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{orgAction.addOrg}"
+					update="orgPanelGrid orgsTable"
+					process="orgPanelGrid orgsTable"></p:commandButton>
+			</h:panelGrid>
+		</p:dialog>
+</h:form>
+</h:body>
+</html>

@@ -84,6 +84,8 @@ public class LoginAction implements Serializable {
 		} else {
 			skip = "login";
 			this.httpSession.setAttribute("UserContext", user);
+			System.out.println("当前登录用户"
+					+ LoginAction.getCurrentUser().getUsercode());
 		}
 
 		return skip;

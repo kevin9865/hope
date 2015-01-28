@@ -47,7 +47,9 @@ public class UserDaoImpl implements UserDao {
 
 	public void update(User user) {
 		Session session = sessionFactory.getCurrentSession();
+		
 		session.update(user);
+		
 	}
 
 	public User userQuery(User user) {
@@ -58,7 +60,9 @@ public class UserDaoImpl implements UserDao {
 		if(list.isEmpty()){
 			return null;
 		}else{
-			return list.get(0);
+			User userTemp=list.get(0);
+			session.evict(userTemp);//释放session
+			return userTemp;
 		}
 	}
 

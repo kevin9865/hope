@@ -2,6 +2,7 @@ package com.hope.systemManager.orgManager.dao;
 
 import java.util.List;
 
+import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 import com.hope.systemManager.orgManager.model.Org;
 
 public interface OrgDao {

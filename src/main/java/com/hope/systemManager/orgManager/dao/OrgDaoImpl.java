@@ -23,26 +23,31 @@ public class OrgDaoImpl implements OrgDao {
 	
 	@Override
 	public void add(Org org) {
-		// TODO Auto-generated method stub
-
+		Session session = sessionFactory.getCurrentSession();
+		session.save(org);
 	}
 
 	@Override
 	public void delete(Org org) {
-		// TODO Auto-generated method stub
-
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(org);
 	}
 
 	@Override
 	public void update(Org org) {
-		// TODO Auto-generated method stub
-
+		Session session = sessionFactory.getCurrentSession();
+		session.update(org);
 	}
 
 	@Override
 	public Org orgQuery(Org org) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		List<Org> list=session.createQuery("from Org o where o.orgId='"+org.getOrgId()+"'").list();
+		if(list.isEmpty()){
+			return null;
+		}else {
+			return list.get(0);
+		}
 	}
 
 	@Override
