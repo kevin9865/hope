@@ -56,5 +56,11 @@ public class OrgDaoImpl implements OrgDao {
 		List<Org> list=session.createQuery("from Org o").list();
 		return list;
 	}
+	@Override
+	public String maxOrgLineId() {
+		Session session = sessionFactory.getCurrentSession();
+		String id=(String) session.createQuery("select max(o.orgLineId) from Org o").uniqueResult();
+		return id;
+	}
 
 }

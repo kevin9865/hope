@@ -63,4 +63,11 @@ public interface UserService {
 	 * @return
 	 */
 	public User userQuery(User user);
+	
+	/**
+	 * 获取用户最大userId
+	 * 
+	 * @return
+	 */
+	public String maxUserId();
 }

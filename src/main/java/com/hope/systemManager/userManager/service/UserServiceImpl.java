@@ -157,4 +157,13 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Transactional
+	public String maxUserId() {
+		if(null==userDao.maxUserId()){
+			return "1";
+		}else {
+			return String.valueOf(Integer.valueOf(userDao.maxUserId())+1);
+		}
+	}
+
 }

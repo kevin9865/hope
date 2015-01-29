@@ -52,5 +52,14 @@ public class OrgServiceImpl implements OrgService{
 			orgDao.delete(org);
 		}
 	}
+
+	@Transactional
+	public String maxOrgLineId() {
+		if(null==orgDao.maxOrgLineId()){
+			return "1";
+		}else {
+			return String.valueOf(Integer.valueOf(orgDao.maxOrgLineId())+1);
+		}
+	}
 	
 }

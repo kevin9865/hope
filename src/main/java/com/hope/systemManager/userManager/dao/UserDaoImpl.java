@@ -80,4 +80,11 @@ public class UserDaoImpl implements UserDao {
 		return list;
 	}
 
+	@Override
+	public String maxUserId() {
+		Session session = sessionFactory.getCurrentSession();
+		String id=(String) session.createQuery("select max(u.userId) from User u").uniqueResult();
+		return id;
+	}
+
 }

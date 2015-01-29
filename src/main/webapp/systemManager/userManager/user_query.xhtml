@@ -33,7 +33,10 @@
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
-						onclick="PF('dlg1').show();" />
+						onclick="PF('dlg1').show();">
+						<p:ajax listener="#{userAction.initAddUserDialog}"
+							oncomplete="PF('dlg1').show();" update=":userForm:addUserDialog"></p:ajax>
+					</p:commandButton>
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter" onkeyup="PF('userTable').filter()"
 						style="width:150px" placeholder="Enter keyword" />
@@ -135,6 +138,13 @@
 		<p:dialog id="addUserDialog" header="用户添加" widgetVar="dlg1"
 			minHeight="80" styleClass="ct-fontsize">
 			<h:panelGrid columns="3" id="addUserPanelGrid">
+				<h:outputLabel for="userIdForm" value="用户编号："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="userIdForm" value="#{userAction.userIdForm}"
+					required="true" requiredMessage="用户编号不能为空" size="19"
+					styleClass="ct-fontsize">
+				</p:inputText>
+				<p:message for="userIdForm" />
 				<h:outputLabel for="usernameForm" value="用户名："
 					style="font-weight:bold" styleClass="ct-fontsize" />
 				<p:inputText id="usernameForm" value="#{userAction.usernameForm}"
@@ -144,25 +154,20 @@
 					<p:ajax event="blur" update="usernameMsg"></p:ajax>
 				</p:inputText>
 				<p:message id="usernameMsg" for="usernameForm" />
-				<h:outputLabel for="userIdForm" value="用户编号："
+				<h:outputLabel for="passwordForm" value="密  码："
 					style="font-weight:bold" styleClass="ct-fontsize" />
-				<p:inputText id="userIdForm" value="#{userAction.userIdForm}"
-					required="true" requiredMessage="用户编号不能为空" size="19"
+				<p:password id="passwordForm" value="#{userAction.passwordForm}"
+					required="true" requiredMessage="密码不能为空" size="19"
 					styleClass="ct-fontsize">
-				</p:inputText>
-				<p:message for="userIdForm" />
+					<p:ajax event="blur" update="passwordMsg"></p:ajax>
+				</p:password>
+				<p:message id="passwordMsg" for="passwordForm" />
 				<h:outputLabel for="nameForm" value="姓名：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
 				<p:inputText id="nameForm" value="#{userAction.nameForm}"
 					required="true" requiredMessage="姓名不能为空" size="19"
 					styleClass="ct-fontsize" />
 				<p:message for="nameForm" />
-				<h:outputLabel for="passwordForm" value="密  码："
-					style="font-weight:bold" styleClass="ct-fontsize" />
-				<p:password id="passwordForm" value="#{userAction.passwordForm}"
-					required="true" requiredMessage="密码不能为空" size="19"
-					styleClass="ct-fontsize" />
-				<p:message for="passwordForm" />
 				<h:outputLabel for="emailForm" value="邮箱：" style="font-weight:bold"
 					styleClass="ct-fontsize" />
 				<p:inputText id="emailForm" value="#{userAction.emailForm}"

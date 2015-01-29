@@ -85,6 +85,16 @@ public class OrgAction {
 
 	}
 	/**
+	 * 初始化orgId
+	 */
+	public void initAddOrgDialog(){
+		try {
+			orgLineIdForm=orgService.maxOrgLineId();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * 增加组织结构
 	 */
 	public void addOrg(){

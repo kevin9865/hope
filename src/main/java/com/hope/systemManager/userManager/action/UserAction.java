@@ -220,6 +220,15 @@ public class UserAction implements Serializable {
 					FacesMessage.SEVERITY_ERROR, "用户名存在", "用户名存在"));
 		}
 	}
+	
+	public void initAddUserDialog(){
+		try {
+			userIdForm=userService.maxUserId();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	/**
 	 * 增加用户

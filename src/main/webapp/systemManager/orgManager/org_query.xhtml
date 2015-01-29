@@ -26,7 +26,10 @@
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
-						onclick="PF('dlg1').show();" />
+						onclick="PF('dlg1').show();">
+						<p:ajax listener="#{orgAction.initAddOrgDialog}"
+							oncomplete="PF('dlg1').show();" update=":orgForm:addOrgDialog"></p:ajax>
+					</p:commandButton>
 					<p:commandButton value="删除"
 						action="#{orgAction.deleteOrg}"
 						update="orgsTable" process="orgsTable" />
@@ -51,7 +54,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="组织名称">
+			<p:column headerText="组织名称" filterBy="#{org.orgName}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{org.orgName}"
@@ -72,7 +75,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="层级">
+			<p:column headerText="层级" style="text-align:center;">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{org.levelGrade}" />
@@ -82,7 +85,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="组织结构ID">
+			<p:column headerText="组织结构ID" filterBy="#{org.orgId}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{org.orgId}" />
@@ -109,14 +112,13 @@
 				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
-		<p:dialog id="orgDialog" header="功能添加" widgetVar="dlg1"
+		<p:dialog id="addOrgDialog" header="功能添加" widgetVar="dlg1"
 			minHeight="80" styleClass="ct-fontsize">
 			<h:panelGrid columns="3" id="orgPanelGrid">
 				<h:outputLabel for="orgLineIdForm" value="行ID："
 					style="font-weight:bold" styleClass="ct-fontsize" />
 				<p:inputText id="orgLineIdForm"
-					value="#{orgAction.orgLineIdForm}" required="false"
-					requiredMessage="行ID不能为空" size="19" styleClass="ct-fontsize" />
+					value="#{orgAction.orgLineIdForm}" readonly="true" size="19" styleClass="ct-fontsize" />
 				<p:message for="orgLineIdForm" />
 				<h:outputLabel for="companyNameForm" value="公司名称："
 					style="font-weight:bold" styleClass="ct-fontsize" />
