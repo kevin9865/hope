@@ -51,6 +51,10 @@
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>/WEB-INF/faces-config.xml</param-value>
 	</context-param>
+	<context-param>  
+	  <param-name>primefaces.THEME</param-name>  
+	  <param-value>hot-sneaks</param-value>  
+	</context-param> 
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

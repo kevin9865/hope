@@ -4,32 +4,33 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:head>
 	<title>hope</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
-	<p:layout fullPage="true">
-		<p:layoutUnit position="north" size="40" style="">
+	<pe:layout fullPage="true">
+		<pe:layoutPane position="north" size="40">
 			<div style="text-align: right;">
 				<p:commandLink action="#{mainAction.logout()}" value="注销"
 					style="margin-right:10px;width:60px;height:25px;font-size:10px;" />
 			</div>
-		</p:layoutUnit>
-		<p:layoutUnit position="south" size="100" rendered="false">
-		</p:layoutUnit>
-		<p:layoutUnit position="west" size="200" header="菜单"
+		</pe:layoutPane>
+		<pe:layoutPane position="south" size="100" rendered="false">
+		</pe:layoutPane>
+		<pe:layoutPane position="west" size="200" header="菜单"
 			resizable="true" collapsible="true" styleClass="ct-fontsize"
 			style="font-weight:bold">
 			<h:form id="menuForm">
 				<p:panelMenu model="#{mainAction.panelMenu}" id="panelMenu" />
 			</h:form>
-		</p:layoutUnit>
-		<p:layoutUnit position="east" size="200" rendered="false">
-		</p:layoutUnit>
-		<p:layoutUnit position="center">
+		</pe:layoutPane>
+		<pe:layoutPane position="east" size="200" rendered="false">
+		</pe:layoutPane>
+		<pe:layoutPane position="center">
 			<p:growl id="msgs" showDetail="true" />
 			<p:tabView value="#{mainAction.tabs}" var="tab" id="tabView"
 				style="height:auto;border:1px;"
@@ -44,7 +45,7 @@
 						marginheight="0" marginwidth="0" src="#{tab.url}"></iframe>
 				</p:tab>
 			</p:tabView>
-		</p:layoutUnit>
-	</p:layout>
+		</pe:layoutPane>
+	</pe:layout>
 </h:body>
 </html>

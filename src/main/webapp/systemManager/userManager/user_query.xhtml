@@ -24,6 +24,7 @@
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			editable="true" widgetVar="userTable"
 			filteredValue="#{userAction.filteredUsers}"
+			rowsPerPageTemplate="5,10,15"
 			selection="#{userAction.selectedUsers}" rowKey="#{user.username}"
 			style="width:auto;height:auto;" styleClass="ct-fontsize">
 			<p:ajax event="rowEdit" listener="#{userAction.onRowEdit}" />
