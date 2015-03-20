@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>routineApproveConfirm</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form id="approveInputForm">
+		<h:panelGrid columns="2">
+			<h:outputLabel for="" value="标题：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputText value="#{routineApproveConfirmAction.title}" size="19"
+				styleClass="ct-fontsize" />
+			<h:outputLabel for="" value="内容：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputTextarea value="#{routineApproveConfirmAction.content}" rows="5"
+				cols="30" maxlength="10" autoResize="false" styleClass="ct-fontsize" />
+		</h:panelGrid>
+		<hr />
+		<p:dataTable var="app" value="#{routineApproveConfirmAction.approvers}"
+			style="width:400px;" styleClass="ct-fontsize">
+			<p:column headerText="选择" width="30" style="text-align:center;">
+				<h:selectBooleanCheckbox value="#{app.select}" />
+			</p:column>
+			<p:column headerText="审批项">
+				<h:outputText value="#{app.roleName}" />
+			</p:column>
+			<p:column headerText="审批人" width="80">
+				<h:outputText value="#{app.name}" />
+			</p:column>
+		</p:dataTable>
+		<br />
+		<h:panelGrid style="text-align:center;" width="100%">
+			<p:commandButton id="submit" value="提交" styleClass="ct-fontsize"
+				action="#{routineApproveConfirmAction.submit}" update="growl submit" disabled="#{routineApproveConfirmAction.buttonDisabled}"></p:commandButton>
+		</h:panelGrid>
+		<p:growl id="growl" life="3000"/> 
+	</h:form>
+</h:body>
+</html>

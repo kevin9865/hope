@@ -96,7 +96,37 @@
 			<value>#{sysFunctionOperationServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
-
+	
+	<managed-bean>
+		<managed-bean-name>routineApproveAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.RoutineApproveAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>routineApproveService</property-name>
+			<value>#{routineApproveServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>routineApproveConfirmAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.RoutineApproveConfirmAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>approveOperateService</property-name>
+			<value>#{approveOperateRoutineServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>approveTaskAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.ApproveTaskAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>approveTaskService</property-name>
+			<value>#{approveTaskServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
 		<navigation-case>
@@ -115,17 +145,10 @@
 	</navigation-rule>
 
 	<navigation-rule>
-		<from-view-id>/login-prime.xhtml</from-view-id>
+		<from-view-id>/systemManager/approveManager/routine_approve.xhtml</from-view-id>
 		<navigation-case>
-			<from-outcome>login</from-outcome>
-			<to-view-id>/main-prime.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<from-view-id>/main-prime.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>logout</from-outcome>
-			<to-view-id>/login-prime.xhtml</to-view-id>
+			<from-outcome>approve</from-outcome>
+			<to-view-id>/systemManager/approveManager/routine_approve_confirm.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>

@@ -47,9 +47,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void update(User user) {
 		Session session = sessionFactory.getCurrentSession();
-		
 		session.update(user);
-		
 	}
 
 	public User userQuery(User user) {

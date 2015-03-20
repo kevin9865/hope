@@ -37,6 +37,7 @@
 				<value>com.hope.systemManager.functionManager.model</value>
 				<value>com.hope.systemManager.orgManager.model</value>
 				<value>com.hope.systemManager.roleManager.model</value>
+				<value>com.hope.systemManager.approveManager.model</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -100,4 +101,25 @@
 	<bean id="sysFunctionOperationServiceImpl" class="com.hope.systemManager.functionManager.service.SysFunctionOperationServiceImpl">
 		<property name="sysFunctionOperationDao" ref="sysFunctionOperationDaoImpl"></property>
 	</bean>
+	
+	
+	<bean id="approveContentHeaderDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveContentHeaderDaoImpl"/>
+	<bean id="approveContentItemDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveContentItemDaoImpl"/>
+	<bean id="approveContentPersonDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveContentPersonDaoImpl"/>
+	
+	<bean id="approveFlowHeaderDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveFlowHeaderDaoImpl"/>
+	<bean id="routineApproveServiceImpl" class="com.hope.systemManager.approveManager.service.RoutineApproveServiceImpl">
+		<property name="approveFlowHeaderDao" ref="approveFlowHeaderDaoImpl"></property>
+	</bean>
+	
+	<bean id="approveOperateRoutineServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveOperateRoutineServiceImpl">
+		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+		<property name="approveContentItemDao" ref="approveContentItemDaoImpl"></property>
+		<property name="approveContentPersonDao" ref="approveContentPersonDaoImpl"></property>
+	</bean>
+	
+	<bean id="approveTaskServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveTaskServiceImpl">
+		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+	</bean>
+	
 </beans>

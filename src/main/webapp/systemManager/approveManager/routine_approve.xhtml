@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>RoutineApprove</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form id="routineApproveForm">
+		<h:panelGrid columns="3" id="routineApprovePanelGrid">
+			<h:outputLabel for="" value="标题：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputText id="titleForm" value="#{routineApproveAction.title}" size="19"
+				styleClass="ct-fontsize" requiredMessage="标题为空" required="true"/>
+			<p:message for="titleForm" />
+			<h:outputLabel for="" value="内容：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputTextarea id="contentForm" value="#{routineApproveAction.content}" rows="5" cols="30"
+			 	autoResize="false" styleClass="ct-fontsize" requiredMessage="内容为空" required="true"/>
+			<p:message for="contentForm" />
+		</h:panelGrid>
+		<br/>
+		<h:panelGrid style="text-align:center;" width="100%">
+			<p:commandButton value="提交审批" validateClient="true"
+				styleClass="ct-fontsize" action="#{routineApproveAction.submit()}" update="routineApprovePanelGrid"></p:commandButton>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

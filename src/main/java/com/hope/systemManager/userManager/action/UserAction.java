@@ -1,7 +1,6 @@
 package com.hope.systemManager.userManager.action;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import com.hope.systemManager.roleManager.modeltemp.SysFuncionTree;
 import com.hope.systemManager.roleManager.service.RoleService;
 import com.hope.systemManager.userManager.model.User;
 import com.hope.systemManager.userManager.service.UserService;
-import com.hope.util.Tools;
 
 public class UserAction implements Serializable {
 
