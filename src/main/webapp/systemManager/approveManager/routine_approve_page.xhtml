@@ -5,11 +5,36 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>routineApproveForm</title>
+	<title>routineApprovePage</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
-	日常审批form
+	<h:form id="approvePageForm">
+		<h:panelGrid columns="2">
+			<h:outputLabel for="" value="标题：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputText value="#{routineApprovePageAction.title}"
+				styleClass="ct-fontsize" />
+			<h:outputLabel for="" value="内容：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputTextarea value="#{routineApprovePageAction.content}" rows="5"
+				cols="30" maxlength="10" autoResize="false" styleClass="ct-fontsize" />
+		</h:panelGrid>
+		<hr />
+		<p:dataTable var="app" value="#{routineApprovePageAction.approvers}"
+			style="width:400px;" styleClass="ct-fontsize">
+			<p:column headerText="选择" width="30" style="text-align:center;">
+				<h:selectBooleanCheckbox value="#{app.select}" />
+			</p:column>
+			<p:column headerText="审批项">
+				<h:outputText value="#{app.roleName}" />
+			</p:column>
+			<p:column headerText="审批人" width="80">
+				<h:outputText value="#{app.name}" />
+			</p:column>
+		</p:dataTable>
+		<br />
+	</h:form>
 </h:body>
 </html>

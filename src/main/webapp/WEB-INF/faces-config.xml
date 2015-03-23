@@ -127,6 +127,16 @@
 		</managed-property>
 	</managed-bean>
 	
+	<managed-bean>
+		<managed-bean-name>routineApprovePageAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.RoutineApprovePageAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>routineApprovePageService</property-name>
+			<value>#{routineApprovePageServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
 		<navigation-case>

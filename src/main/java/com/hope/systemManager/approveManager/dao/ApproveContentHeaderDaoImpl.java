@@ -44,13 +44,20 @@ public class ApproveContentHeaderDaoImpl implements ApproveContentHeaderDao{
 
 	@Override
 	public ApproveContentHeader query(ApproveContentHeader approveContentHeader) {
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a where a.contentHeaderId='"+approveContentHeader.getContentHeaderId()+"'").list();
+		if(list.isEmpty()){
+			return null;
+		}else {
+			ApproveContentHeader cHeader=list.get(0);
+			return cHeader;
+		}
 	}
 
 	@Override
 	public List<ApproveContentHeader> queryAll() {
 		Session session = sessionFactory.getCurrentSession();
-		List<ApproveContentHeader> list = session.createQuery("from ApproveContentHeader a").list();
+		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a").list();
 		return list;
 	}
 

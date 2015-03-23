@@ -122,4 +122,7 @@
 		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
 	</bean>
 	
+	<bean id="routineApprovePageServiceImpl" class="com.hope.systemManager.approveManager.service.RoutineApprovePageServiceImpl">
+		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+	</bean>
 </beans>
