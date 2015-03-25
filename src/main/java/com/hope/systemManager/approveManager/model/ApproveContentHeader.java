@@ -29,10 +29,43 @@ public class ApproveContentHeader {
 	private Date submittime;
 	// 当前状态
 	private String status;
+	//当前审批人
+	private String currentApprover;
+	//开始审批时间
+	private Date starttime;
+	//跳转链接地址
+	private String url;
 	// 审批内容行项
 	private List<ApproveContentItem> approveContentItems = new ArrayList<ApproveContentItem>();
 	// 审批人员
 	private List<ApproveContentPerson> approveContentPersons = new ArrayList<ApproveContentPerson>();
+	
+	@Column(name = "URL")
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@Column(name = "CURRENT_APPROVER")
+	public String getCurrentApprover() {
+		return currentApprover;
+	}
+
+	public void setCurrentApprover(String currentApprover) {
+		this.currentApprover = currentApprover;
+	}
+	
+	@Column(name = "STARTTIME")
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
 
 	@Id
 	@Column(name = "CONTENT_HEADER_ID")

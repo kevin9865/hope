@@ -26,6 +26,10 @@ public class RoutineApproveAction {
 		this.routineApproveService = routineApproveService;
 	}
 
+	/**
+	 * 提交日常审批草稿
+	 * @return
+	 */
 	public String submit() {
 		try {
 			Map<String, Object> headerMap = new HashMap<String, Object>();

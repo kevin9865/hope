@@ -10,31 +10,63 @@
 	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
-	<h:form id="approvePageForm">
+	<h:form id="routineApprovePageForm">
 		<h:panelGrid columns="2">
 			<h:outputLabel for="" value="标题：" style="font-weight:bold"
 				styleClass="ct-fontsize" />
 			<p:inputText value="#{routineApprovePageAction.title}"
-				styleClass="ct-fontsize" />
+				styleClass="ct-fontsize" readonly="true" style="width:200px;" />
 			<h:outputLabel for="" value="内容：" style="font-weight:bold"
 				styleClass="ct-fontsize" />
-			<p:inputTextarea value="#{routineApprovePageAction.content}" rows="5"
-				cols="30" maxlength="10" autoResize="false" styleClass="ct-fontsize" />
+			<p:inputTextarea value="#{routineApprovePageAction.content}"
+				rows="10" cols="80" styleClass="ct-fontsize" readonly="true" />
 		</h:panelGrid>
 		<hr />
-		<p:dataTable var="app" value="#{routineApprovePageAction.approvers}"
-			style="width:400px;" styleClass="ct-fontsize">
-			<p:column headerText="选择" width="30" style="text-align:center;">
-				<h:selectBooleanCheckbox value="#{app.select}" />
+		<p:dataTable id="approversTable" var="app"
+			value="#{routineApprovePageAction.approvers}"
+			styleClass="ct-fontsize" style="text-align:center">
+			<p:column headerText="操作环节" width="100">
+				<h:outputText value="#{app.nodeName}" />
 			</p:column>
-			<p:column headerText="审批项">
-				<h:outputText value="#{app.roleName}" />
+			<p:column headerText="操作人员" width="30">
+				<h:outputText value="#{app.username}" />
 			</p:column>
-			<p:column headerText="审批人" width="80">
-				<h:outputText value="#{app.name}" />
+			<p:column headerText="操作" width="30">
+				<h:outputText value="#{app.approveResult}" />
+			</p:column>
+			<p:column headerText="操作时间" width="100">
+				<h:outputText value="#{app.endTime}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT+8" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="操作备注" width="400">
+				<h:outputText value="#{app.remark}" />
 			</p:column>
 		</p:dataTable>
 		<br />
+		<h:panelGrid columns="2"
+			rendered="#{routineApprovePageAction.buttonPanelRendered}">
+			<h:outputLabel for="" value="备注：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:inputTextarea value="#{routineApprovePageAction.remark}" rows="5"
+				cols="50" styleClass="ct-fontsize" />
+		</h:panelGrid>
+		<br />
+		<h:panelGrid width="100%" columns="2" id="buttonPanel"
+			rendered="#{routineApprovePageAction.buttonPanelRendered}">
+			<h:panelGrid width="100%" style="text-align:right;">
+				<p:commandButton value="同意" styleClass="ct-fontsize"
+					action="#{routineApprovePageAction.argee}"
+					disabled="#{routineApprovePageAction.buttonDisabled}"
+					update="buttonPanel approversTable"></p:commandButton>
+			</h:panelGrid>
+			<h:panelGrid width="100%" style="text-align:left;">
+				<p:commandButton value="不同意" styleClass="ct-fontsize"
+					action="#{routineApprovePageAction.refuse}"
+					disabled="#{routineApprovePageAction.buttonDisabled}"
+					update="buttonPanel approversTable"></p:commandButton>
+			</h:panelGrid>
+		</h:panelGrid>
 	</h:form>
 </h:body>
 </html>

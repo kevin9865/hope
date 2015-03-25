@@ -37,8 +37,8 @@ public class ApproveContentPersonDaoImpl implements ApproveContentPersonDao{
 
 	@Override
 	public void update(ApproveContentPerson approveContentPerson) {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.update(approveContentPerson);
 	}
 
 	@Override

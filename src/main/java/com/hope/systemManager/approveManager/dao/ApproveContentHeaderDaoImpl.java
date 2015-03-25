@@ -69,9 +69,24 @@ public class ApproveContentHeaderDaoImpl implements ApproveContentHeaderDao{
 	}
 
 	@Override
-	public List<ApproveContentHeader> query(String currentApprover) {
+	public List<ApproveContentHeader> currentApproverQuery(String currentApprover) {
 		Session session = sessionFactory.getCurrentSession();
-		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a inner join fetch a.approveContentPersons as p where p.username='"+currentApprover+"' and p.status='Y'").list();
+		//List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a inner join fetch a.approveContentPersons as p where p.username='"+currentApprover+"' and p.status='Y' order by a.contentHeaderId desc").list();
+		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a where a.currentApprover='"+currentApprover+"' order by a.contentHeaderId desc").list();
+		return list;
+	}
+	
+	@Override
+	public List<ApproveContentHeader> approverQuery(String currentApprover) {
+		Session session = sessionFactory.getCurrentSession();
+		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a inner join fetch a.approveContentPersons as p where p.username='"+currentApprover+"' and p.status='N' order by a.contentHeaderId desc").list();
+		return list;
+	}
+
+	@Override
+	public List<ApproveContentHeader> submitterQuery(String submitter) {
+		Session session = sessionFactory.getCurrentSession();
+		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a where a.submitter='"+submitter+"' order by a.contentHeaderId desc").list();
 		return list;
 	}
 

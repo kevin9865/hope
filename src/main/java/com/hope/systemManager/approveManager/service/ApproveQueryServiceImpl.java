@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hope.systemManager.approveManager.dao.ApproveContentHeaderDao;
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
 
-public class ApproveTaskServiceImpl implements ApproveTaskService{
+public class ApproveQueryServiceImpl implements ApproveQueryService{
 
 	private ApproveContentHeaderDao approveContentHeaderDao;
 
@@ -21,8 +21,8 @@ public class ApproveTaskServiceImpl implements ApproveTaskService{
 	}
 
 	@Transactional
-	public List<ApproveContentHeader> query(String currentApprover) {
-		List<ApproveContentHeader> list=approveContentHeaderDao.currentApproverQuery(currentApprover);
+	public List<ApproveContentHeader> query(String submitter) {
+		List<ApproveContentHeader> list=approveContentHeaderDao.submitterQuery(submitter);
 		return list;
 	}
 

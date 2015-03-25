@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import org.primefaces.context.RequestContext;
 
 import com.hope.systemManager.approveManager.dao.ApproveFlowHeaderDao;
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
@@ -19,11 +22,8 @@ import com.hope.systemManager.approveManager.util.SessionTools;
 import com.hope.util.Tools;
 
 public class RoutineApproveConfirmAction {
-
-	public RoutineApproveConfirmAction() {
-		init();
-	}
 	
+	@PostConstruct
 	public void init(){
 		try {
 			buttonDisabled=false;
@@ -73,9 +73,12 @@ public class RoutineApproveConfirmAction {
 		this.approveContentHeader = approveContentHeader;
 	}
 
+	/**
+	 * 提交日常审批
+	 */
 	public void submit() {
 		try {
-			approveOperateService.setUrl("");
+			approveOperateService.setUrl("./routine_approve_page.jsf?id=");
 			approveOperateService.setApproveContentHeader(approveContentHeader);
 			approveOperateService.setIndex(0);
 			approveOperateService.submit();
@@ -83,14 +86,16 @@ public class RoutineApproveConfirmAction {
 			e.printStackTrace();
 		}
 		
-		addMessage("提交成功");
+		RequestContext rc = RequestContext.getCurrentInstance();
+		rc.execute("alert('提交成功');");
+		//addMessage("提交成功");
 		buttonDisabled=true;
 	}
 	
-	public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+//	public void addMessage(String summary) {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+//        FacesContext.getCurrentInstance().addMessage(null, message);
+//    }
 
 	/**
 	 * 表单

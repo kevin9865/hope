@@ -14,15 +14,18 @@ public class ApproveTaskAction {
 
 	@PostConstruct
 	public void init() {
-		String currentApprovers = LoginAction.getCurrentUser().getUsername();
-		approveContentHeaders = approveTaskService.query(currentApprovers);
-
+		try {
+			String currentApprovers = LoginAction.getCurrentUser().getUsername();
+			approveContentHeaders = approveTaskService.query(currentApprovers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 
 	private ApproveTaskService approveTaskService;
 	private List<ApproveContentHeader> approveContentHeaders;
 	private List<ApproveContentHeader> filteredApproveContentHeaders;
-	private List<ApproveContentHeader> selectedApproveContentHeaders;
+	//private List<ApproveContentHeader> selectedApproveContentHeaders;
 
 	public List<ApproveContentHeader> getFilteredApproveContentHeaders() {
 		return filteredApproveContentHeaders;
@@ -33,14 +36,14 @@ public class ApproveTaskAction {
 		this.filteredApproveContentHeaders = filteredApproveContentHeaders;
 	}
 
-	public List<ApproveContentHeader> getSelectedApproveContentHeaders() {
-		return selectedApproveContentHeaders;
-	}
-
-	public void setSelectedApproveContentHeaders(
-			List<ApproveContentHeader> selectedApproveContentHeaders) {
-		this.selectedApproveContentHeaders = selectedApproveContentHeaders;
-	}
+//	public List<ApproveContentHeader> getSelectedApproveContentHeaders() {
+//		return selectedApproveContentHeaders;
+//	}
+//
+//	public void setSelectedApproveContentHeaders(
+//			List<ApproveContentHeader> selectedApproveContentHeaders) {
+//		this.selectedApproveContentHeaders = selectedApproveContentHeaders;
+//	}
 
 	public List<ApproveContentHeader> getApproveContentHeaders() {
 		return approveContentHeaders;
@@ -59,19 +62,18 @@ public class ApproveTaskAction {
 		this.approveTaskService = approveTaskService;
 	}
 
-	/**
-	 * 选择功能Table
-	 * 
-	 * @param event
-	 */
-	public void onRowSelect(SelectEvent event) {
-		try {
-			ApproveContentHeader cHeader = (ApproveContentHeader) event
-					.getObject();
-			System.out.println(cHeader.getContentTitle());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	/**
+//	 * 选择功能Table
+//	 * 
+//	 * @param event
+//	 */
+//	public void onRowSelect(SelectEvent event) {
+//		try {
+//			ApproveContentHeader cHeader = (ApproveContentHeader) event
+//					.getObject();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

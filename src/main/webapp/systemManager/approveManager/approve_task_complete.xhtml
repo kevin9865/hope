@@ -5,24 +5,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>approveTaskQuery</title>
+	<title>approveTaskComplete</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
-	<h:form id="approveTaskQueryForm">
+	<h:form id="approveTaskCompleteForm">
 		<p:dataTable id="headersTable" var="headers"
-			value="#{approveTaskAction.approveContentHeaders}" rows="10"
+			value="#{approveTaskCompleteAction.approveContentHeaders}" rows="10"
 			paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			editable="false" widgetVar="headerTable"
 			filteredValue="#{userAction.filteredUsers}"
 			rowsPerPageTemplate="5,10,15"
-			selection="#{approveTaskAction.selectedApproveContentHeaders}"
+			selection="#{approveTaskCompleteAction.selectedApproveContentHeaders}"
 			rowKey="#{headers.contentHeaderId}" style="width:auto;height:auto;"
 			styleClass="ct-fontsize">
 			<p:ajax event="rowDblselect"
-				listener="#{approveTaskAction.onRowSelect}" />
+				listener="#{approveTaskCompleteAction.onRowSelect}" />
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<h:outputText value="Search all fields:" />
@@ -36,8 +36,7 @@
 				<h:outputText value="#{headers.contentHeaderId}" />
 			</p:column>
 			<p:column headerText="标题" filterBy="#{headers.contentTitle}">
-				<h:outputLink
-					value="#{headers.url}"
+				<h:outputLink value="#{headers.url}"
 					rendered="true" target="_blank">
 					<h:outputText value="#{headers.contentTitle}" />
 				</h:outputLink>

@@ -15,11 +15,11 @@
 			<h:outputLabel for="" value="标题：" style="font-weight:bold"
 				styleClass="ct-fontsize" />
 			<p:inputText value="#{routineApproveConfirmAction.title}" size="19"
-				styleClass="ct-fontsize" />
+				styleClass="ct-fontsize"  style="width:200px;" />
 			<h:outputLabel for="" value="内容：" style="font-weight:bold"
 				styleClass="ct-fontsize" />
-			<p:inputTextarea value="#{routineApproveConfirmAction.content}" rows="5"
-				cols="30" maxlength="10" autoResize="false" styleClass="ct-fontsize" />
+			<p:inputTextarea value="#{routineApproveConfirmAction.content}" rows="10"
+				cols="80" styleClass="ct-fontsize" />
 		</h:panelGrid>
 		<hr />
 		<p:dataTable var="app" value="#{routineApproveConfirmAction.approvers}"

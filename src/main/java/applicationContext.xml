@@ -112,13 +112,21 @@
 		<property name="approveFlowHeaderDao" ref="approveFlowHeaderDaoImpl"></property>
 	</bean>
 	
-	<bean id="approveOperateRoutineServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveOperateRoutineServiceImpl">
+	<bean id="approveOperateServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveOperateServiceImpl">
 		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
 		<property name="approveContentItemDao" ref="approveContentItemDaoImpl"></property>
 		<property name="approveContentPersonDao" ref="approveContentPersonDaoImpl"></property>
 	</bean>
 	
 	<bean id="approveTaskServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveTaskServiceImpl">
+		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+	</bean>
+	
+	<bean id="approveQueryServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveQueryServiceImpl">
+		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+	</bean>
+	
+	<bean id="approveTaskCompleteServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveTaskCompleteServiceImpl">
 		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
 	</bean>
 	

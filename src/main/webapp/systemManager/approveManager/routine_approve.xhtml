@@ -15,12 +15,12 @@
 			<h:outputLabel for="" value="标题：" style="font-weight:bold"
 				styleClass="ct-fontsize" />
 			<p:inputText id="titleForm" value="#{routineApproveAction.title}" size="19"
-				styleClass="ct-fontsize" requiredMessage="标题为空" required="true"/>
+				styleClass="ct-fontsize" requiredMessage="标题为空" required="true" style="width:200px;"/>
 			<p:message for="titleForm" />
 			<h:outputLabel for="" value="内容：" style="font-weight:bold"
 				styleClass="ct-fontsize" />
-			<p:inputTextarea id="contentForm" value="#{routineApproveAction.content}" rows="5" cols="30"
-			 	autoResize="false" styleClass="ct-fontsize" requiredMessage="内容为空" required="true"/>
+			<p:inputTextarea id="contentForm" value="#{routineApproveAction.content}" rows="10" cols="80"
+			 	styleClass="ct-fontsize" requiredMessage="内容为空" required="true"/>
 			<p:message for="contentForm" />
 		</h:panelGrid>
 		<br/>

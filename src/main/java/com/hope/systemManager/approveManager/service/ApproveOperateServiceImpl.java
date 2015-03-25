@@ -1,6 +1,7 @@
 package com.hope.systemManager.approveManager.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,22 +17,22 @@ import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.userManager.model.User;
 import com.hope.util.Tools;
 
-public class ApproveOperateRoutineServiceImpl implements ApproveOperateService{
+public class ApproveOperateServiceImpl implements ApproveOperateService{
 	
 	private ApproveContentHeaderDao approveContentHeaderDao;
 	private ApproveContentItemDao approveContentItemDao;
 	private ApproveContentPersonDao approveContentPersonDao;
 	
 	private ApproveContentHeader approveContentHeader;
-	private String url;
 	private int index;
+	private String url;
+	
+	public void setUrl(String url){
+		this.url=url;
+	}
 
 	public void setIndex(int index) {
 		this.index = index;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public void setApproveContentHeader(ApproveContentHeader approveContentHeader) {
@@ -74,7 +75,7 @@ public class ApproveOperateRoutineServiceImpl implements ApproveOperateService{
 		cHeader.setContentHeader(approveContentHeader.getContentHeader());
 		cHeader.setContentTitle(approveContentHeader.getContentTitle());
 		cHeader.setHeaderId(approveContentHeader.getHeaderId());
-		approveContentHeaderDao.add(cHeader);
+		cHeader.setUrl(url+cHeader.getContentHeaderId());
 		
 		for(ApproveContentItem cItem:approveContentHeader.getApproveContentItems()){
 			cItem.setContentHeaderId(cHeader.getContentHeaderId());
@@ -87,18 +88,74 @@ public class ApproveOperateRoutineServiceImpl implements ApproveOperateService{
 			if(cPerson.getNodeIndex()==(index+1)){
 				cPerson.setCreateTime(new Date());
 				cPerson.setStatus("Y");
+				
+				//设置当前用户名和开始时间
+				cHeader.setCurrentApprover(cPerson.getUsername());
+				cHeader.setStarttime(cPerson.getCreateTime());
 			}
 			approveContentPersonDao.add(cPerson);
 		}
 		
+		approveContentHeaderDao.add(cHeader);
 	}
 	
-	public void agree(ApproveContentHeader approveContentHeader,String name) {
+	@Transactional
+	public void agree(ApproveContentHeader approveContentHeader,String username,String remark) {
+		List<ApproveContentPerson> list=approveContentHeader.getApproveContentPersons();
+		int size=list.size();
 		
+		for(int i=0;i<size;i++){
+			ApproveContentPerson person=list.get(i);
+			if(person.getUsername().equals(username)){
+				person.setEndTime(new Date());
+				person.setApproveResult("同意");
+				person.setRemark(remark);
+				person.setStatus("N");
+				approveContentPersonDao.update(person);
+				
+				
+				if(size==person.getNodeIndex()){
+					break;
+				}else {
+					ApproveContentPerson personNext=list.get(i+1);
+					personNext.setCreateTime(new Date());
+					personNext.setStatus("Y");
+					approveContentPersonDao.update(personNext);
+					
+					approveContentHeader.setCurrentApprover(personNext.getUsername());
+					approveContentHeader.setStarttime(personNext.getCreateTime());
+					approveContentHeaderDao.update(approveContentHeader);
+					//发邮件通知
+				}
+			}
+		}
 	}
 	
-	public void refuse(ApproveContentHeader approveContentHeader,String name) {
+	@Transactional
+	public void refuse(ApproveContentHeader approveContentHeader,String username,String remark) {
+		List<ApproveContentPerson> list=approveContentHeader.getApproveContentPersons();
+		int size=list.size();
 		
+		approveContentHeader.setCurrentApprover(null);
+		approveContentHeader.setStarttime(null);
+		approveContentHeader.setStatus("审批驳回");
+		approveContentHeaderDao.update(approveContentHeader);
+		
+		for(int i=0;i<size;i++){
+			ApproveContentPerson person=list.get(i);
+			if(person.getUsername().equals(username)){
+				person.setEndTime(new Date());
+				person.setApproveResult("不同意");
+				person.setRemark(remark);
+				person.setStatus("N");
+				approveContentPersonDao.update(person);
+				
+				approveContentHeader.setCurrentApprover(null);
+				approveContentHeader.setStarttime(null);
+				approveContentHeaderDao.update(approveContentHeader);
+				break;
+			}
+		}
 	}
 
 }

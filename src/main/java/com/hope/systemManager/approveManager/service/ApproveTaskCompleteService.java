@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
 
-public interface ApproveTaskService {
+public interface ApproveTaskCompleteService {
 	/**
-	 * 通过当前审批人查询审批信息
-	 * @param currentApprover
+	 * 通过审批人查询审批信息
+	 * @param approver
 	 * @return
 	 */
-	public List<ApproveContentHeader> query(String currentApprover);
+	public List<ApproveContentHeader> query(String approver);
 }

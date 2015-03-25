@@ -113,7 +113,7 @@
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>approveOperateService</property-name>
-			<value>#{approveOperateRoutineServiceImpl}</value>
+			<value>#{approveOperateServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
 	
@@ -128,12 +128,36 @@
 	</managed-bean>
 	
 	<managed-bean>
+		<managed-bean-name>approveQueryAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.ApproveQueryAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>approveQueryService</property-name>
+			<value>#{approveQueryServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>approveTaskCompleteAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.ApproveTaskCompleteAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>approveTaskCompleteService</property-name>
+			<value>#{approveTaskCompleteServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
 		<managed-bean-name>routineApprovePageAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.approveManager.action.RoutineApprovePageAction</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
 			<property-name>routineApprovePageService</property-name>
 			<value>#{routineApprovePageServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>approveOperateService</property-name>
+			<value>#{approveOperateServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
 	

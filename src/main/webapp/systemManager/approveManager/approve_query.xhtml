@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>approveQuery</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form id="approveQueryForm">
+		<p:dataTable id="headersTable" var="headers"
+			value="#{approveQueryAction.approveContentHeaders}" rows="10"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			editable="false" widgetVar="headerTable"
+			filteredValue="#{userAction.filteredUsers}"
+			rowsPerPageTemplate="5,10,15"
+			selection="#{approveQueryAction.selectedApproveContentHeaders}"
+			rowKey="#{headers.contentHeaderId}" style="width:auto;height:auto;"
+			styleClass="ct-fontsize">
+			<p:ajax event="rowDblselect"
+				listener="#{approveQueryAction.onRowSelect}" />
+			<f:facet name="header">
+				<p:outputPanel style="text-align: right;">
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter" onkeyup="PF('headerTable').filter()"
+						style="width:150px" placeholder="Enter keyword" />
+				</p:outputPanel>
+			</f:facet>
+			<!-- <p:column selectionMode="multiple"
+				style="width:16px;text-align:center" /> -->
+			<p:column headerText="ID">
+				<h:outputText value="#{headers.contentHeaderId}" />
+			</p:column>
+			<p:column headerText="标题" filterBy="#{headers.contentTitle}">
+				<h:outputLink value="#{headers.url}"
+					rendered="true" target="_blank">
+					<h:outputText value="#{headers.contentTitle}" />
+				</h:outputLink>
+			</p:column>
+			<p:column headerText="提交人" filterBy="#{headers.submitter}">
+				<h:outputText value="#{headers.submitter}" />
+			</p:column>
+			<p:column headerText="提交时间">
+				<h:outputText value="#{headers.submittime}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT+8"/>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="状态" filterBy="#{headers.status}">
+				<h:outputText value="#{headers.status}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
 </html>
