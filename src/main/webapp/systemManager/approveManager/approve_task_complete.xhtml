@@ -16,13 +16,10 @@
 			paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			editable="false" widgetVar="headerTable"
-			filteredValue="#{userAction.filteredUsers}"
+			filteredValue="#{approveTaskCompleteAction.filteredApproveContentHeaders}"
 			rowsPerPageTemplate="5,10,15"
-			selection="#{approveTaskCompleteAction.selectedApproveContentHeaders}"
 			rowKey="#{headers.contentHeaderId}" style="width:auto;height:auto;"
 			styleClass="ct-fontsize">
-			<p:ajax event="rowDblselect"
-				listener="#{approveTaskCompleteAction.onRowSelect}" />
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<h:outputText value="Search all fields:" />
@@ -30,8 +27,6 @@
 						style="width:150px" placeholder="Enter keyword" />
 				</p:outputPanel>
 			</f:facet>
-			<!-- <p:column selectionMode="multiple"
-				style="width:16px;text-align:center" /> -->
 			<p:column headerText="ID">
 				<h:outputText value="#{headers.contentHeaderId}" />
 			</p:column>
