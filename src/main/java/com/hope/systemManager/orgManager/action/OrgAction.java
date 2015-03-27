@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.orgManager.model.Org;
 import com.hope.systemManager.orgManager.service.OrgService;
 
@@ -101,7 +102,7 @@ public class OrgAction {
 		try {
 			Org org=new Org();
 			org.setOrgLineId(orgLineIdForm);
-			org.setCompanyName(companyNameForm);
+			org.setCompanyCode(LoginAction.getCurrentUser().getCompanyCode());
 			org.setOrgName(orgNameForm);
 			org.setLevelId(levelIdForm);
 			org.setLevelGrade(levelGradeForm);
@@ -130,28 +131,19 @@ public class OrgAction {
 	/**
 	 * orgDialog表单
 	 */
-	private String orgLineIdForm;
-	private String companyNameForm;
+	private int orgLineIdForm;
 	private String orgNameForm;
 	private String levelIdForm;
 	private int levelGradeForm;
 	private String orgIdForm;
 	private String activeForm;
 
-	public String getOrgLineIdForm() {
+	public int getOrgLineIdForm() {
 		return orgLineIdForm;
 	}
 
-	public void setOrgLineIdForm(String orgLineIdForm) {
+	public void setOrgLineIdForm(int orgLineIdForm) {
 		this.orgLineIdForm = orgLineIdForm;
-	}
-
-	public String getCompanyNameForm() {
-		return companyNameForm;
-	}
-
-	public void setCompanyNameForm(String companyNameForm) {
-		this.companyNameForm = companyNameForm;
 	}
 
 	public String getOrgNameForm() {

@@ -52,4 +52,9 @@ public class SysFunctionServiceImpl implements SysFunctionService {
 		return sysFunctionDao.sysFunctionQuery(list);
 	}
 
+	@Transactional
+	public int maxId() {
+		return sysFunctionDao.maxId();
+	}
+
 }

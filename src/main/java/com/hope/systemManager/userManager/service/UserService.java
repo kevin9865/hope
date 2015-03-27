@@ -32,6 +32,12 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateUserAuth(User user);
+	
+	/**
+	 * 更新密码
+	 * @param user
+	 */
+	public void updatePwd(User user);
 
 	/**
 	 * 用户登陆查询

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>passwordModify</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form id="passwordModifyForm">
+		<h:panelGrid columns="2" id="changePwdPanel">
+			<h:outputLabel for="" value="旧密码：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:password value="#{userAction.oldPwd}"
+				styleClass="ct-fontsize" style="width:200px;" />
+			<h:outputLabel for="" value="设置新密码：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:password value="#{userAction.newPwd}"
+				styleClass="ct-fontsize" style="width:200px;" />
+			<h:outputLabel for="" value="重复新密码：" style="font-weight:bold"
+				styleClass="ct-fontsize" />
+			<p:password value="#{userAction.confirmNewPwd}"
+				styleClass="ct-fontsize" style="width:200px;" />	
+		</h:panelGrid>
+		<h:panelGrid width="100%" columns="2" id="buttonPanel">
+			<h:panelGrid width="100%" style="text-align:center;">
+				<p:commandButton value="修改" styleClass="ct-fontsize"
+					action="#{userAction.changePwd}" update="changePwdPanel"></p:commandButton>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

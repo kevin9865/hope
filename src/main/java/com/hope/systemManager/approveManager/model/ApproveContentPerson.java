@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity(name = "APPROVE_CONTENT_PERSON")
 public class ApproveContentPerson {
@@ -36,6 +37,27 @@ public class ApproveContentPerson {
 	
 	private int contentHeaderId;
 	
+	private String checkScript;
+	private String conditions;
+	
+	@Transient
+	public String getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(String conditions) {
+		this.conditions = conditions;
+	}
+	
+	@Transient
+	public String getCheckScript() {
+		return checkScript;
+	}
+
+	public void setCheckScript(String checkScript) {
+		this.checkScript = checkScript;
+	}
+
 	@Column(name = "CONTENT_HEADER_ID")
 	public int getContentHeaderId() {
 		return contentHeaderId;

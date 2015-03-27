@@ -1,5 +1,6 @@
 package com.hope.systemManager.functionManager.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -61,9 +62,16 @@ public class SysFunctionOperationDaoImpl implements SysFunctionOperationDao {
 			SysFunctionOperation sysFunctionOperation) {
 		Session session = sessionFactory.getCurrentSession();
 		List<SysFunctionOperation> list = session.createQuery(
-				"from SYS_FUNCTION_OPERATION sfo where sfo.sysFunId='"
-						+ sysFunctionOperation.getSysFunId() + "'").list();
+				"from SYS_FUNCTION_OPERATION sfo where sfo.sysFid='"
+						+ sysFunctionOperation.getSysFid() + "'").list();
 		return list;
+	}
+
+	@Override
+	public int maxId() {
+		Session session = sessionFactory.getCurrentSession();
+		BigInteger id=(BigInteger)session.createSQLQuery("select nextval('sys_fun_seq')").uniqueResult();
+		return id.intValue();
 	}
 
 }

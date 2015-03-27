@@ -47,4 +47,11 @@ public interface SysFunctionOperationService {
 	 */
 	public List<SysFunctionOperation> sysFunctionOperationQueryAll(
 			SysFunctionOperation sysFunctionOperation);
+	
+	/**
+	 * 获取系统功能最大Id
+	 * 
+	 * @return
+	 */
+	public int maxId();
 }

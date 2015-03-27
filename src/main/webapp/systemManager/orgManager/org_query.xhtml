@@ -44,16 +44,6 @@
 			<p:column headerText="组织行ID" style="text-align:center;">
 				<h:outputText value="#{org.orgLineId}" />
 			</p:column>
-			<p:column headerText="公司名称" filterBy="#{org.companyName}">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{org.companyName}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{org.companyName}" style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
 			<p:column headerText="组织名称" filterBy="#{org.orgName}">
 				<p:cellEditor>
 					<f:facet name="output">
@@ -120,12 +110,6 @@
 				<p:inputText id="orgLineIdForm"
 					value="#{orgAction.orgLineIdForm}" readonly="true" size="19" styleClass="ct-fontsize" />
 				<p:message for="orgLineIdForm" />
-				<h:outputLabel for="companyNameForm" value="公司名称："
-					style="font-weight:bold" styleClass="ct-fontsize" />
-				<p:inputText id="companyNameForm"
-					value="#{orgAction.companyNameForm}" required="true"
-					requiredMessage="公司名称不能为空" size="19" styleClass="ct-fontsize" />
-				<p:message for="companyNameForm" />
 				<h:outputLabel for="orgNameForm" value="组织名称："
 					style="font-weight:bold" styleClass="ct-fontsize" />
 				<p:inputText id="orgNameForm"

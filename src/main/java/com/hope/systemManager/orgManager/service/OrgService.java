@@ -54,5 +54,5 @@ public interface OrgService {
 	 * 
 	 * @return
 	 */
-	public String maxOrgLineId();
+	public int maxOrgLineId();
 }

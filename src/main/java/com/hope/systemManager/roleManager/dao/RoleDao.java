@@ -46,5 +46,5 @@ public interface RoleDao {
 	 * 
 	 * @return
 	 */
-	public String maxRoleId();
+	public int maxRoleId();
 }

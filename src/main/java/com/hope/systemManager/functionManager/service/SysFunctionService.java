@@ -47,4 +47,11 @@ public interface SysFunctionService {
 	 * @return
 	 */
 	public List<SysFunction> sysFunctionQuery(List<String> list);
+	
+	/**
+	 * 获取系统功能最大Id
+	 * 
+	 * @return
+	 */
+	public int maxId();
 }

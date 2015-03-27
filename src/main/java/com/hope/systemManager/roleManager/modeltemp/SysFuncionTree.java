@@ -8,7 +8,7 @@ package com.hope.systemManager.roleManager.modeltemp;
 public class SysFuncionTree {
 	private String sysFunId;
 	private String sysFunName;
-	private String sysFunOpeId;
+	private int sysFunOpeId;
 	private String sysFunOpeName;
 
 	public String getSysFunId() {
@@ -27,11 +27,11 @@ public class SysFuncionTree {
 		this.sysFunName = sysFunName;
 	}
 
-	public String getSysFunOpeId() {
+	public int getSysFunOpeId() {
 		return sysFunOpeId;
 	}
 
-	public void setSysFunOpeId(String sysFunOpeId) {
+	public void setSysFunOpeId(int sysFunOpeId) {
 		this.sysFunOpeId = sysFunOpeId;
 	}
 

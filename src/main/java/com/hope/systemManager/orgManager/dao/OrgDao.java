@@ -47,5 +47,5 @@ public interface OrgDao {
 	 * 
 	 * @return
 	 */
-	public String maxOrgLineId();
+	public int maxOrgLineId();
 }

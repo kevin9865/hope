@@ -1,5 +1,7 @@
 package com.hope.systemManager.userManager.service;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,6 +19,7 @@ import com.hope.systemManager.roleManager.dao.RoleDao;
 import com.hope.systemManager.roleManager.model.Role;
 import com.hope.systemManager.userManager.dao.UserDao;
 import com.hope.systemManager.userManager.model.User;
+import com.hope.util.MD5Util;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public void add(User user) {
-		if (null == user.getRoleId() || user.getRoleId().equals("")) {
+		if (null == user.getRoleId()||user.getRoleId().equals("") ) {
 		} else {
 			Role role = new Role();
 			role.setRoleId(user.getRoleId());
@@ -76,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public void update(User user) {
-		if (null == user.getRoleId() || user.getRoleId().equals("")) {
+		if (null == user.getRoleId()||user.getRoleId().equals("")) {
 			user.setRoleId(null);
 			user.setOpeAuth(null);
 			user.setRoleName(null);
@@ -90,7 +93,7 @@ public class UserServiceImpl implements UserService {
 				user.setRoleName(null);
 			} else {
 				User userQuery = userDao.userQuery(user);
-				if (!userQuery.getRoleId().equals(user.getRoleId())) {
+				if (userQuery.getRoleId()!=user.getRoleId()) {
 					user.setOpeAuth(roleQuery.getOpeAuth());
 					user.setRoleName(roleQuery.getRoleName());
 				}
@@ -116,16 +119,21 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public User loginQuery(User user) {
-		User userTemp = userDao.userQuery(user);
-		if (userTemp == null) {
-			return null;
-		} else {
-			if (user.getPassword().equals(userTemp.getPassword())) {
-				return userTemp;
-			} else {
-				return null;
+		User userTemp =null;
+		try {
+			userTemp = userDao.userQuery(user);
+			if (userTemp != null) {
+				if (MD5Util.validPassword(user.getPassword(), userTemp.getPassword())) {
+				} else {
+					userTemp=null;
+				}
 			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		return userTemp;
 	}
 
 	@Transactional
@@ -164,6 +172,11 @@ public class UserServiceImpl implements UserService {
 		}else {
 			return String.valueOf(Integer.valueOf(userDao.maxUserId())+1);
 		}
+	}
+
+	@Transactional
+	public void updatePwd(User user) {
+		userDao.update(user);
 	}
 
 }

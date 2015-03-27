@@ -31,7 +31,29 @@ public class User {
 	private String roleName;
 	// 组织结构名称
 	private String orgName;
+	//公司名称
+	private String companyName;
+	//公司代码
+	private String companyCode;
 	
+	@Column(name = "COMPANY_NAME")
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	
+	@Column(name = "COMPANY_CODE")
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+
 	@Column(name = "ROLE_NAME")
 	public String getRoleName() {
 		return roleName;

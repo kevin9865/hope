@@ -1,5 +1,6 @@
 package com.hope.systemManager.orgManager.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,7 @@ import javax.annotation.Resource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.orgManager.model.Org;
 
 public class OrgDaoImpl implements OrgDao {
@@ -42,7 +44,8 @@ public class OrgDaoImpl implements OrgDao {
 	@Override
 	public Org orgQuery(Org org) {
 		Session session = sessionFactory.getCurrentSession();
-		List<Org> list=session.createQuery("from Org o where o.orgId='"+org.getOrgId()+"'").list();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
+		List<Org> list=session.createQuery("from Org o where o.orgId='"+org.getOrgId()+"' and o.companyCode='"+companyCode+"'").list();
 		if(list.isEmpty()){
 			return null;
 		}else {
@@ -53,14 +56,15 @@ public class OrgDaoImpl implements OrgDao {
 	@Override
 	public List<Org> orgQueryAll() {
 		Session session=sessionFactory.getCurrentSession();
-		List<Org> list=session.createQuery("from Org o").list();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
+		List<Org> list=session.createQuery("from Org o where o.companyCode='"+companyCode+"'").list();
 		return list;
 	}
 	@Override
-	public String maxOrgLineId() {
+	public int maxOrgLineId() {
 		Session session = sessionFactory.getCurrentSession();
-		String id=(String) session.createQuery("select max(o.orgLineId) from Org o").uniqueResult();
-		return id;
+		BigInteger id=(BigInteger)session.createSQLQuery("select nextval('org_seq')").uniqueResult();
+		return id.intValue();
 	}
 
 }

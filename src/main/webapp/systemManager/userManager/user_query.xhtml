@@ -45,13 +45,13 @@
 			</f:facet>
 			<p:column selectionMode="multiple"
 				style="width:16px;text-align:center" />
-			<p:column headerText="用户编号" filterBy="#{user.userId}">
+			<p:column headerText="用户编号" filterBy="#{user.userId}" style="text-align:center;">
 				<h:outputText value="#{user.userId}" />
 			</p:column>
-			<p:column headerText="用户名" filterBy="#{user.username}">
+			<p:column headerText="用户名" filterBy="#{user.username}" style="text-align:center;">
 				<h:outputText value="#{user.username}" />
 			</p:column>
-			<p:column headerText="姓名" filterBy="#{user.name}">
+			<p:column headerText="姓名" style="text-align:center;width:40px;">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.name}" styleClass="ct-fontsize" />
@@ -81,7 +81,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="角色">
+			<p:column headerText="角色" style="text-align:center;width:40px;">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.roleName}" />
@@ -101,7 +101,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="组织结构">
+			<p:column headerText="组织结构" style="text-align:center;width:60px;">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.orgName}" />
@@ -122,7 +122,27 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="是否启用" style="text-align:center;">
+			<p:column headerText="公司名称">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.companyName}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.companyName}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="公司代码">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.companyCode}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.companyCode}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="是否启用" style="text-align:center;width:30px;">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{user.active}" />
@@ -199,6 +219,18 @@
 						itemLabel="#{org.orgName}" itemValue="#{org.orgId}" />
 				</p:selectOneMenu>
 				<p:message for="orgIdForm" />
+				<h:outputLabel for="companyNameForm" value="公司名称：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="companyNameForm" value="#{userAction.companyNameForm}"
+					required="true" requiredMessage="公司名称不能为空" size="19"
+					styleClass="ct-fontsize" />
+				<p:message for="companyNameForm" />
+				<h:outputLabel for="companyCodeForm" value="公司代码：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputText id="companyCodeForm" value="#{userAction.companyCodeForm}"
+					required="true" requiredMessage="公司代码不能为空" size="19"
+					styleClass="ct-fontsize" />
+				<p:message for="companyCodeForm" />
 				<h:outputLabel for="activeForm" value="是否启用："
 					style="font-weight:bold" styleClass="ct-fontsize" />
 				<p:selectOneMenu id="activeForm" value="#{userAction.activeForm}"

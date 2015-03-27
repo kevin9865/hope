@@ -45,5 +45,5 @@ public interface RoleService {
 	 * 
 	 * @return
 	 */
-	public String maxRoleId();
+	public int maxRoleId();
 }

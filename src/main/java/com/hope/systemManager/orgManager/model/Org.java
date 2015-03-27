@@ -10,9 +10,7 @@ import javax.persistence.Table;
 // @Table(name = "ORG")
 public class Org {
 	// 组织结构行ID
-	private String orgLineId;
-	// 公司名称
-	private String companyName;
+	private int orgLineId;
 	// 组织名称
 	private String orgName;
 	// 组织结构ID
@@ -23,26 +21,28 @@ public class Org {
 	private int levelGrade;
 	// 状态（是否启用）
 	private String active;
+	//公司代码
+	private String companyCode;
+	
+	@Column(name = "COMPANY_CODE")
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
 
 	@Id
 	@Column(name = "ORG_LINE_ID")
-	public String getOrgLineId() {
+	public int getOrgLineId() {
 		return orgLineId;
 	}
 
-	public void setOrgLineId(String orgLineId) {
+	public void setOrgLineId(int orgLineId) {
 		this.orgLineId = orgLineId;
 	}
-
-	@Column(name = "COMPANY_NAME")
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
+	
 	@Column(name = "ORG_NAME")
 	public String getOrgName() {
 		return orgName;

@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.userManager.model.User;
 
 public class UserDaoImpl implements UserDao {
@@ -65,7 +66,8 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> userQueryAll() {
 		Session session = sessionFactory.getCurrentSession();
-		List<User> list = session.createQuery("from User u").list();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
+		List<User> list = session.createQuery("from User u where u.companyCode='"+companyCode+"'").list();
 		return list;
 	}
 

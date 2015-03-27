@@ -17,6 +17,17 @@ public class Role {
 	private String roleDesc;
 	// 权限操作
 	private String opeAuth;
+	//公司代码
+	private String companyCode;
+	
+	@Column(name = "COMPANY_CODE")
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
 
 	@Id
 	@Column(name = "ROLE_ID")

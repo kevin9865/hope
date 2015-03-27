@@ -1,5 +1,6 @@
 package com.hope.systemManager.functionManager.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,7 @@ import javax.annotation.Resource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 import com.hope.util.Tools;
@@ -35,7 +37,7 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	public void delete(SysFunction sysFunction) {
 		Session session = sessionFactory.getCurrentSession();
 		SysFunction sys = (SysFunction) session.load(SysFunction.class,
-				sysFunction.getSysFunId());
+				sysFunction.getSysFid());
 		session.delete(sys);
 	}
 
@@ -54,8 +56,9 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	@Override
 	public List<SysFunction> sysFunctionQueryAll() {
 		Session session = sessionFactory.getCurrentSession();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
 		List<SysFunction> list = session.createQuery(
-				"from SYS_FUNCTION sf order by sf.sysFunId").list();
+				"from SYS_FUNCTION sf where sf.companyCode='"+companyCode+"' order by sf.sysFunId").list();
 
 		return list;
 	}
@@ -63,11 +66,19 @@ public class SysFunctionDaoImpl implements SysFunctionDao {
 	@Override
 	public List<SysFunction> sysFunctionQuery(List<String> list) {
 		Session session = sessionFactory.getCurrentSession();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
 		List<SysFunction> listTemp = session.createQuery(
 				"from SYS_FUNCTION sf where"
 						+ Tools.listConvertSqlIn("sf.sysFunId", "in", list)
-						+ "order by sf.sysFunId").list();
+						+ " and sf.companyCode='"+companyCode+"' order by sf.sysFunId").list();
 		return listTemp;
+	}
+
+	@Override
+	public int maxId() {
+		Session session = sessionFactory.getCurrentSession();
+		BigInteger id=(BigInteger)session.createSQLQuery("select nextval('sys_fun_seq')").uniqueResult();
+		return id.intValue();
 	}
 
 }

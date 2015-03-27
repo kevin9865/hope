@@ -28,10 +28,32 @@ public class SysFunction {
 	private String url;
 	// 状态（是否启用）
 	private String active;
+	//id
+	private int sysFid;
+	//公司代码
+	private String companyCode;
 	
 	private List<SysFunctionOperation> sysFunctionOperations=new ArrayList<SysFunctionOperation>();
+	
+	@Column(name = "COMPANY_CODE")
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
 
 	@Id
+	@Column(name = "SYS_FID")
+	public int getSysFid() {
+		return sysFid;
+	}
+
+	public void setSysFid(int sysFid) {
+		this.sysFid = sysFid;
+	}
+
 	@Column(name = "SYS_FUN_ID")
 	public String getSysFunId() {
 		return sysFunId;
@@ -87,7 +109,7 @@ public class SysFunction {
 	}
 
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JoinColumn(name = "SYS_FUN_ID")
+	@JoinColumn(name = "SYS_FID")
 	@OrderBy(value="sysFunOpeId")
 	public List<SysFunctionOperation> getSysFunctionOperations() {
 		return sysFunctionOperations;

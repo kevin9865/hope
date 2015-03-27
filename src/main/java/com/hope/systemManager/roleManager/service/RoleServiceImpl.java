@@ -57,12 +57,8 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Transactional
-	public String maxRoleId() {
-		if(null==roleDao.maxRoleId()){
-			return "1";
-		}else {
-			return String.valueOf(Integer.valueOf(roleDao.maxRoleId())+1);
-		}
+	public int maxRoleId() {
+		return roleDao.maxRoleId();
 	}
 
 }

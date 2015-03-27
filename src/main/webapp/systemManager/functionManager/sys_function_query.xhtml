@@ -184,7 +184,7 @@
 				<p:column selectionMode="multiple"
 					style="width:16px;text-align:center" />
 				<p:column headerText="功能ID" style="text-align:center;">
-					<h:outputText value="#{sysFunctionOperation.sysFunId}" />
+					<h:outputText value="#{sysFunctionOperation.sysFid}" />
 				</p:column>
 				<p:column headerText="功能操作ID" style="text-align:center;">
 					<h:outputText value="#{sysFunctionOperation.sysFunOpeId}" />
@@ -208,12 +208,12 @@
 		<p:dialog id="operationDialog" header="操作添加" widgetVar="dlg3"
 			styleClass="ct-fontsize">
 			<h:panelGrid columns="3" id="operationPanelGrid">
-				<h:outputLabel for="sysFunIdOpeForm" value="功能ID："
+				<h:outputLabel for="sysFidOpeForm" value="功能ID："
 					style="font-weight:bold" styleClass="ct-fontsize" />
-				<p:inputText id="sysFunIdOpeForm"
-					value="#{sysFunctionAction.sysFunIdOpeForm}" required="true"
+				<p:inputText id="sysFidOpeForm"
+					value="#{sysFunctionAction.sysFidOpeForm}" required="true"
 					requiredMessage="功能ID不能为空" size="19" styleClass="ct-fontsize" />
-				<p:message for="sysFunIdOpeForm" />
+				<p:message for="sysFidOpeForm" />
 				<h:outputLabel for="sysFunOpeIdOpeForm" value="功能操作ID："
 					style="font-weight:bold" styleClass="ct-fontsize" />
 				<p:inputText id="sysFunOpeIdOpeForm"

@@ -9,6 +9,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 import com.hope.systemManager.functionManager.service.SysFunctionOperationService;
@@ -33,14 +34,14 @@ public class SysFunctionAction {
 	private List<SysFunction> sysFunctions;
 	private List<SysFunction> filteredSysFunctions;
 	private List<SysFunction> selectedSysFunctions;
-	private String sysFunIdSelect;
+	private int sysFidSelect;
 
-	public String getSysFunIdSelect() {
-		return sysFunIdSelect;
+	public int getSysFidSelect() {
+		return sysFidSelect;
 	}
 
-	public void setSysFunIdSelect(String sysFunIdSelect) {
-		this.sysFunIdSelect = sysFunIdSelect;
+	public void setSysFidSelect(int sysFidSelect) {
+		this.sysFidSelect = sysFidSelect;
 	}
 
 	public List<SysFunction> getSelectedSysFunctions() {
@@ -107,8 +108,8 @@ public class SysFunctionAction {
 	 */
 	public void onRowSelect(SelectEvent event) {
 		try {
-			sysFunIdSelect = ((SysFunction) event.getObject()).getSysFunId();
-			initSysFunctionOperationList(sysFunIdSelect);
+			sysFidSelect = ((SysFunction) event.getObject()).getSysFid();
+			initSysFunctionOperationList(sysFidSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,6 +127,8 @@ public class SysFunctionAction {
 			sysFunction.setLevelGrade(levelGradeForm);
 			sysFunction.setUrl(urlForm);
 			sysFunction.setActive(activeForm);
+			sysFunction.setSysFid(sysFunctionService.maxId());
+			sysFunction.setCompanyCode(LoginAction.getCurrentUser().getCompanyCode());
 			sysFunctionService.add(sysFunction);
 
 			RequestContext rc = RequestContext.getCurrentInstance();
@@ -212,9 +215,9 @@ public class SysFunctionAction {
 	 * 
 	 * @param sysFunIdSelect
 	 */
-	public void initSysFunctionOperationList(String sysFunIdSelect) {
+	public void initSysFunctionOperationList(int sysFidSelect) {
 		SysFunctionOperation sysFunctionOperation = new SysFunctionOperation();
-		sysFunctionOperation.setSysFunId(sysFunIdSelect);
+		sysFunctionOperation.setSysFid(sysFidSelect);
 		sysFunctionOperations = sysFunctionOperationService
 				.sysFunctionOperationQueryAll(sysFunctionOperation);
 
@@ -272,7 +275,7 @@ public class SysFunctionAction {
 					.getObject();
 			sysFunctionOperationService.update(sysFunctionOperation);
 
-			initSysFunctionOperationList(sysFunIdSelect);
+			initSysFunctionOperationList(sysFidSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -293,14 +296,14 @@ public class SysFunctionAction {
 	public void addSysFunctionOperation() {
 		try {
 			SysFunctionOperation operation = new SysFunctionOperation();
-			operation.setSysFunId(sysFunIdOpeForm);
+			operation.setSysFid(sysFidOpeForm);
 			operation.setSysFunOpeId(sysFunOpeIdOpeForm);
 			operation.setOperation(operationForm);
 			sysFunctionOperationService.add(operation);
 			
 			RequestContext rc = RequestContext.getCurrentInstance();
 			rc.execute("PF('dlg3').hide()");
-			initSysFunctionOperationList(sysFunIdSelect);
+			initSysFunctionOperationList(sysFidSelect);
 			operationFormClear();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -314,7 +317,7 @@ public class SysFunctionAction {
 		try {
 			sysFunctionOperationService
 					.deleteBatch(selectedSysFunctionOperations);
-			initSysFunctionOperationList(sysFunIdSelect);
+			initSysFunctionOperationList(sysFidSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -324,8 +327,8 @@ public class SysFunctionAction {
 	 * 清空operationForm表单数据
 	 */
 	public void operationFormClear() {
-		sysFunIdOpeForm = "";
-		sysFunOpeIdOpeForm = "";
+		sysFidOpeForm = 0;
+		sysFunOpeIdOpeForm = 0;
 		operationForm = "";
 	}
 
@@ -333,31 +336,31 @@ public class SysFunctionAction {
 	 * 初始化operationForm表单数据
 	 */
 	public void initOperationForm() {
-		sysFunIdOpeForm = sysFunIdSelect;
-		sysFunOpeIdOpeForm = "";
+		sysFidOpeForm = sysFidSelect;
+		sysFunOpeIdOpeForm = sysFunctionOperationService.maxId();
 		operationForm = "";
 	}
 
 	/**
 	 * 系统功能操作表单
 	 */
-	private String sysFunIdOpeForm;
-	private String sysFunOpeIdOpeForm;
+	private int sysFidOpeForm;
+	private int sysFunOpeIdOpeForm;
 	private String operationForm;
 
-	public String getSysFunIdOpeForm() {
-		return sysFunIdOpeForm;
+	public int getSysFidOpeForm() {
+		return sysFidOpeForm;
 	}
 
-	public void setSysFunIdOpeForm(String sysFunIdOpeForm) {
-		this.sysFunIdOpeForm = sysFunIdOpeForm;
+	public void setSysFidOpeForm(int sysFidOpeForm) {
+		this.sysFidOpeForm = sysFidOpeForm;
 	}
 
-	public String getSysFunOpeIdOpeForm() {
+	public int getSysFunOpeIdOpeForm() {
 		return sysFunOpeIdOpeForm;
 	}
 
-	public void setSysFunOpeIdOpeForm(String sysFunOpeIdOpeForm) {
+	public void setSysFunOpeIdOpeForm(int sysFunOpeIdOpeForm) {
 		this.sysFunOpeIdOpeForm = sysFunOpeIdOpeForm;
 	}
 

@@ -1,5 +1,6 @@
 package com.hope.systemManager.roleManager.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,7 @@ import javax.annotation.Resource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.orgManager.model.Org;
 import com.hope.systemManager.roleManager.model.Role;
 
@@ -45,7 +47,8 @@ public class RoleDaoImpl implements RoleDao{
 	public Role roleQuery(Role role) {
 		Session session = sessionFactory.getCurrentSession();
 		//Role roleTemp=(Role) session.load(Role.class, role.getRoleId());
-		List<Role> list=session.createQuery("from Role r where r.roleId='"+role.getRoleId()+"'").list();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
+		List<Role> list=session.createQuery("from Role r where r.roleId='"+role.getRoleId()+"' and r.companyCode='"+companyCode+"'").list();
 		if(list.isEmpty()){
 			return null;
 		}else {
@@ -58,15 +61,16 @@ public class RoleDaoImpl implements RoleDao{
 	@Override
 	public List<Role> roleQueryAll() {
 		Session session = sessionFactory.getCurrentSession();
-		List<Role> list=session.createQuery("from Role r").list();
+		String companyCode=LoginAction.getCurrentUser().getCompanyCode();
+		List<Role> list=session.createQuery("from Role r where r.companyCode='"+companyCode+"'").list();
 		return list;
 	}
 
 	@Override
-	public String maxRoleId() {
+	public int maxRoleId() {
 		Session session = sessionFactory.getCurrentSession();
-		String id=(String) session.createQuery("select max(r.roleId) from Role r").uniqueResult();
-		return id;
+		BigInteger id=(BigInteger)session.createSQLQuery("select nextval('role_seq')").uniqueResult();
+		return id.intValue();
 	}
 
 }

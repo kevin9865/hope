@@ -54,12 +54,8 @@ public class OrgServiceImpl implements OrgService{
 	}
 
 	@Transactional
-	public String maxOrgLineId() {
-		if(null==orgDao.maxOrgLineId()){
-			return "1";
-		}else {
-			return String.valueOf(Integer.valueOf(orgDao.maxOrgLineId())+1);
-		}
+	public int maxOrgLineId() {
+		return orgDao.maxOrgLineId();
 	}
 	
 }

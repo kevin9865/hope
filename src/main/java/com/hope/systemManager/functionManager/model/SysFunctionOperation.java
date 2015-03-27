@@ -9,36 +9,36 @@ import javax.persistence.Table;
 @Entity(name = "SYS_FUNCTION_OPERATION")
 public class SysFunctionOperation {
 	// 功能操作ID
-	private String sysFunOpeId;
+	private int sysFunOpeId;
 	// 功能ID
-	private String sysFunId;
+	private int sysFid;
 	// 操作名
 	private String operation;
 
 	@Id
 	@Column(name = "SYS_FUN_OPE_ID")
-	public String getSysFunOpeId() {
+	public int getSysFunOpeId() {
 		return sysFunOpeId;
 	}
 
-	public void setSysFunOpeId(String sysFunOpeId) {
+	public void setSysFunOpeId(int sysFunOpeId) {
 		this.sysFunOpeId = sysFunOpeId;
 	}
 
-	@Column(name = "SYS_FUN_ID")
-	public String getSysFunId() {
-		return sysFunId;
+	@Column(name = "SYS_FID")
+	public int getSysFid() {
+		return sysFid;
 	}
 
-	public void setSysFunId(String sysFunId) {
-		this.sysFunId = sysFunId;
+	public void setSysFid(int sysFid) {
+		this.sysFid = sysFid;
 	}
 
 	@Column(name = "OPERATION")
 	public String getOperation() {
 		return operation;
 	}
-
+	
 	public void setOperation(String operation) {
 		this.operation = operation;
 	}

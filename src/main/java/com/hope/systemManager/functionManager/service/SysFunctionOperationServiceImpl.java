@@ -59,4 +59,9 @@ public class SysFunctionOperationServiceImpl implements
 		return list;
 	}
 
+	@Transactional
+	public int maxId() {
+		return sysFunctionOperationDao.maxId();
+	}
+
 }

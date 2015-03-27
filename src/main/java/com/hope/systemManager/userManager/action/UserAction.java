@@ -1,6 +1,8 @@
 package com.hope.systemManager.userManager.action;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.functionManager.model.SysFunction;
 import com.hope.systemManager.functionManager.model.SysFunctionOperation;
 import com.hope.systemManager.functionManager.service.SysFunctionService;
@@ -28,6 +31,7 @@ import com.hope.systemManager.roleManager.modeltemp.SysFuncionTree;
 import com.hope.systemManager.roleManager.service.RoleService;
 import com.hope.systemManager.userManager.model.User;
 import com.hope.systemManager.userManager.service.UserService;
+import com.hope.util.MD5Util;
 
 public class UserAction implements Serializable {
 
@@ -40,27 +44,14 @@ public class UserAction implements Serializable {
 	 * 初始化
 	 */
 	public void initUserList() {
-		users = userService.userQueryAll();
-		roles = roleService.roleQueryAll();
-		orgs = orgService.orgQueryAll();
-		// for(User u:users){
-		// for(Role r:roles){
-		// if(null==u.getRoleId()||u.getOrgId().equals("")){
-		// continue;
-		// }
-		// if(u.getRoleId().equals(r.getRoleId())){
-		// u.setRoleId(r.getRoleDesc());
-		// }
-		// }
-		// for(Org o:orgs){
-		// if(null==u.getOrgId()||u.getOrgId().equals("")){
-		// continue;
-		// }
-		// if(u.getOrgId().equals(o.getOrgId())){
-		// u.setOrgId(o.getOrgName());
-		// }
-		// }
-		// }
+		try {
+			users = userService.userQueryAll();
+			roles = roleService.roleQueryAll();
+			orgs = orgService.orgQueryAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private UserService userService;
@@ -236,13 +227,15 @@ public class UserAction implements Serializable {
 			User user = new User();
 			user.setUserId(userIdForm);
 			user.setName(nameForm);
-			user.setUsername(usernameForm);
-			user.setPassword(passwordForm);
+			user.setUsername(usernameForm.trim());
+			user.setPassword(MD5Util.getEncryptedPwd(passwordForm.trim()));
 			user.setEmail(emailForm);
 			user.setPhone(phoneForm);
 			user.setRoleId(roleIdForm);
 			user.setOrgId(orgIdForm);
 			user.setActive(activeForm);
+			user.setCompanyName(companyNameForm);
+			user.setCompanyCode(companyCodeForm);
 			userService.add(user);
 
 			RequestContext rc = RequestContext.getCurrentInstance();
@@ -332,7 +325,7 @@ public class UserAction implements Serializable {
 					SysFuncionTree sTree = new SysFuncionTree();
 					sTree.setSysFunId(sf.getSysFunId());
 					sTree.setSysFunName(sf.getSysFunName());
-					sTree.setSysFunOpeId("null");
+					sTree.setSysFunOpeId(0);
 					sTree.setSysFunOpeName(sf.getSysFunName());
 
 					firstLevel = new DefaultTreeNode(sTree, this.treeNode);
@@ -340,7 +333,7 @@ public class UserAction implements Serializable {
 					SysFuncionTree sTree = new SysFuncionTree();
 					sTree.setSysFunId(sf.getSysFunId());
 					sTree.setSysFunName(sf.getSysFunName());
-					sTree.setSysFunOpeId("null");
+					sTree.setSysFunOpeId(0);
 					sTree.setSysFunOpeName(sf.getSysFunName());
 
 					secondLevel = new DefaultTreeNode(sTree, firstLevel);
@@ -348,7 +341,7 @@ public class UserAction implements Serializable {
 					SysFuncionTree sTree = new SysFuncionTree();
 					sTree.setSysFunId(sf.getSysFunId());
 					sTree.setSysFunName(sf.getSysFunName());
-					sTree.setSysFunOpeId("null");
+					sTree.setSysFunOpeId(0);
 					sTree.setSysFunOpeName(sf.getSysFunName());
 
 					thirdLevel = new DefaultTreeNode(sTree, secondLevel);
@@ -369,6 +362,35 @@ public class UserAction implements Serializable {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void changePwd(){
+		try {
+			RequestContext rc = RequestContext.getCurrentInstance();
+		
+			User userTemp = new User();
+			userTemp.setUsername(LoginAction.getCurrentUser().getUsername());
+			userTemp.setPassword(oldPwd);
+			
+			User user = userService.loginQuery(userTemp);
+			if(user==null){
+				rc.execute("alert('旧密码错误')");
+				return;
+			}
+			
+			if(!newPwd.equals(confirmNewPwd)){
+				rc.execute("alert('两次新密码不一致')");
+				return;
+			}
+		
+			user.setPassword(MD5Util.getEncryptedPwd(newPwd));
+			userService.update(user);
+			rc.execute("alert('修改成功')");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -404,6 +426,24 @@ public class UserAction implements Serializable {
 	private String roleIdForm;
 	private String orgIdForm;
 	private String activeForm;
+	private String companyNameForm;
+	private String companyCodeForm;
+
+	public String getCompanyNameForm() {
+		return companyNameForm;
+	}
+
+	public void setCompanyNameForm(String companyNameForm) {
+		this.companyNameForm = companyNameForm;
+	}
+
+	public String getCompanyCodeForm() {
+		return companyCodeForm;
+	}
+
+	public void setCompanyCodeForm(String companyCodeForm) {
+		this.companyCodeForm = companyCodeForm;
+	}
 
 	public String getUserIdForm() {
 		return userIdForm;
@@ -490,4 +530,34 @@ public class UserAction implements Serializable {
 		this.usernameAuthForm = usernameAuthForm;
 	}
 
+	/**
+	 * 修改密码表单
+	 */
+	private String oldPwd;
+	private String newPwd;
+	private String confirmNewPwd;
+
+	public String getOldPwd() {
+		return oldPwd;
+	}
+
+	public void setOldPwd(String oldPwd) {
+		this.oldPwd = oldPwd;
+	}
+
+	public String getNewPwd() {
+		return newPwd;
+	}
+
+	public void setNewPwd(String newPwd) {
+		this.newPwd = newPwd;
+	}
+
+	public String getConfirmNewPwd() {
+		return confirmNewPwd;
+	}
+
+	public void setConfirmNewPwd(String confirmNewPwd) {
+		this.confirmNewPwd = confirmNewPwd;
+	}
 }

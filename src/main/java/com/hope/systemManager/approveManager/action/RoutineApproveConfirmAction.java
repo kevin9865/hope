@@ -11,6 +11,8 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import bsh.Interpreter;
+
 import com.hope.systemManager.approveManager.dao.ApproveFlowHeaderDao;
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
 import com.hope.systemManager.approveManager.model.ApproveContentItem;
@@ -42,7 +44,21 @@ public class RoutineApproveConfirmAction {
 			
 			for(ApproveContentPerson acp:contentPersons){
 				ApproversTemp approversTemp=new ApproversTemp();
-				approversTemp.setSelect(true);
+				
+				if(acp.getConditions().equals("0")){
+					approversTemp.setSelect(true);
+				}else {
+					Interpreter in = new Interpreter();
+					in.set("checkObject", this.approveContentHeader);
+					in.eval(acp.getCheckScript());
+					
+					Boolean result = false;
+					if(in.get("result")!=null){
+						result = (Boolean) in.get("result");
+					}
+					
+					approversTemp.setSelect(result);
+				}
 				approversTemp.setRoleName(acp.getNodeName());
 				approversTemp.setName(acp.getName());
 				approvers.add(approversTemp);
@@ -82,14 +98,14 @@ public class RoutineApproveConfirmAction {
 			approveOperateService.setApproveContentHeader(approveContentHeader);
 			approveOperateService.setIndex(0);
 			approveOperateService.submit();
+			
+			RequestContext rc = RequestContext.getCurrentInstance();
+			rc.execute("alert('提交成功');");
+			//addMessage("提交成功");
+			buttonDisabled=true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		RequestContext rc = RequestContext.getCurrentInstance();
-		rc.execute("alert('提交成功');");
-		//addMessage("提交成功");
-		buttonDisabled=true;
 	}
 	
 //	public void addMessage(String summary) {

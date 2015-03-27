@@ -77,8 +77,9 @@ public class LoginAction implements Serializable {
 		User userTemp = new User();
 		userTemp.setUsername(username);
 		userTemp.setPassword(password);
-
+		
 		User user = userService.loginQuery(userTemp);
+
 		if (user == null) {
 			this.msg = "用户名或密码错误";
 		} else {
@@ -86,6 +87,7 @@ public class LoginAction implements Serializable {
 			this.httpSession.setAttribute("UserContext", user);
 			System.out.println("当前登录用户"
 					+ LoginAction.getCurrentUser().getUsername());
+			System.out.println("ip地址："+httpRequest.getRemoteAddr());
 		}
 
 		return skip;
