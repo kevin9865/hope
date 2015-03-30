@@ -20,14 +20,14 @@ public class ApproveContentItem {
 	// 审批内容行JSON
 	private String contentItem;
 	
-	private int contentHeaderId;
+	private long contentHeaderId;
 	
 	@Column(name = "CONTENT_HEADER_ID")
-	public int getContentHeaderId() {
+	public long getContentHeaderId() {
 		return contentHeaderId;
 	}
 
-	public void setContentHeaderId(int contentHeaderId) {
+	public void setContentHeaderId(long contentHeaderId) {
 		this.contentHeaderId = contentHeaderId;
 	}
 

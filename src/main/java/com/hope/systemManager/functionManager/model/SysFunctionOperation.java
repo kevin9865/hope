@@ -11,7 +11,7 @@ public class SysFunctionOperation {
 	// 功能操作ID
 	private int sysFunOpeId;
 	// 功能ID
-	private int sysFid;
+	private long sysFid;
 	// 操作名
 	private String operation;
 
@@ -26,11 +26,11 @@ public class SysFunctionOperation {
 	}
 
 	@Column(name = "SYS_FID")
-	public int getSysFid() {
+	public long getSysFid() {
 		return sysFid;
 	}
 
-	public void setSysFid(int sysFid) {
+	public void setSysFid(long sysFid) {
 		this.sysFid = sysFid;
 	}
 

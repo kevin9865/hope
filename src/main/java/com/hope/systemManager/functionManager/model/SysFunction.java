@@ -29,7 +29,7 @@ public class SysFunction {
 	// 状态（是否启用）
 	private String active;
 	//id
-	private int sysFid;
+	private long sysFid;
 	//公司代码
 	private String companyCode;
 	
@@ -46,11 +46,11 @@ public class SysFunction {
 
 	@Id
 	@Column(name = "SYS_FID")
-	public int getSysFid() {
+	public long getSysFid() {
 		return sysFid;
 	}
 
-	public void setSysFid(int sysFid) {
+	public void setSysFid(long sysFid) {
 		this.sysFid = sysFid;
 	}
 

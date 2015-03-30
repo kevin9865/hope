@@ -23,10 +23,29 @@ public class ApproveFlowHeader {
 	private String flowName;
 	private String orgId;
 	private Date createtime;
+	private String active;
+	private String companyCode;
 	
 	private List<ApproveFlowItem> approveFlowItems=new ArrayList<ApproveFlowItem>();
 	
-	
+	@Column(name = "ACTIVE")
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
+	@Column(name = "COMPANY_CODE")
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+
 	@Id
 	@Column(name = "FLOW_HEADER_ID")
 	public int getFlowHeaderId() {

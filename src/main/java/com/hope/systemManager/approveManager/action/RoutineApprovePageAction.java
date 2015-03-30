@@ -15,6 +15,7 @@ import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.service.ApproveOperateService;
 import com.hope.systemManager.approveManager.service.RoutineApprovePageService;
 import com.hope.systemManager.frameManager.action.LoginAction;
+import com.hope.util.AESUtil;
 import com.hope.util.Tools;
 
 public class RoutineApprovePageAction {
@@ -36,7 +37,11 @@ public class RoutineApprovePageAction {
 			String idTemp = httpRequest.getParameter("id");
 			int id = 0;
 			if (idTemp != null) {
-				id = Integer.valueOf(idTemp);
+				//AES解密
+				String password = "qwe123asd789zxc";
+				byte[] decryptFrom = AESUtil.parseHexStr2Byte(idTemp);
+				byte[] decryptResult = AESUtil.decrypt(decryptFrom,password); 
+				id = Integer.valueOf(new String(decryptResult));
 			}
 
 			// 获取审批数据

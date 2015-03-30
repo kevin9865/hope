@@ -15,6 +15,8 @@ import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
 import com.hope.systemManager.approveManager.util.ApproveStatus;
 import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.userManager.model.User;
+import com.hope.util.AESUtil;
+import com.hope.util.MD5Util;
 import com.hope.util.Tools;
 
 public class ApproveOperateServiceImpl implements ApproveOperateService{
@@ -75,7 +77,13 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 		cHeader.setContentHeader(approveContentHeader.getContentHeader());
 		cHeader.setContentTitle(approveContentHeader.getContentTitle());
 		cHeader.setHeaderId(approveContentHeader.getHeaderId());
-		cHeader.setUrl(url+cHeader.getContentHeaderId());
+		
+		//AES加密  
+		String content = String.valueOf(cHeader.getContentHeaderId());  
+		String password = "qwe123asd789zxc";
+		byte[] encryptResult = AESUtil.encrypt(content, password);  
+		String encryptResultStr = AESUtil.parseByte2HexStr(encryptResult);
+		cHeader.setUrl(url+encryptResultStr+"&login");
 		
 		for(ApproveContentItem cItem:approveContentHeader.getApproveContentItems()){
 			cItem.setContentHeaderId(cHeader.getContentHeaderId());

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 // @Table(name = "ORG")
 public class Org {
 	// 组织结构行ID
-	private int orgLineId;
+	private long orgLineId;
 	// 组织名称
 	private String orgName;
 	// 组织结构ID
@@ -35,11 +35,11 @@ public class Org {
 
 	@Id
 	@Column(name = "ORG_LINE_ID")
-	public int getOrgLineId() {
+	public long getOrgLineId() {
 		return orgLineId;
 	}
 
-	public void setOrgLineId(int orgLineId) {
+	public void setOrgLineId(long orgLineId) {
 		this.orgLineId = orgLineId;
 	}
 	

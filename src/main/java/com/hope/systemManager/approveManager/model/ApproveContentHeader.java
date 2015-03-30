@@ -16,7 +16,7 @@ import javax.persistence.OrderBy;
 @Entity(name = "APPROVE_CONTENT_HEADER")
 public class ApproveContentHeader {
 	// 审批申请ID
-	private int contentHeaderId;
+	private long contentHeaderId;
 	// 审批内容ID
 	private String headerId;
 	// 审批内容标题
@@ -69,11 +69,11 @@ public class ApproveContentHeader {
 
 	@Id
 	@Column(name = "CONTENT_HEADER_ID")
-	public int getContentHeaderId() {
+	public long getContentHeaderId() {
 		return contentHeaderId;
 	}
 
-	public void setContentHeaderId(int contentHeaderId) {
+	public void setContentHeaderId(long contentHeaderId) {
 		this.contentHeaderId = contentHeaderId;
 	}
 	@Column(name = "HEADER_ID")

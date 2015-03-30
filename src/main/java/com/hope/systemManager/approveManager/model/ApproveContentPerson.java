@@ -35,7 +35,7 @@ public class ApproveContentPerson {
 	// 状态
 	private String status;
 	
-	private int contentHeaderId;
+	private long contentHeaderId;
 	
 	private String checkScript;
 	private String conditions;
@@ -59,11 +59,11 @@ public class ApproveContentPerson {
 	}
 
 	@Column(name = "CONTENT_HEADER_ID")
-	public int getContentHeaderId() {
+	public long getContentHeaderId() {
 		return contentHeaderId;
 	}
 
-	public void setContentHeaderId(int contentHeaderId) {
+	public void setContentHeaderId(long contentHeaderId) {
 		this.contentHeaderId = contentHeaderId;
 	}
 	

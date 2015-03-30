@@ -34,13 +34,13 @@ public class SysFunctionAction {
 	private List<SysFunction> sysFunctions;
 	private List<SysFunction> filteredSysFunctions;
 	private List<SysFunction> selectedSysFunctions;
-	private int sysFidSelect;
+	private long sysFidSelect;
 
-	public int getSysFidSelect() {
+	public long getSysFidSelect() {
 		return sysFidSelect;
 	}
 
-	public void setSysFidSelect(int sysFidSelect) {
+	public void setSysFidSelect(long sysFidSelect) {
 		this.sysFidSelect = sysFidSelect;
 	}
 
@@ -215,7 +215,7 @@ public class SysFunctionAction {
 	 * 
 	 * @param sysFunIdSelect
 	 */
-	public void initSysFunctionOperationList(int sysFidSelect) {
+	public void initSysFunctionOperationList(long sysFidSelect) {
 		SysFunctionOperation sysFunctionOperation = new SysFunctionOperation();
 		sysFunctionOperation.setSysFid(sysFidSelect);
 		sysFunctionOperations = sysFunctionOperationService
@@ -344,15 +344,15 @@ public class SysFunctionAction {
 	/**
 	 * 系统功能操作表单
 	 */
-	private int sysFidOpeForm;
+	private long sysFidOpeForm;
 	private int sysFunOpeIdOpeForm;
 	private String operationForm;
 
-	public int getSysFidOpeForm() {
+	public long getSysFidOpeForm() {
 		return sysFidOpeForm;
 	}
 
-	public void setSysFidOpeForm(int sysFidOpeForm) {
+	public void setSysFidOpeForm(long sysFidOpeForm) {
 		this.sysFidOpeForm = sysFidOpeForm;
 	}
 

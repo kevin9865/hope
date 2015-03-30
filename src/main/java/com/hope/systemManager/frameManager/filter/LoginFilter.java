@@ -28,16 +28,34 @@ public class LoginFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		HttpSession session = request.getSession();
-		if (session.getAttribute("UserContext") == null || session.isNew()) {
+		
+		String url=request.getRequestURI()+"?"+request.getQueryString();
+		String loginFlag=(String) request.getParameter("login");
+
+		if(session.getAttribute("UserContext") == null&&loginFlag==null){
 			response.sendRedirect(loginPage);
+		} else if (session.getAttribute("UserContext") == null&&session.getAttribute("approveContext")==null&&loginFlag!=null) {
+			session.setAttribute("approveContext", url);
+			response.sendRedirect(loginPage);
+		} else if (session.getAttribute("UserContext") != null&&session.getAttribute("approveContext")!=null) {
+			String approveContextUrl=(String) session.getAttribute("approveContext");
+			session.removeAttribute("approveContext");
+			response.sendRedirect(approveContextUrl);
 		} else {
 			filterChain.doFilter(servletRequest, servletResponse);
 		}
+		
+//		if (session.getAttribute("UserContext") == null || session.isNew()) {
+//			response.sendRedirect(loginPage);
+//		} else {
+//			filterChain.doFilter(servletRequest, servletResponse);
+//		}
 	}
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		loginPage = config.getInitParameter("loginPage");
+		
 	}
 
 }
