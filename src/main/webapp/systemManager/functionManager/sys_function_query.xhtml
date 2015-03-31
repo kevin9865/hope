@@ -227,6 +227,10 @@
 					requiredMessage="操作名称不能为空" size="19" styleClass="ct-fontsize" />
 				<p:message for="operationForm" />
 			</h:panelGrid>
+			<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{sysFunctionAction.addSysFunctionOperation}"
+					update="operationPanelGrid sysFunctionOperationsTable"
+					process="operationPanelGrid sysFunctionOperationsTable"></p:commandButton>
 			<h:panelGrid columns="2">
 				<p:commandButton value="保存" ajax="true" validateClient="true"
 					action="#{sysFunctionAction.addSysFunctionOperation}"

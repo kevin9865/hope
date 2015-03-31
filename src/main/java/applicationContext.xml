@@ -108,6 +108,7 @@
 	<bean id="approveContentPersonDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveContentPersonDaoImpl"/>
 	
 	<bean id="approveFlowHeaderDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveFlowHeaderDaoImpl"/>
+	<bean id="approveFlowItemDaoImpl" class="com.hope.systemManager.approveManager.dao.ApproveFlowItemDaoImpl"/>
 	<bean id="routineApproveServiceImpl" class="com.hope.systemManager.approveManager.service.RoutineApproveServiceImpl">
 		<property name="approveFlowHeaderDao" ref="approveFlowHeaderDaoImpl"></property>
 	</bean>
@@ -132,5 +133,14 @@
 	
 	<bean id="routineApprovePageServiceImpl" class="com.hope.systemManager.approveManager.service.RoutineApprovePageServiceImpl">
 		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+	</bean>
+	
+	<bean id="approveFlowServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveFlowServiceImpl">
+		<property name="approveFlowHeaderDao" ref="approveFlowHeaderDaoImpl"></property>
+		<property name="approveFlowItemDao" ref="approveFlowItemDaoImpl"></property>
+	</bean>
+	
+	<bean id="approveFlowPersonServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveFlowPersonServiceImpl">
+		<property name="approveFlowItemDao" ref="approveFlowItemDaoImpl"></property>
 	</bean>
 </beans>

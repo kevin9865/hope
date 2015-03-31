@@ -11,8 +11,8 @@ import org.hibernate.SessionFactory;
 import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
 import com.hope.systemManager.approveManager.model.ApproveFlowItem;
 
-public class ApproveFlowHeaderDaoImpl implements ApproveFlowHeaderDao{
-
+public class ApproveFlowItemDaoImpl implements ApproveFlowItemDao{
+	
 	private SessionFactory sessionFactory;
 
 	public SessionFactory getSessionFactory() {
@@ -25,47 +25,28 @@ public class ApproveFlowHeaderDaoImpl implements ApproveFlowHeaderDao{
 	}
 	
 	@Override
-	public void add(ApproveFlowHeader approveFlowHeader) {
+	public void add(ApproveFlowItem approveFlowItem) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(approveFlowHeader);
+		session.save(approveFlowItem);
 	}
 
 	@Override
-	public void delete(ApproveFlowHeader approveFlowHeader) {
+	public void delete(ApproveFlowItem approveFlowItem) {
 		Session session = sessionFactory.getCurrentSession();
-		session.delete(approveFlowHeader);
+		session.delete(approveFlowItem);
 	}
 
 	@Override
-	public void update(ApproveFlowHeader approveFlowHeader) {
+	public void update(ApproveFlowItem approveFlowItem) {
 		Session session = sessionFactory.getCurrentSession();
-		session.update(approveFlowHeader);
+		session.update(approveFlowItem);
 	}
 
 	@Override
-	public ApproveFlowHeader query(ApproveFlowHeader approveFlowHeader) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ApproveFlowHeader> queryAll() {
+	public List<ApproveFlowItem> queryAll(ApproveFlowItem approveFlowItem) {
 		Session session = sessionFactory.getCurrentSession();
-		List<ApproveFlowHeader> list = session.createQuery("from APPROVE_FLOW_HEADER a order by a.flowHeaderId desc").list();
+		List<ApproveFlowItem> list = session.createQuery("from APPROVE_FLOW_ITEM a where a.flowHeaderId='"+approveFlowItem.getFlowHeaderId()+"' order by a.nodeIndex").list();
 		return list;
-	}
-
-	@Override
-	public ApproveFlowHeader query(String orgId) {
-		Session session = sessionFactory.getCurrentSession();
-		List<ApproveFlowHeader> list = session.createQuery("from APPROVE_FLOW_HEADER a where a.orgId='"+orgId+"'").list();
-		if(list.isEmpty()){
-			return null;
-		}else{
-			ApproveFlowHeader flowHeader=list.get(0);
-			session.evict(flowHeader);//释放session
-			return flowHeader;
-		}
 	}
 
 	@Override

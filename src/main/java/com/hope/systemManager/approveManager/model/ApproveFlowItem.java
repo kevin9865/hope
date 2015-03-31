@@ -12,22 +12,22 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Entity(name = "APPROVE_FLOW_ITEM")
 public class ApproveFlowItem {
 //	private ApproveFlowHeader approveFlowHeader;
-	private int flowItemId;
+	private long flowItemId;
 	private String nodeName;
 	private int nodeIndex;
 	private String conditions;
 	private String checkScript;
 	private String username;
 	private String name;
-	private int flowHeaderId;
+	private long flowHeaderId;
 	
 	
 	@Column(name = "FLOW_HEADER_ID")
-	public int getFlowHeaderId() {
+	public long getFlowHeaderId() {
 		return flowHeaderId;
 	}
 
-	public void setFlowHeaderId(int flowHeaderId) {
+	public void setFlowHeaderId(long flowHeaderId) {
 		this.flowHeaderId = flowHeaderId;
 	}
 
@@ -61,11 +61,11 @@ public class ApproveFlowItem {
 	
 	@Id
 	@Column(name = "FLOW_ITEM_ID")
-	public int getFlowItemId() {
+	public long getFlowItemId() {
 		return flowItemId;
 	}
 
-	public void setFlowItemId(int flowItemId) {
+	public void setFlowItemId(long flowItemId) {
 		this.flowItemId = flowItemId;
 	}
 	@Column(name = "NODE_NAME")

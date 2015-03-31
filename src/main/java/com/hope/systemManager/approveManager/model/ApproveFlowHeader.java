@@ -19,7 +19,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity(name = "APPROVE_FLOW_HEADER")
 public class ApproveFlowHeader {
-	private int flowHeaderId;
+	private long flowHeaderId;
 	private String flowName;
 	private String orgId;
 	private Date createtime;
@@ -48,11 +48,11 @@ public class ApproveFlowHeader {
 
 	@Id
 	@Column(name = "FLOW_HEADER_ID")
-	public int getFlowHeaderId() {
+	public long getFlowHeaderId() {
 		return flowHeaderId;
 	}
 
-	public void setFlowHeaderId(int flowHeaderId) {
+	public void setFlowHeaderId(long flowHeaderId) {
 		this.flowHeaderId = flowHeaderId;
 	}
 	@Column(name = "FLOW_NAME")

@@ -161,6 +161,20 @@
 		</managed-property>
 	</managed-bean>
 	
+	<managed-bean>
+		<managed-bean-name>approveFlowAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.ApproveFlowAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>approveFlowService</property-name>
+			<value>#{approveFlowServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>approveFlowPersonService</property-name>
+			<value>#{approveFlowPersonServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
 		<navigation-case>

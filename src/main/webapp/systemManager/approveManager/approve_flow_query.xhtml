@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>approveFlow</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="hope.css" />
+</h:head>
+<h:body>
+	<h:form id="approveFlowForm">
+		<p:dataTable id="approveFlowsTable" var="approveFlow"
+			value="#{approveFlowAction.approveFlowHeaders}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" editable="true"
+			widgetVar="approveFlowTable"
+			filteredValue="#{approveFlowAction.filteredApproveFlowHeaders}"
+			style="width:auto;height:auto;" styleClass="ct-fontsize"
+			selection="#{approveFlowAction.selectedApproveFlowHeaders}"
+			rowKey="#{approveFlow.flowHeaderId}">
+			<p:ajax event="rowEdit" listener="#{approveFlowAction.onRowEdit}" />
+			<p:ajax event="rowEditCancel"
+				listener="#{approveFlowAction.onRowCancel}" />
+			<p:ajax event="rowDblselect"
+				listener="#{approveFlowAction.onRowSelect}"
+				oncomplete="PF('dlg2').show()"
+				update=":approveFlowForm:approveFlowPersonsTable"/>
+			<f:facet name="header">
+				<p:outputPanel style="text-align: right;">
+					<p:commandButton value="添加" type="button"
+						onclick="PF('dlg1').show();" />
+					<p:commandButton value="删除"
+						action="#{approveFlowAction.delete}"
+						update="approveFlowsTable" process="approveFlowsTable" onclick="return confirm('是否确认删除?');"/>
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter"
+						onkeyup="PF('approveFlowTable').filter()" style="width:150px"
+						placeholder="Enter keyword" value="" />
+				</p:outputPanel>
+			</f:facet>
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+			<p:column headerText="审批流ID" style="text-align:center;">
+				<h:outputText value="#{approveFlow.flowHeaderId}" />
+			</p:column>
+			<p:column headerText="审批流描述" filterBy="#{approveFlow.flowName}" width="300">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{approveFlow.flowName}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{approveFlow.flowName}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="组织结构ID">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{approveFlow.orgId}"
+							styleClass="ct-fontsize" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{approveFlow.orgId}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="创建时间" width="200" style="text-align:center;">
+				<h:outputText value="#{approveFlow.createtime}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT+8"/>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="是否启用" width="60" style="text-align:center;">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{approveFlow.active}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu value="#{approveFlow.active}" style="width:100%">
+							<f:selectItem itemLabel="Y" itemValue="Y" />
+							<f:selectItem itemLabel="N" itemValue="N" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+		<p:dialog id="approveFlowDialog" header="审批流添加" widgetVar="dlg1"
+			minHeight="80" styleClass="ct-fontsize">
+			<h:panelGrid columns="3" id="approveFlowPanelGrid">
+				<h:outputLabel for="flowNameForm" value="审批流描述："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="flowNameForm"
+					value="#{approveFlowAction.flowNameForm}" required="true"
+					requiredMessage="审批流描述不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="flowNameForm" />
+				<h:outputLabel for="orgIdForm" value="组织结构ID："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="orgIdForm"
+					value="#{approveFlowAction.orgIdForm}" required="false" size="19" styleClass="ct-fontsize" />
+				<p:message for="orgIdForm" />
+				<h:outputLabel for="activeForm" value="是否启用："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:selectOneMenu id="activeForm"
+					value="#{approveFlowAction.activeForm}" styleClass="ct-fontsize">
+					<f:selectItem itemLabel="是" itemValue="Y" />
+					<f:selectItem itemLabel="否" itemValue="N" />
+				</p:selectOneMenu>
+				<p:message for="activeForm" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{approveFlowAction.add}"
+					update="approveFlowPanelGrid approveFlowsTable"
+					process="approveFlowPanelGrid approveFlowsTable"></p:commandButton>
+			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="approveFlowPersonDialog" header="审批人员"
+			widgetVar="dlg2" styleClass="ct-fontsize" width="1000">
+			<p:dataTable id="approveFlowPersonsTable"
+				var="approveFlowPerson"
+				value="#{approveFlowAction.approveFlowItems}" rows="10"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				editable="true" widgetVar="approveFlowPersonTable"
+				filteredValue="#{approveFlowAction.filteredApproveFlowItems}"
+				style="width:auto;height:auto;" styleClass="ct-fontsize"
+				selection="#{approveFlowAction.selectedApproveFlowItems}"
+				rowKey="#{approveFlowPerson.flowItemId}">
+				<p:ajax event="rowEdit" listener="#{approveFlowAction.onRowEditOpe}" />
+				<p:ajax event="rowEditCancel"
+					listener="#{approveFlowAction.onRowCancelOpe}" />
+				<f:facet name="header">
+					<p:outputPanel style="text-align: right;">
+						<p:commandButton id="addOperation" value="添加" type="button">
+							<p:ajax listener="#{approveFlowAction.initFlowPersonForm}"
+								oncomplete="PF('dlg3').show();"
+								update=":approveFlowForm:flowPersonPanelGrid"></p:ajax>
+						</p:commandButton>
+						<p:commandButton value="删除" 
+							action="#{approveFlowAction.deleteApproveFlowPerson}"
+							process="approveFlowPersonsTable"
+							update="approveFlowPersonsTable" onclick="return confirm('是否确认删除?');"/>
+					</p:outputPanel>
+				</f:facet>
+				<p:column selectionMode="multiple"
+					style="width:16px;text-align:center" />
+				<p:column headerText="审批节点" style="text-align:center;">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{approveFlowPerson.nodeIndex}"
+								styleClass="ct-fontsize" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{approveFlowPerson.nodeIndex}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="审批环节" style="text-align:center;">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{approveFlowPerson.nodeName}"
+								styleClass="ct-fontsize" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{approveFlowPerson.nodeName}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="审批条件">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{approveFlowPerson.conditions}"
+								styleClass="ct-fontsize" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{approveFlowPerson.conditions}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="审批脚本">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{approveFlowPerson.checkScript}"
+								styleClass="ct-fontsize" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{approveFlowPerson.checkScript}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="审批人">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{approveFlowPerson.username}"
+								styleClass="ct-fontsize" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{approveFlowPerson.username}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+		<p:dialog id="personDialog" header="审批人员添加" widgetVar="dlg3"
+			styleClass="ct-fontsize">
+			<h:panelGrid columns="3" id="flowPersonPanelGrid">
+				<h:outputLabel for="nodeIndexForm" value="审批节点："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="nodeIndexForm"
+					value="#{approveFlowAction.nodeIndexForm}" required="true"
+					requiredMessage="审批节点不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="nodeIndexForm" />
+				<h:outputLabel for="nodeNameForm" value="审批环节："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="nodeNameForm"
+					value="#{approveFlowAction.nodeNameForm}" required="true"
+					requiredMessage="审批环节不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="nodeNameForm" />
+				<h:outputLabel for="conditionsForm" value="审批条件："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="conditionsForm"
+					value="#{approveFlowAction.conditionsForm}" required="true"
+					requiredMessage="审批条件不能为空" size="19" styleClass="ct-fontsize" />
+				<p:message for="conditionsForm" />
+				<h:outputLabel for="checkScriptForm" value="审批脚本："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="checkScriptForm"
+					value="#{approveFlowAction.checkScriptForm}" required="false" size="19" styleClass="ct-fontsize" />
+				<p:message for="checkScriptForm" />
+				<h:outputLabel for="usernameForm" value="审批人id："
+					style="font-weight:bold" styleClass="ct-fontsize" />
+				<p:inputText id="usernameForm"
+					value="#{approveFlowAction.usernameForm}" required="false" size="19" styleClass="ct-fontsize" />
+				<p:message for="usernameForm" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="保存" ajax="true" validateClient="true"
+					action="#{approveFlowAction.addFlowPerson}"
+					update="flowPersonPanelGrid approveFlowPersonsTable"
+					process="flowPersonPanelGrid approveFlowPersonsTable"></p:commandButton>
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>
