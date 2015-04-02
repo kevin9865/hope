@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hope.systemManager.approveManager.dao.ApproveFlowItemDao;
 import com.hope.systemManager.approveManager.model.ApproveFlowItem;
 
-public class ApproveFlowPersonServiceImpl implements ApproveFlowPersonService{
-	
+public class ApproveFlowPersonServiceImpl implements ApproveFlowPersonService {
+
 	private ApproveFlowItemDao approveFlowItemDao;
 
 	public ApproveFlowItemDao getApproveFlowItemDao() {
@@ -31,7 +31,7 @@ public class ApproveFlowPersonServiceImpl implements ApproveFlowPersonService{
 
 	@Transactional
 	public void deleteBatch(List<ApproveFlowItem> list) {
-		for(ApproveFlowItem item:list){
+		for (ApproveFlowItem item : list) {
 			approveFlowItemDao.delete(item);
 		}
 	}

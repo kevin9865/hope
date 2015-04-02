@@ -26,14 +26,15 @@
 			<p:ajax event="rowDblselect"
 				listener="#{approveFlowAction.onRowSelect}"
 				oncomplete="PF('dlg2').show()"
+				process=":approveFlowForm:approveFlowPersonsTable"
 				update=":approveFlowForm:approveFlowPersonsTable"/>
 			<f:facet name="header">
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
 						onclick="PF('dlg1').show();" />
-					<p:commandButton value="删除"
+					<p:commandButton value="删除" 
 						action="#{approveFlowAction.delete}"
-						update="approveFlowsTable" process="approveFlowsTable" onclick="return confirm('是否确认删除?');"/>
+						update="approveFlowsTable" process="approveFlowsTable" />
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter"
 						onkeyup="PF('approveFlowTable').filter()" style="width:150px"
@@ -143,7 +144,7 @@
 						<p:commandButton value="删除" 
 							action="#{approveFlowAction.deleteApproveFlowPerson}"
 							process="approveFlowPersonsTable"
-							update="approveFlowPersonsTable" onclick="return confirm('是否确认删除?');"/>
+							update="approveFlowPersonsTable" />
 					</p:outputPanel>
 				</f:facet>
 				<p:column selectionMode="multiple"

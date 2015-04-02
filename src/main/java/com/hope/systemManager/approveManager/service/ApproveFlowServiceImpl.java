@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hope.systemManager.approveManager.dao.ApproveFlowHeaderDao;
 import com.hope.systemManager.approveManager.dao.ApproveFlowItemDao;
+import com.hope.systemManager.approveManager.dao.ApproveFlowItemDaoImpl;
 import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
+import com.hope.systemManager.approveManager.model.ApproveFlowItem;
 
 public class ApproveFlowServiceImpl implements ApproveFlowService {
 
@@ -43,6 +45,9 @@ public class ApproveFlowServiceImpl implements ApproveFlowService {
 	@Transactional
 	public void deleteBatch(List<ApproveFlowHeader> list) {
 		for(ApproveFlowHeader header:list){
+			for(ApproveFlowItem item:header.getApproveFlowItems()){
+				approveFlowItemDao.delete(item);
+			}
 			approveFlowHeaderDao.delete(header);
 		}
 	}

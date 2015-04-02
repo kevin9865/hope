@@ -17,16 +17,16 @@ import com.hope.systemManager.approveManager.service.ApproveFlowService;
 import com.hope.systemManager.frameManager.action.LoginAction;
 
 public class ApproveFlowAction {
-	/************************************************审批流抬头 ******************************************************************/
+	/************************************************ 审批流抬头 ******************************************************************/
 	@PostConstruct
-	public void init(){
+	public void init() {
 		try {
-			approveFlowHeaders=approveFlowService.approveFlowQueryAll();
+			approveFlowHeaders = approveFlowService.approveFlowQueryAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private ApproveFlowService approveFlowService;
 	private List<ApproveFlowHeader> approveFlowHeaders;
 	private List<ApproveFlowHeader> filteredApproveFlowHeaders;
@@ -74,15 +74,16 @@ public class ApproveFlowAction {
 	public void setApproveFlowService(ApproveFlowService approveFlowService) {
 		this.approveFlowService = approveFlowService;
 	}
-	
+
 	/**
-	 * 编辑功能Table
+	 * 编辑Table
 	 * 
 	 * @param event
 	 */
 	public void onRowEdit(RowEditEvent event) {
 		try {
-			ApproveFlowHeader approveFlowHeader=(ApproveFlowHeader) event.getObject();
+			ApproveFlowHeader approveFlowHeader = (ApproveFlowHeader) event
+					.getObject();
 			approveFlowService.update(approveFlowHeader);
 			init();
 		} catch (Exception e) {
@@ -91,7 +92,7 @@ public class ApproveFlowAction {
 	}
 
 	/**
-	 * 关闭编辑功能Table
+	 * 关闭编Table
 	 * 
 	 * @param event
 	 */
@@ -100,13 +101,14 @@ public class ApproveFlowAction {
 	}
 
 	/**
-	 * 选择功能Table
+	 * 选择Table
 	 * 
 	 * @param event
 	 */
 	public void onRowSelect(SelectEvent event) {
 		try {
-			flowHeaderIdSelect = ((ApproveFlowHeader) event.getObject()).getFlowHeaderId();
+			flowHeaderIdSelect = ((ApproveFlowHeader) event.getObject())
+					.getFlowHeaderId();
 			initApproveFlowPersonList(flowHeaderIdSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,14 +116,15 @@ public class ApproveFlowAction {
 	}
 
 	/**
-	 * 添加功能
+	 * 添加审批流抬头
 	 */
 	public void add() {
 		try {
-			ApproveFlowHeader approveFlowHeader=new ApproveFlowHeader();
+			ApproveFlowHeader approveFlowHeader = new ApproveFlowHeader();
 			approveFlowHeader.setFlowHeaderId(approveFlowService.maxId());
 			approveFlowHeader.setOrgId(orgIdForm);
-			approveFlowHeader.setCompanyCode(LoginAction.getCurrentUser().getCompanyCode());
+			approveFlowHeader.setCompanyCode(LoginAction.getCurrentUser()
+					.getCompanyCode());
 			approveFlowHeader.setCreatetime(new Date());
 			approveFlowHeader.setFlowName(flowNameForm);
 			approveFlowHeader.setActive(activeForm);
@@ -145,7 +148,7 @@ public class ApproveFlowAction {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 审批流抬头表单
 	 */
@@ -194,15 +197,15 @@ public class ApproveFlowAction {
 	public void setActiveForm(String activeForm) {
 		this.activeForm = activeForm;
 	}
-	
-	/************************************************审批流行项******************************************************************/
-	
-	public void initApproveFlowPersonList(long flowHeaderIdSelect){
-		ApproveFlowItem approveFlowItem=new ApproveFlowItem();
+
+	/************************************************ 审批流行项 ******************************************************************/
+
+	public void initApproveFlowPersonList(long flowHeaderIdSelect) {
+		ApproveFlowItem approveFlowItem = new ApproveFlowItem();
 		approveFlowItem.setFlowHeaderId(flowHeaderIdSelect);
-		approveFlowItems=approveFlowPersonService.queryAll(approveFlowItem);
+		approveFlowItems = approveFlowPersonService.queryAll(approveFlowItem);
 	}
-	
+
 	private ApproveFlowPersonService approveFlowPersonService;
 	private List<ApproveFlowItem> approveFlowItems;
 	private List<ApproveFlowItem> filteredApproveFlowItems;
@@ -242,15 +245,16 @@ public class ApproveFlowAction {
 			List<ApproveFlowItem> selectedApproveFlowItems) {
 		this.selectedApproveFlowItems = selectedApproveFlowItems;
 	}
-	
+
 	/**
-	 * 编辑功能操作Table
+	 * 编辑Table
 	 * 
 	 * @param event
 	 */
 	public void onRowEditOpe(RowEditEvent event) {
 		try {
-			ApproveFlowItem approveFlowItem=(ApproveFlowItem) event.getObject();
+			ApproveFlowItem approveFlowItem = (ApproveFlowItem) event
+					.getObject();
 			approveFlowPersonService.update(approveFlowItem);
 			initApproveFlowPersonList(flowHeaderIdSelect);
 		} catch (Exception e) {
@@ -259,7 +263,7 @@ public class ApproveFlowAction {
 	}
 
 	/**
-	 * 关闭编辑功能操作Table
+	 * 关闭编辑
 	 * 
 	 * @param event
 	 */
@@ -272,7 +276,7 @@ public class ApproveFlowAction {
 	 */
 	public void addFlowPerson() {
 		try {
-			ApproveFlowItem approveFlowItem=new ApproveFlowItem();
+			ApproveFlowItem approveFlowItem = new ApproveFlowItem();
 			approveFlowItem.setFlowHeaderId(flowHeaderIdSelect);
 			approveFlowItem.setFlowItemId(approveFlowService.maxId());
 			approveFlowItem.setNodeName(nodeNameForm);
@@ -280,7 +284,7 @@ public class ApproveFlowAction {
 			approveFlowItem.setConditions(conditionsForm);
 			approveFlowItem.setCheckScript(checkScriptForm);
 			approveFlowItem.setUsername(usernameForm);
-			
+
 			approveFlowPersonService.add(approveFlowItem);
 			RequestContext rc = RequestContext.getCurrentInstance();
 			rc.execute("PF('dlg3').hide()");
@@ -291,7 +295,7 @@ public class ApproveFlowAction {
 	}
 
 	/**
-	 * 批量删除功能操作
+	 * 批量删除审批流
 	 */
 	public void deleteApproveFlowPerson() {
 		try {
@@ -303,16 +307,16 @@ public class ApproveFlowAction {
 	}
 
 	/**
-	 * 初始化operationForm表单数据
+	 * 初始化FlowPersonForm表单数据
 	 */
 	public void initFlowPersonForm() {
-		nodeIndexForm=0;
-		nodeNameForm="";
-		conditionsForm="";
-		checkScriptForm="";
-		usernameForm="";
+		nodeIndexForm = 0;
+		nodeNameForm = "";
+		conditionsForm = "";
+		checkScriptForm = "";
+		usernameForm = "";
 	}
-	
+
 	/**
 	 * 审批流行项表单
 	 */
@@ -361,5 +365,5 @@ public class ApproveFlowAction {
 	public void setUsernameForm(String usernameForm) {
 		this.usernameForm = usernameForm;
 	}
-	
+
 }
