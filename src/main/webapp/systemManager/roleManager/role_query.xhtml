@@ -11,6 +11,10 @@
 </h:head>
 <h:body>
 	<h:form id="roleForm">
+		<p:confirmDialog global="true" style="font-size:12px;">
+	        <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
 		<p:dataTable id="rolesTable" var="role" value="#{roleAction.roles}"
 			rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -30,7 +34,9 @@
 							oncomplete="PF('dlg1').show();" update=":roleForm:roleDialog"></p:ajax>
 					</p:commandButton>
 					<p:commandButton value="删除" action="#{roleAction.deleteRole}"
-						update="rolesTable" process="rolesTable" />
+						update="rolesTable" process="rolesTable">
+						<p:confirm header="" message="是否删除?" />
+					</p:commandButton>
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter" onkeyup="PF('roleTable').filter()"
 						style="width:150px" placeholder="Enter keyword" value="" />

@@ -11,6 +11,10 @@
 </h:head>
 <h:body>
 	<h:form id="sysFunctionQueryForm">
+		<p:confirmDialog global="true" style="font-size:12px;">
+	        <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
 		<p:dataTable id="sysFunctionsTable" var="sysFunction"
 			value="#{sysFunctionAction.sysFunctions}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -34,7 +38,9 @@
 						onclick="PF('dlg1').show();" />
 					<p:commandButton value="删除"
 						action="#{sysFunctionAction.deleteSysFunction}"
-						update="sysFunctionsTable" process="sysFunctionsTable" />
+						update="sysFunctionsTable" process="sysFunctionsTable">
+						<p:confirm header="" message="是否删除?" />
+					</p:commandButton>
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter"
 						onkeyup="PF('sysFunctionTable').filter()" style="width:150px"
@@ -178,7 +184,9 @@
 						<p:commandButton value="删除"
 							action="#{sysFunctionAction.deleteSysFunctionOperation}"
 							process="sysFunctionOperationsTable"
-							update="sysFunctionOperationsTable" />
+							update="sysFunctionOperationsTable">
+							<p:confirm header="" message="是否删除?" />
+						</p:commandButton>
 					</p:outputPanel>
 				</f:facet>
 				<p:column selectionMode="multiple"

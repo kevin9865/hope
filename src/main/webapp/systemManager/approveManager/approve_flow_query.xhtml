@@ -11,6 +11,10 @@
 </h:head>
 <h:body>
 	<h:form id="approveFlowForm">
+		<p:confirmDialog global="true" style="font-size:12px;">
+	        <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
 		<p:dataTable id="approveFlowsTable" var="approveFlow"
 			value="#{approveFlowAction.approveFlowHeaders}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -32,9 +36,11 @@
 				<p:outputPanel style="text-align: right;">
 					<p:commandButton value="添加" type="button"
 						onclick="PF('dlg1').show();" />
-					<p:commandButton value="删除" 
+					<p:commandButton value="删除" validateClient="false"
 						action="#{approveFlowAction.delete}"
-						update="approveFlowsTable" process="approveFlowsTable" />
+						update="approveFlowsTable" process="approveFlowsTable">
+						<p:confirm header="" message="是否删除?" />
+					</p:commandButton>
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter"
 						onkeyup="PF('approveFlowTable').filter()" style="width:150px"
@@ -144,7 +150,9 @@
 						<p:commandButton value="删除" 
 							action="#{approveFlowAction.deleteApproveFlowPerson}"
 							process="approveFlowPersonsTable"
-							update="approveFlowPersonsTable" />
+							update="approveFlowPersonsTable">
+							<p:confirm header="" message="是否删除?" />
+						</p:commandButton>
 					</p:outputPanel>
 				</f:facet>
 				<p:column selectionMode="multiple"

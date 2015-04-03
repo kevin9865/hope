@@ -10,8 +10,12 @@
 	<h:outputStylesheet library="css" name="hope.css" />
 </h:head>
 <h:body>
-<h:form id="orgForm">
-<p:dataTable id="orgsTable" var="org"
+	<h:form id="orgForm">
+		<p:confirmDialog global="true" style="font-size:12px;">
+	        <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+		<p:dataTable id="orgsTable" var="org"
 			value="#{orgAction.orgs}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" editable="true"
@@ -32,7 +36,9 @@
 					</p:commandButton>
 					<p:commandButton value="删除"
 						action="#{orgAction.deleteOrg}"
-						update="orgsTable" process="orgsTable" />
+						update="orgsTable" process="orgsTable">
+						<p:confirm header="" message="是否删除?" />
+					</p:commandButton>
 					<h:outputText value="Search all fields:" />
 					<p:inputText id="globalFilter"
 						onkeyup="PF('orgTable').filter()" style="width:150px"
