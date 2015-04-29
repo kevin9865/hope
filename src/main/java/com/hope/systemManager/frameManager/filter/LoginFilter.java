@@ -34,7 +34,7 @@ public class LoginFilter implements Filter {
 
 		if(session.getAttribute("UserContext") == null&&loginFlag==null){
 			response.sendRedirect(loginPage);
-		} else if (session.getAttribute("UserContext") == null&&session.getAttribute("approveContext")==null&&loginFlag!=null) {
+		} else if (session.getAttribute("UserContext") == null&&loginFlag!=null) {
 			session.setAttribute("approveContext", url);
 			response.sendRedirect(loginPage);
 		} else if (session.getAttribute("UserContext") != null&&session.getAttribute("approveContext")!=null) {
