@@ -123,6 +123,10 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 				
 				
 				if(size==person.getNodeIndex()){
+					approveContentHeader.setCurrentApprover(null);
+					approveContentHeader.setStarttime(null);
+					approveContentHeader.setStatus(ApproveStatus.APPROVE_SUCCESS);
+					approveContentHeaderDao.update(approveContentHeader);
 					break;
 				}else {
 					ApproveContentPerson personNext=list.get(i+1);
@@ -144,11 +148,6 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 		List<ApproveContentPerson> list=approveContentHeader.getApproveContentPersons();
 		int size=list.size();
 		
-		approveContentHeader.setCurrentApprover(null);
-		approveContentHeader.setStarttime(null);
-		approveContentHeader.setStatus("审批驳回");
-		approveContentHeaderDao.update(approveContentHeader);
-		
 		for(int i=0;i<size;i++){
 			ApproveContentPerson person=list.get(i);
 			if(person.getUsername().equals(username)){
@@ -160,6 +159,7 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 				
 				approveContentHeader.setCurrentApprover(null);
 				approveContentHeader.setStarttime(null);
+				approveContentHeader.setStatus(ApproveStatus.APPROVE_FAIL);
 				approveContentHeaderDao.update(approveContentHeader);
 				break;
 			}

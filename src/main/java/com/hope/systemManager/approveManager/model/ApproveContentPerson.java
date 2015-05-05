@@ -39,7 +39,17 @@ public class ApproveContentPerson {
 	
 	private String checkScript;
 	private String conditions;
+	private boolean select;
 	
+	@Transient
+	public boolean isSelect() {
+		return select;
+	}
+
+	public void setSelect(boolean select) {
+		this.select = select;
+	}
+
 	@Transient
 	public String getConditions() {
 		return conditions;

@@ -1,25 +1,16 @@
 package com.hope.systemManager.approveManager.action;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-
 import org.primefaces.context.RequestContext;
-
 import bsh.Interpreter;
 
-import com.hope.systemManager.approveManager.dao.ApproveFlowHeaderDao;
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
 import com.hope.systemManager.approveManager.model.ApproveContentItem;
 import com.hope.systemManager.approveManager.model.ApproveContentPerson;
-import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
 import com.hope.systemManager.approveManager.service.ApproveOperateService;
-import com.hope.systemManager.approveManager.temp.ApproversTemp;
 import com.hope.systemManager.approveManager.util.SessionTools;
 import com.hope.util.Tools;
 
@@ -39,14 +30,11 @@ public class RoutineApproveConfirmAction {
 					.getContentItem());
 			content = (String) itemMap.get("content");
 			
-			List<ApproveContentPerson> contentPersons=approveContentHeader.getApproveContentPersons();
-			approvers=new ArrayList<ApproversTemp>();
+			approvers=approveContentHeader.getApproveContentPersons();
 			
-			for(ApproveContentPerson acp:contentPersons){
-				ApproversTemp approversTemp=new ApproversTemp();
-				
+			for(ApproveContentPerson acp:approvers){
 				if(acp.getConditions().equals("0")){
-					approversTemp.setSelect(true);
+					acp.setSelect(true);
 				}else {
 					Interpreter in = new Interpreter();
 					in.set("checkObject", this.approveContentHeader);
@@ -56,14 +44,9 @@ public class RoutineApproveConfirmAction {
 					if(in.get("result")!=null){
 						result = (Boolean) in.get("result");
 					}
-					
-					approversTemp.setSelect(result);
+					acp.setSelect(result);
 				}
-				approversTemp.setRoleName(acp.getNodeName());
-				approversTemp.setName(acp.getName());
-				approvers.add(approversTemp);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,6 +77,23 @@ public class RoutineApproveConfirmAction {
 	 */
 	public void submit() {
 		try {
+			int flag=0;
+			List<ApproveContentPerson> personTemp=approveContentHeader.getApproveContentPersons();
+			for(ApproveContentPerson acp:personTemp){
+				if(acp.isSelect()==false){
+					approveContentHeader.getApproveContentPersons().remove(acp);
+					flag=1;
+				}
+			}
+			
+			if(flag==1){
+				int index=1;
+				for(ApproveContentPerson acp:approveContentHeader.getApproveContentPersons()){
+					acp.setNodeIndex(index);
+					index++;
+				}
+			}
+			
 			approveOperateService.setUrl("./routine_approve_page.jsf?id=");
 			approveOperateService.setApproveContentHeader(approveContentHeader);
 			approveOperateService.setIndex(0);
@@ -118,7 +118,7 @@ public class RoutineApproveConfirmAction {
 	 */
 	public String title;
 	public String content;
-	public List<ApproversTemp> approvers;
+	public List<ApproveContentPerson> approvers;
 	public boolean buttonDisabled;
 
 	public boolean isButtonDisabled() {
@@ -129,11 +129,11 @@ public class RoutineApproveConfirmAction {
 		this.buttonDisabled = buttonDisabled;
 	}
 
-	public List<ApproversTemp> getApprovers() {
+	public List<ApproveContentPerson> getApprovers() {
 		return approvers;
 	}
 
-	public void setApprovers(List<ApproversTemp> approvers) {
+	public void setApprovers(List<ApproveContentPerson> approvers) {
 		this.approvers = approvers;
 	}
 

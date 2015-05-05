@@ -64,6 +64,7 @@ public class RoutineApproveAction {
 				cp.setNodeName(fItem.getNodeName());
 				cp.setCheckScript(fItem.getCheckScript());
 				cp.setConditions(fItem.getConditions());
+				cp.setSelect(false);
 				contentPersons.add(cp);
 			}
 			
