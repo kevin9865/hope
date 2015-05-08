@@ -1,10 +1,15 @@
 package com.hope.systemManager.approveManager.action;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.primefaces.context.RequestContext;
+
 import bsh.Interpreter;
 
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
@@ -13,8 +18,11 @@ import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.service.ApproveOperateService;
 import com.hope.systemManager.approveManager.util.SessionTools;
 import com.hope.util.Tools;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 public class RoutineApproveConfirmAction {
+	FacesContext context = FacesContext.getCurrentInstance();
+	HttpServletRequest httpRequest = (HttpServletRequest) context.getExternalContext().getRequest();
 	
 	@PostConstruct
 	public void init(){
@@ -77,24 +85,19 @@ public class RoutineApproveConfirmAction {
 	 */
 	public void submit() {
 		try {
-			int flag=0;
-			List<ApproveContentPerson> personTemp=approveContentHeader.getApproveContentPersons();
-			for(ApproveContentPerson acp:personTemp){
-				if(acp.isSelect()==false){
-					approveContentHeader.getApproveContentPersons().remove(acp);
-					flag=1;
-				}
-			}
-			
-			if(flag==1){
-				int index=1;
-				for(ApproveContentPerson acp:approveContentHeader.getApproveContentPersons()){
+			int index=1;
+			List<ApproveContentPerson> persons=new ArrayList<ApproveContentPerson>();
+			for(ApproveContentPerson acp:approvers){
+				if(acp.isSelect()==true){
 					acp.setNodeIndex(index);
 					index++;
+					persons.add(acp);
 				}
 			}
+			approveContentHeader.setApproveContentPersons(persons);
 			
-			approveOperateService.setUrl("./routine_approve_page.jsf?id=");
+			approveOperateService.setHttpRequest(httpRequest);
+			approveOperateService.setUrl(approveOperateService.getApproveUrl("/systemManager/approveManager/routine_approve_page.jsf"));
 			approveOperateService.setApproveContentHeader(approveContentHeader);
 			approveOperateService.setIndex(0);
 			approveOperateService.submit();

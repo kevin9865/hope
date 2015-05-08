@@ -1,5 +1,7 @@
 package com.hope.systemManager.approveManager.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
 
 public interface ApproveOperateService {
@@ -49,4 +51,22 @@ public interface ApproveOperateService {
 	 * @param url
 	 */
 	public void setUrl(String url);
+	/**
+	 * 发送邮件
+	 * @param addressee
+	 * @param title
+	 * @param content
+	 */
+	public void sendEmail(String addressee,String title,String content);
+	/**
+	 * 获取审批URL
+	 * @param path
+	 * @return
+	 */
+	public String getApproveUrl(String path);
+	/**
+	 * 
+	 * @param httpRequest
+	 */
+	public void setHttpRequest(HttpServletRequest httpRequest);
 }

@@ -33,7 +33,6 @@ public class RoutineApprovePageAction {
 	@PostConstruct
 	public void init() {
 		try {
-
 			String idTemp = httpRequest.getParameter("id");
 			int id = 0;
 			if (idTemp != null) {
@@ -125,7 +124,7 @@ public class RoutineApprovePageAction {
 	/**
 	 * 审批通过
 	 */
-	public void argee() {
+	public void agree() {
 		try {
 			approveOperateService.agree(approveContentHeader, LoginAction
 					.getCurrentUser().getUsername(), remark);

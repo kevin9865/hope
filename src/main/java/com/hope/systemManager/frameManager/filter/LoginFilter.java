@@ -33,10 +33,10 @@ public class LoginFilter implements Filter {
 		String loginFlag=(String) request.getParameter("login");
 
 		if(session.getAttribute("UserContext") == null&&loginFlag==null){
-			response.sendRedirect(loginPage);
+			response.sendRedirect(request.getContextPath()+loginPage);
 		} else if (session.getAttribute("UserContext") == null&&loginFlag!=null) {
 			session.setAttribute("approveContext", url);
-			response.sendRedirect(loginPage);
+			response.sendRedirect(request.getContextPath()+loginPage);
 		} else if (session.getAttribute("UserContext") != null&&session.getAttribute("approveContext")!=null) {
 			String approveContextUrl=(String) session.getAttribute("approveContext");
 			session.removeAttribute("approveContext");

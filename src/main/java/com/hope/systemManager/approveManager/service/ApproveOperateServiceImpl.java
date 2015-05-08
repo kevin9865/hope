@@ -3,6 +3,9 @@ package com.hope.systemManager.approveManager.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hope.systemManager.approveManager.dao.ApproveContentHeaderDao;
@@ -20,7 +23,7 @@ import com.hope.util.MD5Util;
 import com.hope.util.Tools;
 
 public class ApproveOperateServiceImpl implements ApproveOperateService{
-	
+
 	private ApproveContentHeaderDao approveContentHeaderDao;
 	private ApproveContentItemDao approveContentItemDao;
 	private ApproveContentPersonDao approveContentPersonDao;
@@ -28,7 +31,16 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 	private ApproveContentHeader approveContentHeader;
 	private int index;
 	private String url;
+	private HttpServletRequest httpRequest;
 	
+	public HttpServletRequest getHttpRequest() {
+		return httpRequest;
+	}
+
+	public void setHttpRequest(HttpServletRequest httpRequest) {
+		this.httpRequest = httpRequest;
+	}
+
 	public void setUrl(String url){
 		this.url=url;
 	}
@@ -164,6 +176,21 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 				break;
 			}
 		}
+	}
+	
+	public void sendEmail(String addressee,String title,String content){
+//		MailCarrier mc=new MailCarrier();
+//		String itcode=addressee+"@digitalchina.com";
+//		mc.SendHtml("scm@digitalchina.com",itcode , title, content);
+	}
+	
+	public String getApproveUrl(String path){
+		String url=httpRequest.getRequestURL()+"";
+		String contextPath=httpRequest.getContextPath();
+		String s[]=url.split(contextPath);
+		String ip=s[0];
+		String urlTemp=ip+contextPath+path+"?id=";
+		return urlTemp;
 	}
 
 }
