@@ -52,21 +52,48 @@
 				cols="50" styleClass="ct-fontsize" />
 		</h:panelGrid>
 		<br />
-		<h:panelGrid width="100%" columns="2" id="buttonPanel"
+		<h:panelGrid width="100%" columns="1" id="buttonPanel"
 			rendered="#{routineApprovePageAction.buttonPanelRendered}">
-			<h:panelGrid width="100%" style="text-align:right;">
-				<p:commandButton value="同意" styleClass="ct-fontsize"
-					action="#{routineApprovePageAction.agree}"
-					disabled="#{routineApprovePageAction.buttonDisabled}"
-					update="buttonPanel approversTable"></p:commandButton>
-			</h:panelGrid>
-			<h:panelGrid width="100%" style="text-align:left;">
-				<p:commandButton value="不同意" styleClass="ct-fontsize"
-					action="#{routineApprovePageAction.refuse}"
-					disabled="#{routineApprovePageAction.buttonDisabled}"
-					update="buttonPanel approversTable"></p:commandButton>
-			</h:panelGrid>
+			<table align="center">
+				<h:panelGrid columns="3">
+					<p:commandButton value="同意" styleClass="ct-fontsize"
+						action="#{routineApprovePageAction.agree}"
+						disabled="#{routineApprovePageAction.buttonDisabled}"
+						update="buttonPanel approversTable" />
+					<p:commandButton value="不同意" styleClass="ct-fontsize"
+						action="#{routineApprovePageAction.refuse}"
+						disabled="#{routineApprovePageAction.buttonDisabled}"
+						update="buttonPanel approversTable" />
+					<p:commandButton value="加签" styleClass="ct-fontsize" type="button">
+						<p:ajax listener="#{routineApprovePageAction.openDialog}"
+							oncomplete="PF('dlg1').show();"
+							update=":routineApprovePageForm:approvePageDialog" />
+					</p:commandButton>
+				</h:panelGrid>
+			</table>
 		</h:panelGrid>
+		<p:dialog id="approvePageDialog" header="加签操作" widgetVar="dlg1"
+			styleClass="ct-fontsize" width="350">
+			<h:panelGrid columns="2" width="100%">
+				<h:outputLabel value="加签类型：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:selectOneMenu value="#{routineApprovePageAction.typeField}">
+					<f:selectItem itemLabel="前加签" itemValue="before" />
+					<f:selectItem itemLabel="后加签" itemValue="after" />
+				</p:selectOneMenu>
+				<h:outputLabel value="审批人：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputTextarea value="#{routineApprovePageAction.approverField}"
+					style="width:200px;"></p:inputTextarea>
+				<h:outputLabel value="审批意见：" style="font-weight:bold"
+					styleClass="ct-fontsize" />
+				<p:inputTextarea value="#{routineApprovePageAction.remarkField}"
+					style="width:200px;"></p:inputTextarea>
+			</h:panelGrid>
+			<p:commandButton value="确定" ajax="true"
+				action="#{routineApprovePageAction.countersigned}"
+				update="approversTable"></p:commandButton>
+		</p:dialog>
 	</h:form>
 </h:body>
 </html>

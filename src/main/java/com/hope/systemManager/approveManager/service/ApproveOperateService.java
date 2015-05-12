@@ -51,22 +51,31 @@ public interface ApproveOperateService {
 	 * @param url
 	 */
 	public void setUrl(String url);
-	/**
-	 * 发送邮件
-	 * @param addressee
-	 * @param title
-	 * @param content
-	 */
-	public void sendEmail(String addressee,String title,String content);
+
 	/**
 	 * 获取审批URL
+	 * 
 	 * @param path
 	 * @return
 	 */
 	public String getApproveUrl(String path);
+
 	/**
 	 * 
 	 * @param httpRequest
 	 */
 	public void setHttpRequest(HttpServletRequest httpRequest);
+
+	/**
+	 * 加签
+	 * 
+	 * @param approveContentHeader
+	 * @param username
+	 * @param flag
+	 * @param currentApprover
+	 * @param remark
+	 */
+	public String countersigned(ApproveContentHeader approveContentHeader,
+			String[] username, String flag, String currentApprover,
+			String remark);
 }

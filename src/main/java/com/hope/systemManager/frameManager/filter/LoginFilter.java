@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 public class LoginFilter implements Filter {
 
 	private String loginPage;
+	
+	private String reLoadUrl;
 
 	@Override
 	public void destroy() {
@@ -35,11 +37,14 @@ public class LoginFilter implements Filter {
 		if(session.getAttribute("UserContext") == null&&loginFlag==null){
 			response.sendRedirect(request.getContextPath()+loginPage);
 		} else if (session.getAttribute("UserContext") == null&&loginFlag!=null) {
-			session.setAttribute("approveContext", url);
+			//session.setAttribute("approveContext", url);
+			reLoadUrl=url;
 			response.sendRedirect(request.getContextPath()+loginPage);
-		} else if (session.getAttribute("UserContext") != null&&session.getAttribute("approveContext")!=null) {
-			String approveContextUrl=(String) session.getAttribute("approveContext");
-			session.removeAttribute("approveContext");
+		} else if (session.getAttribute("UserContext") != null&&reLoadUrl!=null) {
+//			String approveContextUrl=(String) session.getAttribute("approveContext");
+//			session.removeAttribute("approveContext");
+			String approveContextUrl=reLoadUrl;
+			reLoadUrl=null;
 			response.sendRedirect(approveContextUrl);
 		} else {
 			filterChain.doFilter(servletRequest, servletResponse);

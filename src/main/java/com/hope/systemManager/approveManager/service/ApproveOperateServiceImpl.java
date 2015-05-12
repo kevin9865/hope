@@ -17,22 +17,24 @@ import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
 import com.hope.systemManager.approveManager.util.ApproveStatus;
 import com.hope.systemManager.frameManager.action.LoginAction;
+import com.hope.systemManager.userManager.dao.UserDao;
 import com.hope.systemManager.userManager.model.User;
 import com.hope.util.AESUtil;
 import com.hope.util.MD5Util;
 import com.hope.util.Tools;
 
-public class ApproveOperateServiceImpl implements ApproveOperateService{
+public class ApproveOperateServiceImpl implements ApproveOperateService {
 
 	private ApproveContentHeaderDao approveContentHeaderDao;
 	private ApproveContentItemDao approveContentItemDao;
 	private ApproveContentPersonDao approveContentPersonDao;
-	
+	private UserDao userDao;
+
 	private ApproveContentHeader approveContentHeader;
 	private int index;
 	private String url;
 	private HttpServletRequest httpRequest;
-	
+
 	public HttpServletRequest getHttpRequest() {
 		return httpRequest;
 	}
@@ -41,18 +43,27 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 		this.httpRequest = httpRequest;
 	}
 
-	public void setUrl(String url){
-		this.url=url;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	public void setApproveContentHeader(ApproveContentHeader approveContentHeader) {
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setApproveContentHeader(
+			ApproveContentHeader approveContentHeader) {
 		this.approveContentHeader = approveContentHeader;
 	}
-	
+
 	public ApproveContentHeaderDao getApproveContentHeaderDao() {
 		return approveContentHeaderDao;
 	}
@@ -66,7 +77,8 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 		return approveContentItemDao;
 	}
 
-	public void setApproveContentItemDao(ApproveContentItemDao approveContentItemDao) {
+	public void setApproveContentItemDao(
+			ApproveContentItemDao approveContentItemDao) {
 		this.approveContentItemDao = approveContentItemDao;
 	}
 
@@ -78,10 +90,10 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 			ApproveContentPersonDao approveContentPersonDao) {
 		this.approveContentPersonDao = approveContentPersonDao;
 	}
-	
+
 	@Transactional
 	public void submit() {
-		ApproveContentHeader cHeader=new ApproveContentHeader();
+		ApproveContentHeader cHeader = new ApproveContentHeader();
 		cHeader.setContentHeaderId(approveContentHeaderDao.maxId());
 		cHeader.setSubmittime(new Date());
 		cHeader.setSubmitter(LoginAction.getCurrentUser().getUsername());
@@ -89,86 +101,94 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 		cHeader.setContentHeader(approveContentHeader.getContentHeader());
 		cHeader.setContentTitle(approveContentHeader.getContentTitle());
 		cHeader.setHeaderId(approveContentHeader.getHeaderId());
-		
-		//AES加密  
-		String content = String.valueOf(cHeader.getContentHeaderId());  
+
+		// AES加密
+		String content = String.valueOf(cHeader.getContentHeaderId());
 		String password = "qwe123asd789zxc";
-		byte[] encryptResult = AESUtil.encrypt(content, password);  
+		byte[] encryptResult = AESUtil.encrypt(content, password);
 		String encryptResultStr = AESUtil.parseByte2HexStr(encryptResult);
-		cHeader.setUrl(url+encryptResultStr+"&login");
-		
-		for(ApproveContentItem cItem:approveContentHeader.getApproveContentItems()){
+		cHeader.setUrl(url + encryptResultStr + "&login");
+
+		for (ApproveContentItem cItem : approveContentHeader
+				.getApproveContentItems()) {
 			cItem.setContentHeaderId(cHeader.getContentHeaderId());
 			cItem.setContentItemId(approveContentItemDao.maxId());
 			approveContentItemDao.add(cItem);
 		}
-		for(ApproveContentPerson cPerson:approveContentHeader.getApproveContentPersons()){
+		for (ApproveContentPerson cPerson : approveContentHeader
+				.getApproveContentPersons()) {
 			cPerson.setContentHeaderId(cHeader.getContentHeaderId());
 			cPerson.setContentPersonId(approveContentItemDao.maxId());
-			if(cPerson.getNodeIndex()==(index+1)){
+			if (cPerson.getNodeIndex() == (index + 1)) {
 				cPerson.setCreateTime(new Date());
 				cPerson.setStatus("Y");
-				
-				//设置当前用户名和开始时间
+
+				// 设置当前用户名和开始时间
 				cHeader.setCurrentApprover(cPerson.getUsername());
 				cHeader.setStarttime(cPerson.getCreateTime());
 			}
 			approveContentPersonDao.add(cPerson);
 		}
-		
+
 		approveContentHeaderDao.add(cHeader);
 	}
-	
+
 	@Transactional
-	public void agree(ApproveContentHeader approveContentHeader,String username,String remark) {
-		List<ApproveContentPerson> list=approveContentHeader.getApproveContentPersons();
-		int size=list.size();
-		
-		for(int i=0;i<size;i++){
-			ApproveContentPerson person=list.get(i);
-			if(person.getUsername().equals(username)){
+	public void agree(ApproveContentHeader approveContentHeader,
+			String username, String remark) {
+		List<ApproveContentPerson> list = approveContentHeader
+				.getApproveContentPersons();
+		int size = list.size();
+
+		for (int i = 0; i < size; i++) {
+			ApproveContentPerson person = list.get(i);
+			if (person.getUsername().equals(username)) {
 				person.setEndTime(new Date());
 				person.setApproveResult("同意");
 				person.setRemark(remark);
 				person.setStatus("N");
 				approveContentPersonDao.update(person);
-				
-				
-				if(size==person.getNodeIndex()){
+
+				if (size == person.getNodeIndex()) {
 					approveContentHeader.setCurrentApprover(null);
 					approveContentHeader.setStarttime(null);
-					approveContentHeader.setStatus(ApproveStatus.APPROVE_SUCCESS);
+					approveContentHeader
+							.setStatus(ApproveStatus.APPROVE_SUCCESS);
 					approveContentHeaderDao.update(approveContentHeader);
 					break;
-				}else {
-					ApproveContentPerson personNext=list.get(i+1);
+				} else {
+					ApproveContentPerson personNext = list.get(i + 1);
 					personNext.setCreateTime(new Date());
 					personNext.setStatus("Y");
 					approveContentPersonDao.update(personNext);
-					
-					approveContentHeader.setCurrentApprover(personNext.getUsername());
-					approveContentHeader.setStarttime(personNext.getCreateTime());
+
+					approveContentHeader.setCurrentApprover(personNext
+							.getUsername());
+					approveContentHeader.setStarttime(personNext
+							.getCreateTime());
 					approveContentHeaderDao.update(approveContentHeader);
-					//发邮件通知
+					// 发邮件通知
 				}
 			}
 		}
 	}
-	
+
 	@Transactional
-	public void refuse(ApproveContentHeader approveContentHeader,String username,String remark) {
-		List<ApproveContentPerson> list=approveContentHeader.getApproveContentPersons();
-		int size=list.size();
-		
-		for(int i=0;i<size;i++){
-			ApproveContentPerson person=list.get(i);
-			if(person.getUsername().equals(username)){
+	public void refuse(ApproveContentHeader approveContentHeader,
+			String username, String remark) {
+		List<ApproveContentPerson> list = approveContentHeader
+				.getApproveContentPersons();
+		int size = list.size();
+
+		for (int i = 0; i < size; i++) {
+			ApproveContentPerson person = list.get(i);
+			if (person.getUsername().equals(username)) {
 				person.setEndTime(new Date());
 				person.setApproveResult("不同意");
 				person.setRemark(remark);
 				person.setStatus("N");
 				approveContentPersonDao.update(person);
-				
+
 				approveContentHeader.setCurrentApprover(null);
 				approveContentHeader.setStarttime(null);
 				approveContentHeader.setStatus(ApproveStatus.APPROVE_FAIL);
@@ -177,20 +197,120 @@ public class ApproveOperateServiceImpl implements ApproveOperateService{
 			}
 		}
 	}
-	
-	public void sendEmail(String addressee,String title,String content){
-//		MailCarrier mc=new MailCarrier();
-//		String itcode=addressee+"@digitalchina.com";
-//		mc.SendHtml("scm@digitalchina.com",itcode , title, content);
-	}
-	
-	public String getApproveUrl(String path){
-		String url=httpRequest.getRequestURL()+"";
-		String contextPath=httpRequest.getContextPath();
-		String s[]=url.split(contextPath);
-		String ip=s[0];
-		String urlTemp=ip+contextPath+path+"?id=";
+
+	public String getApproveUrl(String path) {
+		String url = httpRequest.getRequestURL() + "";
+		String contextPath = httpRequest.getContextPath();
+		String s[] = url.split(contextPath);
+		String ip = s[0];
+		String urlTemp = ip + contextPath + path + "?id=";
 		return urlTemp;
+	}
+
+	@Transactional
+	public String countersigned(ApproveContentHeader approveContentHeader,
+			String[] username, String flag, String currentApprover,
+			String remark) {
+		String msg = "";
+		for (String approver : username) {
+			User userTemp = new User();
+			userTemp.setUsername(approver);
+			User user = userDao.userQuery(userTemp);
+			if (user == null) {
+				msg = msg + approver + ",";
+			}
+		}
+		if (!msg.equals("")) {
+			msg = "用户" + msg + "不存在!";
+			return msg;
+		}
+
+		if (flag.equals("before")) {
+			int index = 1;
+			for (ApproveContentPerson contentPerson : approveContentHeader
+					.getApproveContentPersons()) {
+				if (contentPerson.getUsername().equals(currentApprover)
+						&& (contentPerson.getStatus() == null ? false
+								: contentPerson.getStatus().equals("Y"))) {
+					for (int i = 0; i < username.length; i++) {
+						String name = username[i];
+						ApproveContentPerson person = new ApproveContentPerson();
+						person.setContentHeaderId(contentPerson
+								.getContentHeaderId());
+						person.setContentPersonId(approveContentPersonDao
+								.maxId());
+						person.setUsername(name);
+						User user = new User();
+						user.setUsername(name);
+						User userQuery = userDao.userQuery(user);
+						person.setName(userQuery.getName());
+						person.setNodeName("加签");
+						person.setNodeIndex(index);
+						if (i == 0) {
+							person.setCreateTime(new Date());
+							person.setStatus("Y");
+							// 邮件通知
+						}
+						approveContentPersonDao.add(person);
+						index++;
+					}
+
+					contentPerson.setNodeIndex(index);
+					contentPerson.setCreateTime(null);
+					contentPerson.setStatus(null);
+					approveContentPersonDao.update(contentPerson);
+					index++;
+				} else {
+					contentPerson.setNodeIndex(index);
+					approveContentPersonDao.update(contentPerson);
+					index++;
+				}
+			}
+		} else if (flag.equals("after")) {
+			int index = 1;
+			for (ApproveContentPerson contentPerson : approveContentHeader
+					.getApproveContentPersons()) {
+				if (contentPerson.getUsername().equals(currentApprover)
+						&& (contentPerson.getStatus() == null ? false
+								: contentPerson.getStatus().equals("Y"))) {
+					contentPerson.setEndTime(new Date());
+					contentPerson.setNodeIndex(index);
+					contentPerson.setStatus("N");
+					contentPerson.setRemark(remark);
+					contentPerson.setApproveResult("同意");
+					approveContentPersonDao.update(contentPerson);
+					index++;
+
+					for (int i = 0; i < username.length; i++) {
+						String name = username[i];
+						ApproveContentPerson person = new ApproveContentPerson();
+						person.setContentHeaderId(contentPerson
+								.getContentHeaderId());
+						person.setContentPersonId(approveContentPersonDao
+								.maxId());
+						person.setUsername(name);
+						User user = new User();
+						user.setUsername(name);
+						User userQuery = userDao.userQuery(user);
+						person.setName(userQuery.getName());
+						person.setNodeName("加签");
+						person.setNodeIndex(index);
+						if (i == 0) {
+							person.setCreateTime(new Date());
+							person.setStatus("Y");
+							// 邮件通知
+						}
+						approveContentPersonDao.add(person);
+						index++;
+					}
+				} else {
+					contentPerson.setNodeIndex(index);
+					approveContentPersonDao.update(contentPerson);
+					index++;
+				}
+			}
+		}
+		return msg;
 	}
 
 }

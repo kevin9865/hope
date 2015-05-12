@@ -159,6 +159,10 @@
 			<property-name>approveOperateService</property-name>
 			<value>#{approveOperateServiceImpl}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>userService</property-name>
+			<value>#{userServiceImpl}</value>
+		</managed-property>
 	</managed-bean>
 	
 	<managed-bean>

@@ -117,6 +117,7 @@
 		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
 		<property name="approveContentItemDao" ref="approveContentItemDaoImpl"></property>
 		<property name="approveContentPersonDao" ref="approveContentPersonDaoImpl"></property>
+		<property name="userDao" ref="userDaoImpl"></property>
 	</bean>
 	
 	<bean id="approveTaskServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveTaskServiceImpl">

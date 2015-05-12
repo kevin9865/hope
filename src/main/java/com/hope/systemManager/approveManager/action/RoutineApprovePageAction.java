@@ -15,6 +15,7 @@ import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.service.ApproveOperateService;
 import com.hope.systemManager.approveManager.service.RoutineApprovePageService;
 import com.hope.systemManager.frameManager.action.LoginAction;
+import com.hope.systemManager.userManager.service.UserService;
 import com.hope.util.AESUtil;
 import com.hope.util.Tools;
 
@@ -25,10 +26,7 @@ public class RoutineApprovePageAction {
 			.getExternalContext().getRequest();
 
 	/**
-	 * 还原审批内容步骤 
-	 * 按照基础数据、分析数据、提交操作进行分块显示 
-	 * 提交人只能看到基础数据 
-	 * 审批人可以看到全部数据，但审批人审批完成后无法看到提交操作
+	 * 还原审批内容步骤 按照基础数据、分析数据、提交操作进行分块显示 提交人只能看到基础数据 审批人可以看到全部数据，但审批人审批完成后无法看到提交操作
 	 */
 	@PostConstruct
 	public void init() {
@@ -36,10 +34,10 @@ public class RoutineApprovePageAction {
 			String idTemp = httpRequest.getParameter("id");
 			int id = 0;
 			if (idTemp != null) {
-				//AES解密
+				// AES解密
 				String password = "qwe123asd789zxc";
 				byte[] decryptFrom = AESUtil.parseHexStr2Byte(idTemp);
-				byte[] decryptResult = AESUtil.decrypt(decryptFrom,password); 
+				byte[] decryptResult = AESUtil.decrypt(decryptFrom, password);
 				id = Integer.valueOf(new String(decryptResult));
 			}
 
@@ -93,6 +91,15 @@ public class RoutineApprovePageAction {
 	private ApproveContentHeader approveContentHeader;
 	private RoutineApprovePageService routineApprovePageService;
 	private ApproveOperateService approveOperateService;
+	private UserService userService;
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 	public ApproveOperateService getApproveOperateService() {
 		return approveOperateService;
@@ -148,6 +155,72 @@ public class RoutineApprovePageAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 加签
+	 */
+	public void countersigned() {
+		try {
+			RequestContext rc = RequestContext.getCurrentInstance();
+			String[] approvers = approverField.split(";");
+			String username = LoginAction.getCurrentUser().getUsername();
+			String msg=approveOperateService.countersigned(approveContentHeader, approvers,
+					typeField, username, remarkField);
+			
+			if(!msg.equals("")){
+				rc.execute("alert('" + msg + "');");
+				return;
+			}
+			
+			buttonDisabled = true;
+			
+			//审批人列表重新赋值
+			approveContentHeader = routineApprovePageService
+					.query((int) approveContentHeader.getContentHeaderId());
+			this.approvers = approveContentHeader.getApproveContentPersons();
+			
+			rc.execute("PF('dlg1').hide()");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 初始化加签表单
+	 */
+	public void openDialog() {
+		typeField = "";
+		approverField = "";
+		remarkField = "";
+	}
+
+	private String typeField;
+	private String approverField;
+	private String remarkField;
+
+	public String getTypeField() {
+		return typeField;
+	}
+
+	public void setTypeField(String typeField) {
+		this.typeField = typeField;
+	}
+
+	public String getApproverField() {
+		return approverField;
+	}
+
+	public void setApproverField(String approverField) {
+		this.approverField = approverField;
+	}
+
+	public String getRemarkField() {
+		return remarkField;
+	}
+
+	public void setRemarkField(String remarkField) {
+		this.remarkField = remarkField;
 	}
 
 	/**
