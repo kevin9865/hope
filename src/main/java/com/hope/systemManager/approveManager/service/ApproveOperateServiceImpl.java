@@ -249,6 +249,10 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 						if (i == 0) {
 							person.setCreateTime(new Date());
 							person.setStatus("Y");
+							
+							approveContentHeader.setCurrentApprover(name);
+							approveContentHeader.setStarttime(new Date());
+							approveContentHeaderDao.update(approveContentHeader);
 							// 邮件通知
 						}
 						approveContentPersonDao.add(person);
@@ -298,6 +302,11 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 						if (i == 0) {
 							person.setCreateTime(new Date());
 							person.setStatus("Y");
+							
+							approveContentHeader.setCurrentApprover(name);
+							approveContentHeader.setStarttime(new Date());
+							approveContentHeaderDao.update(approveContentHeader);
+							
 							// 邮件通知
 						}
 						approveContentPersonDao.add(person);
