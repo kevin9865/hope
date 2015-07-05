@@ -147,7 +147,7 @@
 		</managed-property>
 	</managed-bean>
 	
-	<managed-bean>
+<!-- 	<managed-bean>
 		<managed-bean-name>routineApprovePageAction</managed-bean-name>
 		<managed-bean-class>com.hope.systemManager.approveManager.action.RoutineApprovePageAction</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
@@ -162,6 +162,19 @@
 		<managed-property>
 			<property-name>userService</property-name>
 			<value>#{userServiceImpl}</value>
+		</managed-property>
+	</managed-bean> -->
+	<managed-bean>
+		<managed-bean-name>routineApprovePageAction</managed-bean-name>
+		<managed-bean-class>com.hope.systemManager.approveManager.action.RoutineApprovePageAction</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>approveOperateService</property-name>
+			<value>#{approveOperateServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>approvePageService</property-name>
+			<value>#{approvePageServiceImpl}</value>
 		</managed-property>
 	</managed-bean>
 	

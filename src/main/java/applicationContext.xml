@@ -136,6 +136,10 @@
 		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
 	</bean>
 	
+	<bean id="approvePageServiceImpl" class="com.hope.systemManager.approveManager.service.ApprovePageServiceImpl">
+		<property name="approveContentHeaderDao" ref="approveContentHeaderDaoImpl"></property>
+	</bean>
+	
 	<bean id="approveFlowServiceImpl" class="com.hope.systemManager.approveManager.service.ApproveFlowServiceImpl">
 		<property name="approveFlowHeaderDao" ref="approveFlowHeaderDaoImpl"></property>
 		<property name="approveFlowItemDao" ref="approveFlowItemDaoImpl"></property>
