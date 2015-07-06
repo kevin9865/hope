@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hope.systemManager.EmailManager.EmailUtil;
 import com.hope.systemManager.approveManager.dao.ApproveContentHeaderDao;
 import com.hope.systemManager.approveManager.dao.ApproveContentItemDao;
 import com.hope.systemManager.approveManager.dao.ApproveContentPersonDao;
@@ -16,6 +17,7 @@ import com.hope.systemManager.approveManager.model.ApproveContentItem;
 import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
 import com.hope.systemManager.approveManager.util.ApproveStatus;
+import com.hope.systemManager.approveManager.util.ApproveUtil;
 import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.userManager.dao.UserDao;
 import com.hope.systemManager.userManager.model.User;
@@ -34,6 +36,28 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 	private int index;
 	private String url;
 	private HttpServletRequest httpRequest;
+	private ApproveProcess approveProcess;
+	private ApproveUtil approveUtil;
+
+	public ApproveUtil getApproveUtil() {
+		return approveUtil;
+	}
+
+	public void setApproveUtil(ApproveUtil approveUtil) {
+		this.approveUtil = approveUtil;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public ApproveProcess getApproveProcess() {
+		return approveProcess;
+	}
+
+	public void setApproveProcess(ApproveProcess approveProcess) {
+		this.approveProcess = approveProcess;
+	}
 
 	public HttpServletRequest getHttpRequest() {
 		return httpRequest;
@@ -90,8 +114,29 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 			ApproveContentPersonDao approveContentPersonDao) {
 		this.approveContentPersonDao = approveContentPersonDao;
 	}
-
+	
 	@Transactional
+	public void initSubmit(HttpServletRequest httpRequest,
+			ApproveContentHeader approveContentHeader) {
+		this.httpRequest=httpRequest;
+		this.approveProcess=approveUtil.getProcess(approveContentHeader);
+		this.url=getApproveUrl(approveUtil.getUrl(approveContentHeader.getApproveName()));
+		this.approveContentHeader=approveContentHeader;
+		this.index=0;
+		submit();
+		
+//		approveOperateService.setHttpRequest(httpRequest);
+//		approveOperateService.setApproveProcess(approveUtil.getProcess(approveContentHeader));
+//		//approveOperateService.setUrl(approveOperateService.getApproveUrl("/systemManager/approveManager/routine_approve_page.jsf"));
+//		approveOperateService.setUrl(approveOperateService.getApproveUrl(approveUtil.getUrl(approveContentHeader.getApproveName())));
+//		
+//		approveOperateService.setApproveContentHeader(approveContentHeader);
+//		approveOperateService.setIndex(0);
+//		approveOperateService.submit();
+		
+	}
+
+	
 	public void submit() {
 		ApproveContentHeader cHeader = new ApproveContentHeader();
 		cHeader.setContentHeaderId(approveContentHeaderDao.maxId());
@@ -131,18 +176,25 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 		}
 
 		approveContentHeaderDao.add(cHeader);
+		
+		if(approveProcess!=null)
+			approveProcess.startProcess();
+		
+		EmailUtil.sendEmail("", "", "");
 	}
 
 	@Transactional
 	public void agree(ApproveContentHeader approveContentHeader,
 			String username, String remark) {
+		approveProcess=approveUtil.getProcess(approveContentHeader);
+		
 		List<ApproveContentPerson> list = approveContentHeader
 				.getApproveContentPersons();
 		int size = list.size();
 
 		for (int i = 0; i < size; i++) {
 			ApproveContentPerson person = list.get(i);
-			if (person.getUsername().equals(username)) {
+			if (person.getUsername().equals(username)&&person.getStatus().equals("Y")) {
 				person.setEndTime(new Date());
 				person.setApproveResult("同意");
 				person.setRemark(remark);
@@ -155,6 +207,10 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 					approveContentHeader
 							.setStatus(ApproveStatus.APPROVE_SUCCESS);
 					approveContentHeaderDao.update(approveContentHeader);
+					if(approveProcess!=null)
+						approveProcess.endProcess();
+					
+					EmailUtil.sendEmail("", "", "");
 					break;
 				} else {
 					ApproveContentPerson personNext = list.get(i + 1);
@@ -168,6 +224,8 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 							.getCreateTime());
 					approveContentHeaderDao.update(approveContentHeader);
 					// 发邮件通知
+					EmailUtil.sendEmail("", "", "");
+					break;
 				}
 			}
 		}
@@ -176,13 +234,15 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 	@Transactional
 	public void refuse(ApproveContentHeader approveContentHeader,
 			String username, String remark) {
+		approveProcess=approveUtil.getProcess(approveContentHeader);
+		
 		List<ApproveContentPerson> list = approveContentHeader
 				.getApproveContentPersons();
 		int size = list.size();
 
 		for (int i = 0; i < size; i++) {
 			ApproveContentPerson person = list.get(i);
-			if (person.getUsername().equals(username)) {
+			if (person.getUsername().equals(username)&&person.getStatus().equals("Y")) {
 				person.setEndTime(new Date());
 				person.setApproveResult("不同意");
 				person.setRemark(remark);
@@ -193,6 +253,11 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 				approveContentHeader.setStarttime(null);
 				approveContentHeader.setStatus(ApproveStatus.APPROVE_FAIL);
 				approveContentHeaderDao.update(approveContentHeader);
+				
+				if(approveProcess!=null)
+					approveProcess.breakProcess();
+				
+				EmailUtil.sendEmail("", "", "");
 				break;
 			}
 		}
@@ -254,6 +319,7 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 							approveContentHeader.setStarttime(new Date());
 							approveContentHeaderDao.update(approveContentHeader);
 							// 邮件通知
+							EmailUtil.sendEmail("", "", "");
 						}
 						approveContentPersonDao.add(person);
 						index++;
@@ -308,6 +374,7 @@ public class ApproveOperateServiceImpl implements ApproveOperateService {
 							approveContentHeaderDao.update(approveContentHeader);
 							
 							// 邮件通知
+							EmailUtil.sendEmail("", "", "");
 						}
 						approveContentPersonDao.add(person);
 						index++;

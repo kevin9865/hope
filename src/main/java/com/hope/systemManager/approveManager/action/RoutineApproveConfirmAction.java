@@ -18,7 +18,6 @@ import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.service.ApproveOperateService;
 import com.hope.systemManager.approveManager.util.SessionTools;
 import com.hope.util.Tools;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 public class RoutineApproveConfirmAction {
 	FacesContext context = FacesContext.getCurrentInstance();
@@ -94,13 +93,9 @@ public class RoutineApproveConfirmAction {
 					persons.add(acp);
 				}
 			}
-			approveContentHeader.setApproveContentPersons(persons);
 			
-			approveOperateService.setHttpRequest(httpRequest);
-			approveOperateService.setUrl(approveOperateService.getApproveUrl("/systemManager/approveManager/routine_approve_page.jsf"));
-			approveOperateService.setApproveContentHeader(approveContentHeader);
-			approveOperateService.setIndex(0);
-			approveOperateService.submit();
+			approveContentHeader.setApproveContentPersons(persons);
+			approveOperateService.initSubmit(httpRequest, approveContentHeader);
 			
 			RequestContext rc = RequestContext.getCurrentInstance();
 			rc.execute("alert('提交成功');");

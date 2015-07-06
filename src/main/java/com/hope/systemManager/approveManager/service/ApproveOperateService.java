@@ -1,8 +1,11 @@
 package com.hope.systemManager.approveManager.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
+import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 
 public interface ApproveOperateService {
 	/**
@@ -78,4 +81,8 @@ public interface ApproveOperateService {
 	public String countersigned(ApproveContentHeader approveContentHeader,
 			String[] username, String flag, String currentApprover,
 			String remark);
+	
+	public void setApproveProcess(ApproveProcess approveProcess);
+	
+	public void initSubmit(HttpServletRequest httpRequest,ApproveContentHeader approveContentHeader);
 }

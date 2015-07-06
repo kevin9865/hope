@@ -47,4 +47,6 @@ public interface ApproveFlowService {
 	 * @return
 	 */
 	public int maxId();
+	
+	public ApproveFlowHeader flowNameQuery(String flowName);
 }

@@ -64,7 +64,7 @@
 						action="#{routineApprovePageAction.refuse}"
 						disabled="#{routineApprovePageAction.buttonDisabled}"
 						update="buttonPanel approversTable" />
-					<p:commandButton value="加签" styleClass="ct-fontsize" type="button">
+					<p:commandButton value="加签" styleClass="ct-fontsize" type="button" disabled="#{routineApprovePageAction.buttonDisabled}">
 						<p:ajax listener="#{routineApprovePageAction.openDialog}"
 							oncomplete="PF('dlg1').show();"
 							update=":routineApprovePageForm:approvePageDialog" />
@@ -92,7 +92,7 @@
 			</h:panelGrid>
 			<p:commandButton value="确定" ajax="true"
 				action="#{routineApprovePageAction.countersigned}"
-				update="approversTable"></p:commandButton>
+				update="approversTable buttonPanel"></p:commandButton>
 		</p:dialog>
 	</h:form>
 </h:body>

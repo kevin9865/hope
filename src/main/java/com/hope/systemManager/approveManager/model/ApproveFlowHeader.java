@@ -25,9 +25,48 @@ public class ApproveFlowHeader {
 	private Date createtime;
 	private String active;
 	private String companyCode;
+	private String processClassPath;
+	private String entityClassPath;
+	private String entityId;
+	private String url;
 	
 	private List<ApproveFlowItem> approveFlowItems=new ArrayList<ApproveFlowItem>();
 	
+	
+	@Column(name = "PROCESS_CLASSPATH")
+	public String getProcessClassPath() {
+		return processClassPath;
+	}
+
+	public void setProcessClassPath(String processClassPath) {
+		this.processClassPath = processClassPath;
+	}
+	@Column(name = "ENTITY_CLASSPATH")
+	public String getEntityClassPath() {
+		return entityClassPath;
+	}
+
+	public void setEntityClassPath(String entityClassPath) {
+		this.entityClassPath = entityClassPath;
+	}
+	@Column(name = "ENTITY_ID")
+	public String getEntityId() {
+		return entityId;
+	}
+
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+	
+	@Column(name = "URL")
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	@Column(name = "ACTIVE")
 	public String getActive() {
 		return active;

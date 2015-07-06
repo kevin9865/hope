@@ -12,4 +12,5 @@ public interface ApproveFlowHeaderDao {
 	public List<ApproveFlowHeader> queryAll();
 	public ApproveFlowHeader query(String orgId);
 	public int maxId();
+	public ApproveFlowHeader flowNameQuery(String flowName);
 }

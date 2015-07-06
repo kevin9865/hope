@@ -35,11 +35,22 @@ public class ApproveContentHeader {
 	private Date starttime;
 	//跳转链接地址
 	private String url;
+	//审批流名称
+	private String approveName;
 	// 审批内容行项
 	private List<ApproveContentItem> approveContentItems = new ArrayList<ApproveContentItem>();
 	// 审批人员
 	private List<ApproveContentPerson> approveContentPersons = new ArrayList<ApproveContentPerson>();
 	
+	@Column(name = "APPROVE_NAME")
+	public String getApproveName() {
+		return approveName;
+	}
+
+	public void setApproveName(String approveName) {
+		this.approveName = approveName;
+	}
+
 	@Column(name = "URL")
 	public String getUrl() {
 		return url;

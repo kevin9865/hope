@@ -44,6 +44,7 @@ public class RoutineApproveAction {
 			ApproveContentHeader contentHeader = new ApproveContentHeader();
 			contentHeader.setContentTitle(title);
 			contentHeader.setContentHeader(header);
+			contentHeader.setApproveName("日常审批");
 			// 审批内容明细
 			ApproveContentItem contentItem = new ApproveContentItem();
 			contentItem.setContentItem(item);

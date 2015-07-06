@@ -51,10 +51,12 @@ public class ApprovePage {
 		for (ApproveContentPerson person : approvers) {
 			if (person.getUsername().equals(username)) {
 				flag = true;
-				if (person.getStatus().equals("Y")) {
-					// buttonDisabled = true;
-					buttonPanelRendered = true;
-					break;
+				if(person.getStatus()!=null){
+					if (person.getStatus().equals("Y")) {
+						// buttonDisabled = true;
+						buttonPanelRendered = true;
+						break;
+					}
 				}
 			}
 		}
@@ -63,7 +65,7 @@ public class ApprovePage {
 	
 	private ApproveOperateService approveOperateService;
 	private ApprovePageService approvePageService;
-	
+
 	public ApprovePageService getApprovePageService() {
 		return approvePageService;
 	}
@@ -125,13 +127,12 @@ public class ApprovePage {
 				return;
 			}
 			
-			buttonDisabled = true;
-			
 			//审批人列表重新赋值
 			approveContentHeader = approvePageService
 					.query((int) approveContentHeader.getContentHeaderId());
 			this.approvers = approveContentHeader.getApproveContentPersons();
 			
+			buttonDisabled = true;
 			rc.execute("PF('dlg1').hide()");
 		} catch (Exception e) {
 			e.printStackTrace();

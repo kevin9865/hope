@@ -75,4 +75,15 @@ public class ApproveFlowHeaderDaoImpl implements ApproveFlowHeaderDao{
 		return id.intValue();
 	}
 
+	@Override
+	public ApproveFlowHeader flowNameQuery(String flowName) {
+		Session session = sessionFactory.getCurrentSession();
+		ApproveFlowHeader header=null;
+		List<ApproveFlowHeader> list = session.createQuery("from APPROVE_FLOW_HEADER a where a.flowName='"+flowName+"'").list();
+		if(!list.isEmpty()){
+			header=list.get(0);
+		}
+		return header;
+	}
+
 }

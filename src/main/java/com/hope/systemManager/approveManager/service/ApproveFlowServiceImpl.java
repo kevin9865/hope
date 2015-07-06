@@ -67,4 +67,9 @@ public class ApproveFlowServiceImpl implements ApproveFlowService {
 		return approveFlowHeaderDao.maxId();
 	}
 
+	@Transactional
+	public ApproveFlowHeader flowNameQuery(String flowName) {
+		return approveFlowHeaderDao.flowNameQuery(flowName);
+	}
+
 }
