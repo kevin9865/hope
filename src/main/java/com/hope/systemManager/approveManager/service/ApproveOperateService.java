@@ -81,8 +81,20 @@ public interface ApproveOperateService {
 	public String countersigned(ApproveContentHeader approveContentHeader,
 			String[] username, String flag, String currentApprover,
 			String remark);
-	
+
+	/**
+	 * 审批流操作
+	 * 
+	 * @param approveProcess
+	 */
 	public void setApproveProcess(ApproveProcess approveProcess);
-	
-	public void initSubmit(HttpServletRequest httpRequest,ApproveContentHeader approveContentHeader);
+
+	/**
+	 * 初始化审批提交
+	 * 
+	 * @param httpRequest
+	 * @param approveContentHeader
+	 */
+	public void initSubmit(HttpServletRequest httpRequest,
+			ApproveContentHeader approveContentHeader);
 }

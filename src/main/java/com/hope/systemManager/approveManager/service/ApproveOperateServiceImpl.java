@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hope.systemManager.EmailManager.EmailUtil;
 import com.hope.systemManager.approveManager.dao.ApproveContentHeaderDao;
 import com.hope.systemManager.approveManager.dao.ApproveContentItemDao;
 import com.hope.systemManager.approveManager.dao.ApproveContentPersonDao;
@@ -18,6 +17,7 @@ import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 import com.hope.systemManager.approveManager.model.ApproveFlowHeader;
 import com.hope.systemManager.approveManager.util.ApproveStatus;
 import com.hope.systemManager.approveManager.util.ApproveUtil;
+import com.hope.systemManager.emailManager.EmailUtil;
 import com.hope.systemManager.frameManager.action.LoginAction;
 import com.hope.systemManager.userManager.dao.UserDao;
 import com.hope.systemManager.userManager.model.User;

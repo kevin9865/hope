@@ -48,5 +48,10 @@ public interface ApproveFlowService {
 	 */
 	public int maxId();
 	
+	/**
+	 * 通过审批流名称获取审批流实体
+	 * @param flowName
+	 * @return
+	 */
 	public ApproveFlowHeader flowNameQuery(String flowName);
 }
