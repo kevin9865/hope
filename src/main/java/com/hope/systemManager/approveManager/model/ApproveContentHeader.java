@@ -1,10 +1,10 @@
 package com.hope.systemManager.approveManager.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +13,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity(name = "APPROVE_CONTENT_HEADER")
-public class ApproveContentHeader {
+@Cache(region="common", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Getter
+@Setter
+public class ApproveContentHeader implements Serializable {
 	// 审批申请ID
 	private long contentHeaderId;
 	// 审批内容ID

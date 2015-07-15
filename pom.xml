@@ -218,5 +218,18 @@
 			<artifactId>bsh</artifactId>
 			<version>1.3.0</version>
 		</dependency>
+		<!-- redis -->
+		<dependency>
+		    <groupId>com.github.debop</groupId>
+		    <artifactId>hibernate-redis</artifactId>
+		    <version>1.6.1</version>
+		</dependency>
+		
 	</dependencies>
+	<repositories>
+	    <repository>
+	        <id>debop-releases-bintray</id>
+	        <url>http://dl.bintray.com/debop/maven</url>
+	    </repository>
+	</repositories>
 </project>

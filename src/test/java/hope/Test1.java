@@ -2,6 +2,9 @@ package hope;
 
 import static org.junit.Assert.*;
 
+import org.hibernate.cache.redis.RedisRegionFactory;
+import org.hibernate.cache.redis.SingletonRedisRegionFactory;
+import org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
