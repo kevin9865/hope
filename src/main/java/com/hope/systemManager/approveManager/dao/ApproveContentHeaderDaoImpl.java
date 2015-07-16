@@ -1,15 +1,21 @@
 package com.hope.systemManager.approveManager.dao;
 
+import java.awt.event.ItemEvent;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.hope.systemManager.approveManager.model.ApproveContentHeader;
+import com.hope.systemManager.approveManager.model.ApproveContentItem;
+import com.hope.systemManager.approveManager.model.ApproveContentPerson;
 
 public class ApproveContentHeaderDaoImpl implements ApproveContentHeaderDao{
 
@@ -57,7 +63,18 @@ public class ApproveContentHeaderDaoImpl implements ApproveContentHeaderDao{
 	@Override
 	public List<ApproveContentHeader> queryAll() {
 		Session session = sessionFactory.getCurrentSession();
-		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a").list();
+		Query query=(Query) session.createQuery("from APPROVE_CONTENT_HEADER a");
+		List<ApproveContentHeader> list=new ArrayList<ApproveContentHeader>();
+		Iterator it=query.list().iterator();
+		
+		while(it.hasNext()){
+			ApproveContentHeader header=(ApproveContentHeader)it.next();
+			//session.evict(header);
+			System.out.println(header.getContentHeaderId());
+			list.add(header);
+		}
+		
+		//List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a").list();
 		return list;
 	}
 
@@ -86,7 +103,33 @@ public class ApproveContentHeaderDaoImpl implements ApproveContentHeaderDao{
 	@Override
 	public List<ApproveContentHeader> submitterQuery(String submitter) {
 		Session session = sessionFactory.getCurrentSession();
-		List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a where a.submitter='"+submitter+"' order by a.contentHeaderId desc").list();
+		//List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a where a.submitter='"+submitter+"' order by a.contentHeaderId desc").list();
+		
+		Query query=null;
+		query=(Query) session.createQuery("from APPROVE_CONTENT_HEADER a where a.submitter='"+submitter+"' order by a.contentHeaderId desc");
+		query.setCacheable(true);
+		List<ApproveContentHeader> list=new ArrayList<ApproveContentHeader>();
+		Iterator<ApproveContentHeader> it=null;
+		it=query.iterate();
+		
+		while(it.hasNext()){
+			ApproveContentHeader header=(ApproveContentHeader)it.next();
+			
+			
+//			for(ApproveContentItem item:header.getApproveContentItems()){
+//				item.getContentHeaderId();
+//			}
+//			for(ApproveContentPerson person:header.getApproveContentPersons()){
+//				person.getContentHeaderId();
+//			}
+			//System.out.println(header.getContentHeaderId());
+			list.add(header);
+//			session.evict(header);
+//			sessionFactory.evict(ApproveContentHeader.class, header.getContentHeaderId());
+		}
+		
+		query=null;
+		it=null;
 		return list;
 	}
 
