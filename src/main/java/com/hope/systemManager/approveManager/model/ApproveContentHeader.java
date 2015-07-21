@@ -13,16 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity(name = "APPROVE_CONTENT_HEADER")
-@Cache(region="common", usage = CacheConcurrencyStrategy.READ_WRITE)
-@Getter
-@Setter
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ApproveContentHeader implements Serializable {
 	// 审批申请ID
 	private long contentHeaderId;
@@ -146,7 +141,7 @@ public class ApproveContentHeader implements Serializable {
 		this.status = status;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name = "CONTENT_HEADER_ID")
 	@OrderBy(value="lineId")
 	public List<ApproveContentItem> getApproveContentItems() {
@@ -158,7 +153,7 @@ public class ApproveContentHeader implements Serializable {
 		this.approveContentItems = approveContentItems;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name = "CONTENT_HEADER_ID")
 	@OrderBy(value="nodeIndex")
 	public List<ApproveContentPerson> getApproveContentPersons() {

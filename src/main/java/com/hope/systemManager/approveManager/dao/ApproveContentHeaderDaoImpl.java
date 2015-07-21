@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.hibernate.Query;
+import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -103,31 +104,25 @@ public class ApproveContentHeaderDaoImpl implements ApproveContentHeaderDao{
 	@Override
 	public List<ApproveContentHeader> submitterQuery(String submitter) {
 		Session session = sessionFactory.getCurrentSession();
-		//List<ApproveContentHeader> list = session.createQuery("from APPROVE_CONTENT_HEADER a where a.submitter='"+submitter+"' order by a.contentHeaderId desc").list();
-		
+
 		Query query=null;
 		query=(Query) session.createQuery("from APPROVE_CONTENT_HEADER a where a.submitter='"+submitter+"' order by a.contentHeaderId desc");
 		query.setCacheable(true);
+//		query.setFirstResult(0);
+//		query.setMaxResults(1);
 		List<ApproveContentHeader> list=new ArrayList<ApproveContentHeader>();
 		Iterator<ApproveContentHeader> it=null;
+
 		it=query.iterate();
+		ApproveContentHeader header=null;
 		
 		while(it.hasNext()){
-			ApproveContentHeader header=(ApproveContentHeader)it.next();
-			
-			
-//			for(ApproveContentItem item:header.getApproveContentItems()){
-//				item.getContentHeaderId();
-//			}
-//			for(ApproveContentPerson person:header.getApproveContentPersons()){
-//				person.getContentHeaderId();
-//			}
-			//System.out.println(header.getContentHeaderId());
+			header=(ApproveContentHeader)it.next();
 			list.add(header);
-//			session.evict(header);
-//			sessionFactory.evict(ApproveContentHeader.class, header.getContentHeaderId());
+			//session.evict(header);
+			//sessionFactory.evict(ApproveContentHeader.class, header.getContentHeaderId());
 		}
-		
+		header=null;
 		query=null;
 		it=null;
 		return list;

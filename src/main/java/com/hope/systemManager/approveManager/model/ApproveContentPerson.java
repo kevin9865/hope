@@ -10,16 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity(name = "APPROVE_CONTENT_PERSON")
-@Cache(region="common", usage = CacheConcurrencyStrategy.READ_WRITE)
-@Getter
-@Setter
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ApproveContentPerson {
 //	// 审批申请抬头ID
 //	private ApproveContentHeader approveContentHeader;
